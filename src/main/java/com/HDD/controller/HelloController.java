@@ -1,15 +1,19 @@
 package com.HDD.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 @RestController
 public class HelloController {
 
-    @GetMapping("/test")
-    public String time(){
-        return "안녕하세요. 현재 시간은 " + new Date() + "입니다";
+    @RequestMapping("home")
+    public String home() {
+        return "스프링부트 서버로부터 리턴, 홈";
     }
+
+    @RequestMapping("about")
+    public String about() {
+        return "스프링부트 서버로부터 리턴, 어바웃";
+    }
+
 }
