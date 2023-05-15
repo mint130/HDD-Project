@@ -55,19 +55,38 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(jwt, memberDetails.getSid(), memberDetails.getEmail(), memberDetails.getNickname(), roles));
     }
-    
-    
-    // 인증번호 발송 버튼 눌렀을 때 처리
+
+    // 버튼(인증번호 발송, 닉네임 중복 확인) 눌렀을 때 처리
     @GetMapping("/signup/create")
-    public String sendEmail(@RequestParam boolean sendEmail, @Valid @RequestParam String email, Model model) throws Exception {
-        String certification = emailService.sendSimpleMessage(email);
-        model.addAttribute("certification", certification);
-        return certification;
+    public ResponseEntity<?> sendEmail(@RequestParam String request, @Valid @RequestParam(required = false) String email, @RequestParam(required = false) String nickname, Model model) throws Exception {
+        if (memberRepository.existsByEmail(email)) {
+            System.out.println("이미 가입한 이메일");
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("이미 가입된 이메일입니다"));
+        }
+        if (request.equals("send_email")) {
+            String certification = emailService.sendSimpleMessage(email);
+            model.addAttribute("certification", certification);
+            return ResponseEntity.ok().body(certification);
+        }
+
+        if (request.equals("check_nickname")) {
+            if (memberRepository.existsByNickname(nickname)) {
+                System.out.println("중복 닉네임");
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("이미 가입된 닉네임입니다."));
+            } else {
+                return ResponseEntity.ok(new MessageResponse("사용할 수 있는 닉네임입니다."));
+            }
+        }
+
+        return null;
     }
 
     // 회원가입 버튼 눌렀을 때 처리
     @PostMapping("/signup/create")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+
         System.out.println("회원가입 시도");
         // 이미 가입한 학번인 경우
         if (memberRepository.existsBySid(signupRequest.getSid())) {
