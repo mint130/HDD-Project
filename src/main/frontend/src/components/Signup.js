@@ -29,34 +29,14 @@ const childMap = {
 
 
 function SignUp() {
-/*
-    const {
-        register, 유효성 확인
-        handleSubmit, 폼을 제출
-        watch, 실시간으로 입력폼에 적힌 값 확인
-        formState: {errors, isSubmitting, isDirty, isValid},
-    }=useForm({mode: "onChange"}); //객체 넣어준 뒤 ode: onChange 입력하면 실시간 오류메세지 출력
- */
-/*
-   public class SignupRequest {
-    private String sid;
-    private String password;
-    private String passwordCheck;
-    private String email;
-    private boolean emailVerified;
-    private String nickname;
-    private String major;
-    private String doubleMajor;
-    private Set<String> role = null;
 
-   */
 
-    //다중셀렉트문 구현
-    const [childOptions, setChildOptions] = useState([]);
-    const [emailValid, setEmailValid]=useState(false);
-    const [emailVerified, setEmailVerified] = useState(false);
-    const [verificationCode, setVerificationCode] = useState('');
-    const [email, setEmail] = useState('');
+    const [childOptions, setChildOptions] = useState([]);  //다중셀렉트문 구현
+    const [emailValid, setEmailValid]=useState(false); //유효한 이메일인지 확인
+    const [emailVerified, setEmailVerified] = useState(false); //이메일 인증이 되었는지 안 되었는지
+    const [verificationCode, setVerificationCode] = useState(''); //서버에서 보낸 인증 코드
+    const [email, setEmail] = useState(''); //이메일
+    const [signification, setSignification]=useState(''); // 입력받은 인증코드
 
 
     const handleEmailValid=(e)=>{
@@ -75,6 +55,10 @@ function SignUp() {
         setChildOptions(options);
     }
 
+    function handleSignification(e){
+        setSignification(e.target.value);
+
+    }
     //signupRequest 객체에 값 넣어서 반환
     const{register, control, handleSubmit, watch, formState: {errors}}=useForm({mode:'onChange'});
 
@@ -87,28 +71,29 @@ function SignUp() {
         if(!emailValid){
             return;
         }
-        /*axios.get(`http://localhost:8080/api/auth/signup/create`, {
+        axios.get(`http://localhost:8080/api/auth/signup/create`, {
             params: {
                 sendEmail: true,
                 email: email
             }
         })
-            .then(() => {
+            .then(response=>{
                 alert('인증번호가 이메일로 전송되었습니다.');
-    
                 setEmailVerified(true);
-                
+                //console.log(response); //data: 인증번호 , status: 200,
+                setVerificationCode(response.data);
             })
             .catch((error) => console.error(error));
 
-         */
+
        setEmailVerified(true);
 
     };
 
     const handleVerificationCodeSubmit = (data) => {
-        if (data.signification === verificationCode) {
-            //필요한건가
+        //console.log(signification);
+        //console.log(verificationCode);
+        if (signification === verificationCode) {
 
             alert('이메일 인증이 완료되었습니다.');
         } else {
@@ -119,7 +104,7 @@ function SignUp() {
 
     //console.log(watch());
     const onSubmit=data=>{
-        console.log(data);
+        //console.log(data);
         //post 요청 보낼 url
         axios.post('http://localhost:8080/api/auth/signup/create', {
             sid: data.sid,
@@ -209,11 +194,11 @@ function SignUp() {
                                 id="signification"
                                 type="text"
                                 placeholder="인증번호를 입력하세요"
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
+                                value={signification}
+                                onChange={handleSignification}
                                 required
                             />
-                            <button type="submit" disabled={!verificationCode}>
+                            <button type="submit" onClick={handleVerificationCodeSubmit} disabled={!verificationCode}>
                                 인증번호 입력
                             </button>
                         </>
