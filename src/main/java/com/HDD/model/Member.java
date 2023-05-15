@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "members",
 uniqueConstraints = {
         @UniqueConstraint(columnNames = "sid"),
@@ -22,11 +24,8 @@ uniqueConstraints = {
         @UniqueConstraint(columnNames = "nickname")
 })
 public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotEmpty
+    @Id
     @Pattern(regexp = "^[abcABC][0-9]{6}")
     private String sid;
 
@@ -44,10 +43,9 @@ public class Member {
     private String major;
     private String doubleMajor;
 
-    // 영속성 오류 발생
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "member_roles",
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_sid"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     private int profile;
 

@@ -17,8 +17,6 @@ public class MemberDetails implements UserDetails {
     // 직렬화, 역직렬화 가능
     private static final long serialVersionUID = 1L;
 
-    // DB PK
-    private Long id;
     private String sid;
     private String email;
     private boolean emailVerified;  // 이메일 인증 여부
@@ -28,8 +26,7 @@ public class MemberDetails implements UserDetails {
     // 권한 목록
     private Collection<GrantedAuthority> authorities;
 
-    public MemberDetails(Long id, String sid, String email, String password, String nickname, Collection<GrantedAuthority> authorities) {
-        this.id = id;
+    public MemberDetails(String sid, String email, String password, String nickname, Collection<GrantedAuthority> authorities) {
         this.sid = sid;
         this.email = email;
         this.password = password;
@@ -43,7 +40,6 @@ public class MemberDetails implements UserDetails {
                 .collect(Collectors.toList());
 
         return new MemberDetails(
-                member.getId(),
                 member.getSid(),
                 member.getEmail(),
                 member.getPassword(),
@@ -78,11 +74,11 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return emailVerified;
+        return true;
     }
 }

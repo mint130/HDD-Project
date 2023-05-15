@@ -53,7 +53,7 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, memberDetails.getId(), memberDetails.getSid(), memberDetails.getEmail(), memberDetails.getNickname(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwt, memberDetails.getSid(), memberDetails.getEmail(), memberDetails.getNickname(), roles));
     }
     
     
