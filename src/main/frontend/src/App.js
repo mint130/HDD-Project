@@ -5,11 +5,8 @@ import SignUp from './components/Signup';
 import SignIn from './components/Signin';
 import Main from './components/Main';
 
-function LandingPage() {
-    useEffect(() => {
-        axios.get('/api/hello')
-            .then(response => console.log(response.data))
-    }, [])
+function App() {
+
     return (
        <div className='App'>
           <BrowserRouter>
@@ -24,4 +21,4 @@ function LandingPage() {
     )
 }
 
-export default LandingPage;
+export default App;
