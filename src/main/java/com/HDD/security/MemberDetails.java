@@ -2,16 +2,23 @@ package com.HDD.security;
 
 
 import com.HDD.model.Member;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Builder
+@ToString
 public class MemberDetails implements UserDetails {
 
     // 직렬화, 역직렬화 가능
@@ -19,7 +26,7 @@ public class MemberDetails implements UserDetails {
 
     private String sid;
     private String email;
-    private boolean emailVerified;  // 이메일 인증 여부
+//    private boolean emailVerified;  // 이메일 인증 여부
     private String password;
     private String nickname;
 
@@ -47,9 +54,10 @@ public class MemberDetails implements UserDetails {
                 authorities
         );
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -74,7 +82,7 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

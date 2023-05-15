@@ -20,16 +20,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 //	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 
-	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// gmail 인증번호
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
+    testImplementation 'junit:junit:4.13.1'
 
-	// lombok
+    // lombok
 
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
