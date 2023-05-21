@@ -1,50 +1,54 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import {useForm} from 'react-hook-form';
 
 function SignIn(){
-    /*
-    const [inputSid, setInputSid]=useState('');
-    const [inputPw, setInputPw]=useState('');
-
-    //input data 변화 있을 때마다 value 값 변경해서 useState
-    const handleInputId=(e)=>{
-        setInputSid(e.target.value)
-    }
-    const handleInputPw=(e)=>{
-        setInputPw(e.target.value)
-    }
-
-    //login 버튼 클릭 이벤트
-    const onClickLogin=()=>{
-        console.log('click login')
-    }
-
-    //페이지 렌더링 후 가장 처음 호출되는 함수
-    useEffect(()=>{
-        axios.get('/user_inform/login')
-            .then(res=>console.log(res))
-            .catch()
-    },
-        // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
-        []
-        )
-    return(
-        <div>
-            <h2>LogIn</h2>
+    const{register, control, handleSubmit, watch, formState: {errors}}=useForm();
+    const onSubmit=data=>{
+        console.log(data);
+        //post 요청 보낼 url
+        axios.post('http://localhost:8080/api/auth/signin', {
+            sid: data.sid,
+            password: data.password,
+        }, {
+            headers: { 'Content-type': 'application/json' }
+        })
+            .then(() => {
+                alert('로그인 성공');
+            })
+            .catch(error => console.error(error));
+    };
+    const onError= errors=>console.log(errors);
+    return (
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
             <div>
-                <label htmlFor='input_sid'> ID: </label>
-                <input type='text' name='input_sid' value={inputSid} onChange={handleInputId}/>
+                <label htmlFor='sid'> 아이디(학번) </label>
+                <input id='sid' type='text' placeholder='학번을 입력하세요. 예)C123456'
+                       {...register("sid",
+                           {
+                           required:"아이디(학번)은 필수 입력입니다",
+                        //   pattern:{
+                         //      value:/[abcABC]{1}\d{6}/,
+                          //     message:"학번 형식에 맞지 않습니다",
+                         //  },
+                       })}
+                />
+                <span>{errors?.sid?.message}</span>
             </div>
             <div>
-                <label htmlFor='input_pw'>PW: </label>
-                <input type='password' name='input_pw' value={inputPw} onChange={handleInputPw}/>
+                <label htmlFor='password'>비밀번호</label>
+                <input id='password' type='password' placeholder='비밀번호를 입력하세요'
+                       {...register("password", {
+                           required:"비밀번호는 필수 입력입니다",
+                       })}
+                />
+                <span>{errors?.password?.message}</span>
             </div>
             <div>
-                <button type='button' onClick={onClickLogin}>Login</button>
+                <button type="submit">로그인</button>
             </div>
-        </div>
-
-    )*/
+        </form>
+    )
 
 }
 
