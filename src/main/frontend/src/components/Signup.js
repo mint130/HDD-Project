@@ -30,14 +30,13 @@ const childMap = {
 
 function SignUp() {
 
-
     const [childOptions, setChildOptions] = useState([]);  //다중셀렉트문 구현
     const [emailValid, setEmailValid]=useState(false); //유효한 이메일인지 확인
     const [emailVerified, setEmailVerified] = useState(false); //이메일 인증이 되었는지 안 되었는지
     const [verificationCode, setVerificationCode] = useState(''); //서버에서 보낸 인증 코드
     const [email, setEmail] = useState(''); //이메일
     const [signification, setSignification]=useState(''); // 입력받은 인증코드
-
+    const [inputNickname, setInputNickname]=useState(''); //닉네임
 
     const handleEmailValid=(e)=>{
         const enteredEmail=e.target.value;
@@ -66,15 +65,33 @@ function SignUp() {
     const password=useRef({});
     password.current=watch("password","");
 
+
+    const handleCheckNickname=()=>{
+
+        axios.get('http://localhost:8080/api/auth/signup/create', {
+            params:{
+                request: "check_nickname",
+                nickname : inputNickname
+
+            }
+        })
+            .then(response=>{
+                alert('사용가능한 닉네임입니다');
+
+            })
+    }
     //이메일 인증 by chatgpt
     const handleSendVerificationCode = () => {
         if(!emailValid){
             return;
         }
+
         axios.get(`http://localhost:8080/api/auth/signup/create`, {
             params: {
-                sendEmail: true,
+               // sendEmail: true,
+                request: "send_email",
                 email: email
+
             }
         })
             .then(response=>{
@@ -112,7 +129,7 @@ function SignUp() {
             passwordCheck: data.passwordCheck,
             email: data.email,
             emailVerified: true,
-            nickname: data.nickname,
+            nickname: data.inputNickname,
             major: data.major,
             doubleMajor: data.doubleMajor
         }, {
@@ -207,12 +224,13 @@ function SignUp() {
                 <div>
                     <label htmlFor='nickname'>닉네임</label>
                     <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
-                        {...register("nickname", {required: "닉네임은 필수 입력입니다",})}/>
-                    <span>{errors?.nickname?.message}</span>
+                        {...register("inputNickname", {required: "닉네임은 필수 입력입니다",})}
+                           value={inputNickname}/>
+                    <span>{errors?.inputNickname?.message}</span>
                 </div>
 
                 <div>
-                    <button>중복 확인</button>
+                    <button type="submit" onClick={handleCheckNickname}>중복 확인</button>
                 </div>
                 <div>
                     <label htmlFor='major'>전공</label>
