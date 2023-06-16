@@ -44,7 +44,7 @@ public class AuthController {
     // 로그인
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getSid(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getSid().toUpperCase(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
@@ -53,7 +53,7 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, memberDetails.getSid(), memberDetails.getEmail(), memberDetails.getNickname(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwt, memberDetails.getSid().toUpperCase(), memberDetails.getEmail(), memberDetails.getNickname(), roles));
     }
 
     // 버튼(인증번호 발송, 닉네임 중복 확인) 눌렀을 때 처리
@@ -89,14 +89,14 @@ public class AuthController {
 
         System.out.println("회원가입 시도");
         // 이미 가입한 학번인 경우
-        if (memberRepository.existsBySid(signupRequest.getSid())) {
-            System.out.println(memberRepository.existsBySid(signupRequest.getSid()));
+        if (memberRepository.existsBySid(signupRequest.getSid().toUpperCase())) {
+            System.out.println(memberRepository.existsBySid(signupRequest.getSid().toUpperCase()));
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: 이미 가입한 학번입니다."));
         }
 
         // 회원 생성
-        Member member = new Member(signupRequest.getSid(), signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname(), signupRequest.getMajor(), signupRequest.getDoubleMajor());
+        Member member = new Member(signupRequest.getSid().toUpperCase(), signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname(), signupRequest.getMajor(), signupRequest.getDoubleMajor());
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
 

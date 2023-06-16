@@ -5,6 +5,7 @@ import com.HDD.repository.MemberRepository;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,11 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final MemberRepository memberRepository;
 
-    public static final String ePw = createKey();
+    private String ePw;
 
     private MimeMessage createMessage(String to) throws Exception {
-        System.out.println("보내는 대상 : " + to);
-        System.out.println("인증 번호 : " + ePw);
+        ePw = createKey();
+
         MimeMessage message = mailSender.createMimeMessage();
         mailSender.createMimeMessage();
 
@@ -49,24 +50,12 @@ public class EmailService {
         return message;
     }
 
-    public static String createKey() {
+    public String createKey() {
         StringBuffer key = new StringBuffer();
         Random random = new Random();
 
-        for (int i = 0; i < 8; i++) {   // 인증 코드 생성
-            int index = random.nextInt(3);
-
-            switch (index) {
-                case 0:
-                    key.append((char) ((int) (random.nextInt(26)) + 97));
-                    break;
-                case 1:
-                    key.append((char) ((int) (random.nextInt(26)) + 65));
-                    break;
-                case 2:
-                    key.append(random.nextInt(10));
-                    break;
-            }
+        for (int i = 0; i < 6; i++) {   // 숫자 6자리 인증 코드 생성
+            key.append(random.nextInt(10));
         }
 
         System.out.println("key = " + key);
