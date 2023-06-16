@@ -27,7 +27,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// gmail 인증번호
+	// gmail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
     testImplementation 'junit:junit:4.13.1'
