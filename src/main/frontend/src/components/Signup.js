@@ -1,6 +1,9 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import styles from "./Signup.module.css";
 
 const parents = [
     { value: '', label: '' },
@@ -38,15 +41,34 @@ function SignUp() {
     const [signification, setSignification]=useState(''); // 입력받은 인증코드
     const [inputNickname, setInputNickname]=useState(''); //닉네임
 
+    const emailPattern = /^\S+(@g\.hongik\.ac\.kr)$/;
+    const schema = Yup.object().shape({
+        sid: Yup.string()
+            .required('아이디(학번)은 필수 입력입니다')
+            .matches(/[abcABC]{1}\d{6}/, '학번 형식에 맞지 않습니다'),
+        password: Yup.string()
+            .required('비밀번호는 필수 입력입니다')
+            .matches(/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/, '영문 숫자 조합 8자리 이상'),
+        passwordCheck: Yup.string()
+            .required('비밀번호를 다시 입력해주세요')
+            .oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
+        email:Yup.string()
+            .required("이메일은 필수 입력입니다")
+            .matches(emailPattern, '이메일 형식에 맞게 입력해주세요.')
+    });
+
     const handleEmailValid=(e)=>{
         const enteredEmail=e.target.value;
         setEmail(enteredEmail);
 
         //이메일 형식 유효성 검사
-        const emailPattern=/^\S+(@g\.hongik\.ac\.kr)$/;
+        //const emailPattern=/^\S+(@g\.hongik\.ac\.kr)$/;
         setEmailValid(emailPattern.test(enteredEmail));
 
     }
+
+    //signupRequest 객체에 값 넣어서 반환
+    const{register, handleSubmit,  formState: {errors}}=useForm({mode:'onChange',  resolver: yupResolver(schema)});
 
     function handleParentChange(e) {
         const { value } = e.target;
@@ -57,15 +79,12 @@ function SignUp() {
     function handleSignification(e){
         setSignification(e.target.value);
 
+
     }
-    //signupRequest 객체에 값 넣어서 반환
-    const{register, control, handleSubmit, watch, formState: {errors}}=useForm({mode:'onChange'});
 
-    //비밀번호 재확인
-    const password=useRef({});
-    password.current=watch("password","");
-
-
+    const handleNicknameChange=(e)=>{
+        setInputNickname(e.target.value);
+    };
     const handleCheckNickname=()=>{
 
         axios.get('http://localhost:8080/api/auth/signup/create', {
@@ -78,7 +97,7 @@ function SignUp() {
             .then(response=>{
                 alert('사용가능한 닉네임입니다');
 
-            })
+            }).catch((error) => console.error(error))
     }
     //이메일 인증 by chatgpt
     const handleSendVerificationCode = () => {
@@ -97,7 +116,7 @@ function SignUp() {
             .then(response=>{
                 alert('인증번호가 이메일로 전송되었습니다.');
                 setEmailVerified(true);
-                //console.log(response); //data: 인증번호 , status: 200,
+                console.log(response); //data: 인증번호 , status: 200,
                 setVerificationCode(response.data);
             })
             .catch((error) => console.error(error));
@@ -108,9 +127,10 @@ function SignUp() {
     };
 
     const handleVerificationCodeSubmit = (data) => {
-        //console.log(signification);
-        //console.log(verificationCode);
-        if (signification === verificationCode) {
+       // console.log(signification); //현재 내가 입력한것..?
+       // console.log(verificationCode); //서버에서 보낸 인증코드.. 활성화되어있다..
+       // verificationCode.toString();
+        if (signification == verificationCode) {
 
             alert('이메일 인증이 완료되었습니다.');
         } else {
@@ -121,7 +141,7 @@ function SignUp() {
 
     //console.log(watch());
     const onSubmit=data=>{
-        //console.log(data);
+        console.log(data);
         //post 요청 보낼 url
         axios.post('http://localhost:8080/api/auth/signup/create', {
             sid: data.sid,
@@ -150,38 +170,25 @@ function SignUp() {
                 <h2>회원가입</h2>
                 <div>
                     <label htmlFor='sid'> 아이디(학번) </label>
-                    <input id='sid' type='text' placeholder='학번을 입력하세요. 예)C123456'
-                        {...register("sid",{
-                            required:"아이디(학번)은 필수 입력입니다",
-                            pattern:{
-                                value:/[abcABC]{1}\d{6}/,
-                                message:"학번 형식에 맞지 않습니다",
-                            },
-                        })}
+                    <input
+                        type="text"
+                        id="sid"
+                        placeholder="학번을 입력하세요. 예)C123456"
+                        {...register('sid')}
                     />
                     <span>{errors?.sid?.message}</span>
                 </div>
                 <div>
                     <label htmlFor='password'>비밀번호</label>
                     <input id='password' type='password' placeholder='비밀번호를 입력하세요'
-                        {...register("password", {
-                            required:"비밀번호는 필수 입력입니다",
-                            pattern:{
-                                value:  /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/,
-                                message: "영어, 문자, 특수 문자 중 두가지 이상 10자리 이내"
-                            },
-                        })}
+                        {...register("password")}
                     />
                     <span>{errors?.password?.message}</span>
                 </div>
                 <div>
                     <label htmlFor='passwordCheck'>비밀번호 재확인</label>
                     <input id='passwordCheck' type='password' placeholder='비밀번호를 다시 입력하세요'
-                    {...register("passwordCheck", {
-                        required:"비밀번호를 다시 입력해주세요",
-                       validate:(value)=>
-                           value===password.current||"비밀번호가 일치하지 않습니다.",
-                     })}
+                           {...register('passwordCheck')}
                     />
                     <span>{errors?.passwordCheck?.message}</span>
                 </div>
@@ -209,7 +216,7 @@ function SignUp() {
                             <label htmlFor="signification">인증번호 입력</label>
                             <input
                                 id="signification"
-                                type="text"
+                                type="number"
                                 placeholder="인증번호를 입력하세요"
                                 value={signification}
                                 onChange={handleSignification}
@@ -225,7 +232,9 @@ function SignUp() {
                     <label htmlFor='nickname'>닉네임</label>
                     <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
                         {...register("inputNickname", {required: "닉네임은 필수 입력입니다",})}
-                           value={inputNickname}/>
+                           value={inputNickname}
+                           onChange={handleNicknameChange}
+                    />
                     <span>{errors?.inputNickname?.message}</span>
                 </div>
 
