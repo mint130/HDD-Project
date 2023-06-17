@@ -166,100 +166,180 @@ function SignUp() {
     const onError= errors=>console.log(errors);
     return(
         <form onSubmit={handleSubmit(onSubmit,onError)}>
-            <div>
-                <h2>회원가입</h2>
-                <div>
-                    <label htmlFor='sid'> 아이디(학번) </label>
-                    <input
-                        type="text"
-                        id="sid"
-                        placeholder="학번을 입력하세요. 예)C123456"
-                        {...register('sid')}
-                    />
-                    <span>{errors?.sid?.message}</span>
-                </div>
-                <div>
-                    <label htmlFor='password'>비밀번호</label>
-                    <input id='password' type='password' placeholder='비밀번호를 입력하세요'
-                        {...register("password")}
-                    />
-                    <span>{errors?.password?.message}</span>
-                </div>
-                <div>
-                    <label htmlFor='passwordCheck'>비밀번호 재확인</label>
-                    <input id='passwordCheck' type='password' placeholder='비밀번호를 다시 입력하세요'
-                           {...register('passwordCheck')}
-                    />
-                    <span>{errors?.passwordCheck?.message}</span>
-                </div>
-                <div>
-                    <label htmlFor="email">이메일</label>
-                    <input id="email" type="text" placeholder="예) abc123@g.hongik.ac.kr"
-                           {...register("email", {required: "이메일은 필수 입력입니다",
-                               pattern: {
-                                   value: /^\S+(@g.hongik.ac.kr)/,
-                                   message: '이메일 형식에 맞게 입력해주세요.',
-                               },
-                           })}
-                           value={email} onChange={handleEmailValid}
-                    />
-                    <span>{errors?.email?.message}</span>
-                </div>
-                <div>
-                    {!emailVerified ? (
-                        <button type="button" onClick={handleSendVerificationCode}
-                                disabled={!emailValid}>
-                            인증번호 받기
-                        </button>
-                    ): (
-                        <>
-                            <label htmlFor="signification">인증번호 입력</label>
-                            <input
-                                id="signification"
-                                type="number"
-                                placeholder="인증번호를 입력하세요"
-                                value={signification}
-                                onChange={handleSignification}
-                                required
-                            />
-                            <button type="submit" onClick={handleVerificationCodeSubmit} disabled={!verificationCode}>
-                                인증번호 입력
-                            </button>
-                        </>
-                    )}
-                </div>
-                <div>
-                    <label htmlFor='nickname'>닉네임</label>
-                    <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
-                        {...register("inputNickname", {required: "닉네임은 필수 입력입니다",})}
-                           value={inputNickname}
-                           onChange={handleNicknameChange}
-                    />
-                    <span>{errors?.inputNickname?.message}</span>
+            <div className={styles.container}>
+                <h1 className={styles.title}>회원가입</h1>
+                <div className={styles.content}>
+                    <div className={styles.row}>
+                        <div className={styles.list}>
+                            <label htmlFor='sid'> 아이디(학번) </label>
+                        </div>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input
+                                    type="text"
+                                    id="sid"
+                                    placeholder="학번을 입력하세요. 예)C123456"
+                                    {...register('sid')}
+                                />
+                            </div>
+                            <div className={styles.expand}>
+                                <span>{errors?.sid?.message}</span>
+                            </div>
+                        </div>
+                        <div className={styles.right_btn_area}></div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}>
+                            <label htmlFor='password'>비밀번호</label>
+                        </div>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input id='password' type='password' placeholder='비밀번호를 입력하세요'
+                                       {...register("password")}
+                                />
+                            </div>
+                            <div className={styles.expand}>
+                                <span>{errors?.password?.message}</span>
+                            </div>
+
+                        </div>
+                        <div className={styles.right_btn_area}></div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}>
+                            <label htmlFor='passwordCheck'>비밀번호 재확인</label>
+                        </div>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input id='passwordCheck' type='password' placeholder='비밀번호를 다시 입력하세요'
+                                       {...register('passwordCheck')}
+                                />
+                            </div>
+                            <div className={styles.expand}>
+                                <span>{errors?.passwordCheck?.message}</span>
+                            </div>
+                        </div>
+                        <div className={styles.right_btn_area}></div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}>
+                                <label htmlFor="email">이메일</label>
+                        </div>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input id="email" type="text" placeholder="예) abc123@g.hongik.ac.kr"
+                                       {...register("email", {required: "이메일은 필수 입력입니다",
+                                           pattern: {
+                                               value: /^\S+(@g.hongik.ac.kr)/,
+                                               message: '이메일 형식에 맞게 입력해주세요.',
+                                           },
+                                       })}
+                                       value={email} onChange={handleEmailValid}
+                                />
+                            </div>
+                            <div className={styles.expand}>
+                                <span>{errors?.email?.message}</span>
+                            </div>
+                        </div>
+                        <div className={styles.right_btn_area}>
+                            {!emailVerified && (
+
+                                    <button type="button"
+                                            className={`${styles.btn_verify} ${emailValid ? styles.btn_secondary : styles.btn_disable}`}
+                                            onClick={handleSendVerificationCode} disabled={!emailValid}>
+                                        인증번호 받기
+                                    </button>
+                            )}
+                        </div>
+
+                    </div>
+
+                    {emailVerified && (
+                        <div className={styles.row}>
+                            <div className={styles.list}>
+                                <label htmlFor="signification">인증번호 입력</label>
+                            </div>
+                            <div className={styles.wrap}>
+                                <div className={styles.form}>
+                                    <input
+                                        id="signification"
+                                        type="number"
+                                        placeholder="인증번호를 입력하세요"
+                                        value={signification}
+                                        onChange={handleSignification}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.right_btn_area}>
+                                <button type="submit"
+                                        className={`${styles.btn_verify} ${verificationCode ? styles.btn_secondary : styles.btn_disable}`}
+                                        onClick={handleVerificationCodeSubmit}
+                                        disabled={!verificationCode}>
+                                    인증번호 입력
+                                </button>
+                            </div>
+                        </div>)}
+                    <div  className={styles.row}>
+                            <div className={styles.list}>
+                                <label htmlFor='nickname'>닉네임</label>
+                            </div>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
+                                       {...register("inputNickname", {required: "닉네임은 필수 입력입니다",})}
+                                       value={inputNickname}
+                                       onChange={handleNicknameChange}
+                                />
+                            </div>
+
+                            <div className={styles.expand}>
+                                <span>{errors?.inputNickname?.message}</span>
+                            </div>
+                        </div>
+                        <div className={styles.right_btn_area}>
+                        <button type="submit"  className={styles.btn_verify + " " + styles.btn_secondary}onClick={handleCheckNickname}>중복 확인</button>
+                        </div>
+                        </div>
+
+
+
+                    <div className={styles.row}>
+                        <div className={styles.list}>
+                            <label htmlFor='major'>전공</label>
+                        </div>
+                        <div className={styles.wrap}>
+
+                                <select id="college" className={styles.sel} onChange={handleParentChange}>
+                                    {parents.map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                                <select id="major" className={styles.sel} {...register('major',{required: "전공은 필수 입력입니다"})}>
+                                    {childOptions.map((option) => (
+                                        <option  key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className={styles.expand}>
+                                <span>{errors?.major?.message}</span>
+                            </div>
+
+                        <div className={styles.right_btn_area}></div>
+
+                    </div>
+                    <div className={styles.btn_area}>
+                        <button className={styles.btn_type + " " + styles.btn_primary} type='submit' disabled={!verificationCode}>가입하기</button>
+                    </div>
+
                 </div>
 
-                <div>
-                    <button type="submit" onClick={handleCheckNickname}>중복 확인</button>
-                </div>
-                <div>
-                    <label htmlFor='major'>전공</label>
-                    <select id="college" onChange={handleParentChange}>
-                        {parents.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                    <select id="major" {...register('major',{required: "전공은 필수 입력입니다"})}>
-                        {childOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                    <span>{errors?.major?.message}</span>
-                </div>
-                <button type='submit' disabled={!verificationCode}>가입하기</button>
+
             </div>
         </form>
     )

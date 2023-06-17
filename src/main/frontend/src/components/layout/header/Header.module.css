@@ -1,0 +1,92 @@
+input{border: none; font-size: 14px;}
+ul{list-style:none;}
+li{list-style:none;}
+a{text-decoration:none;}
+*:focus {
+    outline: 0;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+.loginContainer {
+    display: flex;
+    list-style: none;
+    height: 40px;
+    justify-content: flex-end;
+
+}
+.loginContainer li{
+    display: flex;
+    margin-right: 10px;
+
+}
+.loginContainer li a{
+    font-size: 16px; /* 원하는 크기로 조절 */
+    display: inline-flex;
+    color: white;
+    align-items: center;
+}
+
+
+.top_banner{
+    background: linear-gradient(180deg, #002148 0%, #003E75 100%);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15);
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 150px;
+    text-align:center;
+    letter-spacing: -0.1em;
+}
+
+.title{
+    background: linear-gradient(180deg, #FFFFFF 0%, #D9D9D9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 80px;
+    line-height: 150px;
+    text-align:center;
+    letter-spacing: -0.1em;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.navbar{
+
+    font-style: normal;
+    display:flex;
+    justify-content: center;
+    background-color:#003E75;
+    border-top:2px solid white;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15);
+}
+.navbar ul{
+    display:flex;
+    background-color:#003E75;
+}
+.navbar ul ul{
+    display:none;
+}
+.navbar li{
+    width:200px;
+    text-align:center;
+
+}
+.navbar a{
+    color:white;
+    font-size: 16px;
+    line-height:20px;
+    padding:5px;
+    display:block;
+}
+
+.navbar ul li:hover ul{
+    display:block;
+    position:absolute;
+}
+
