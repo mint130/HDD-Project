@@ -55,28 +55,28 @@ a{text-decoration:none;}
     letter-spacing: -0.1em;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 }
-
 .navbar{
-
-    font-style: normal;
     display:flex;
     justify-content: center;
     background-color:#003E75;
     border-top:2px solid white;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15);
 }
+
 .navbar ul{
     display:flex;
     background-color:#003E75;
 }
+
 .navbar ul ul{
     display:none;
 }
+
 .navbar li{
     width:200px;
     text-align:center;
-
 }
+
 .navbar a{
     color:white;
     font-size: 16px;
@@ -88,5 +88,5 @@ a{text-decoration:none;}
 .navbar ul li:hover ul{
     display:block;
     position:absolute;
+    z-index:1;
 }
-

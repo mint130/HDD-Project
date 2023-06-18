@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import Select from 'react-select';
 import {useForm} from 'react-hook-form';
+import styles from "./Roommate_recruit.module.css";
+
 
 function Roommate_recruit() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
@@ -35,67 +37,74 @@ function Roommate_recruit() {
     const onError= errors=>console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit,onError)}>
-            <div>
-                <h2>룸메이트 구인</h2>
-            </div>
-            <div>
-                <label htmlFor="gender">성별</label>
-                <input type="radio" {...register("gender", { required: true })} value="female"/> 여자
-                <input type="radio" {...register("gender", { required: true })} value="male"/> 남자
-            </div>
-            <div>
-                <label  htmlFor="grade">학년</label>
-                <Select
-                    {...register('grade', { required: true })}
-                    options={gradeOptions}
-                    id="grade"
-                    name="grade"
-                    onChange={handleGradeChange}
-                />
-            </div>
-            <div>
-                <label htmlFor="dormitory">유형</label>
-                <Select
-                    {...register('dormitory', {required: true})}
-                    options={dormitoryOptions}
-                    id="dormitory"
-                    name="dormitory"
-                    onChange={handleDormitoryChange}
-                />
+            <div className={styles.container}>
+                <h1 className={styles.title}>룸메이트 구인</h1>
+                <div className={styles.content}>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="gender">성별</label></div>
+                        <div className={styles.wrap}>
+                                <input type="radio" {...register("gender", { required: true })} value="female"/> 여자
+                                <input type="radio" {...register("gender", { required: true })} value="male"/> 남자
+                        </div>
+
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label  htmlFor="grade">학년</label></div>
+                        <Select
+                            {...register('grade', { required: true })}
+                            options={gradeOptions}
+                            id="grade"
+                            name="grade"
+                            onChange={handleGradeChange}
+                        />
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="dormitory">유형</label></div>
+                        <Select
+                            {...register('dormitory', {required: true})}
+                            options={dormitoryOptions}
+                            id="dormitory"
+                            name="dormitory"
+                            onChange={handleDormitoryChange}
+                        />
+                    </div>
+
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="nationality">국적</label></div>
+                        <input type="radio" {...register("nationality", {required: true})} value="local"/> 내국인
+                        <input type="radio" {...register("nationality", {required:true})} value="foreigner"/> 외국인
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="isSmoke">흡연여부</label></div>
+                        <input type="checkbox" {...register("isSmoke", {required: true})}/> 흡연
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="pattern">생활 패턴</label></div>
+                        <textarea
+                            id="pattern"
+                            {...register('pattern',{required: true})}>
+                </textarea>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="additional">추가 내용</label></div>
+                        <textarea
+                            id="additional"
+                            {...register('additional')}>
+                </textarea>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
+                        <input type="file" {...register("fileUpload")}/>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.list}><label htmlFor="openChatting">오픈 채팅</label></div>
+                        <input type="url" {...register("openChatting", {required: true})}/>
+                    </div>
+                    <div className={styles.btn_area}><button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button></div>
+                </div>
+
             </div>
 
-            <div>
-                <label htmlFor="nationality">국적</label>
-                <input type="radio" {...register("nationality", {required: true})} value="local"/> 내국인
-                <input type="radio" {...register("nationality", {required:true})} value="foreigner"/> 외국인
-            </div>
-            <div>
-                <label htmlFor="isSmoke">흡연여부</label>
-                <input type="checkbox" {...register("isSmoke", {required: true})}/> 흡연
-            </div>
-            <div>
-                <label htmlFor="pattern">생활 패턴</label>
-                <textarea
-                    id="pattern"
-                    {...register('pattern',{required: true})}>
-                </textarea>
-            </div>
-            <div>
-                <label htmlFor="additional">추가 내용</label>
-                <textarea
-                    id="additional"
-                    {...register('additional')}>
-                </textarea>
-            </div>
-            <div>
-                <label htmlFor="fileUpload">파일 첨부</label>
-                <input type="file" {...register("fileUpload")}/>
-            </div>
-            <div>
-                <label htmlFor="openChatting">오픈 채팅</label>
-                <input type="url" {...register("openChatting", {required: true})}/>
-            </div>
-            <button type="submit">제출</button>
         </form>
 
     );

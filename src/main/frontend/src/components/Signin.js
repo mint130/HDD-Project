@@ -44,7 +44,7 @@ function SignIn(){
                             </div>
                             <div className={styles.expand}><span>{errors?.sid?.message}</span></div>
                         </div>
-
+                        <div className={styles.right_area}></div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor='password'>비밀번호</label></div>
@@ -58,7 +58,7 @@ function SignIn(){
                             </div>
                             <div className={styles.expand}><span>{errors?.password?.message}</span></div>
                         </div>
-
+                        <div className={styles.right_area}></div>
                     </div>
                     <div className={styles.btn_area}>
                         <button className={styles.btn_type + " " + styles.btn_primary} type="submit">로그인</button>

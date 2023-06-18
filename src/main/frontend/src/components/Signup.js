@@ -301,9 +301,6 @@ function SignUp() {
                         <button type="submit"  className={styles.btn_verify + " " + styles.btn_secondary}onClick={handleCheckNickname}>중복 확인</button>
                         </div>
                         </div>
-
-
-
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor='major'>전공</label>

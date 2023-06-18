@@ -7,6 +7,7 @@ import Project_recruit from "./components/Project_recruit";
 import Roommate_recruit from "./components/Roommate_recruit";
 import Main from './components/Main';
 import Header from './components/layout/header/Header';
+import Map from './components/MapPage';
 
 function App() {
 
@@ -20,6 +21,8 @@ function App() {
                 <Route path="/api/auth/signup/create" element={<SignUp/>}></Route>
                 <Route path="/roommate" element={<Roommate_recruit/>}></Route>
                 <Route path="/project" element={<Project_recruit/>}></Route>
+                <Route path="/project" element={<Project_recruit/>}></Route>
+                <Route path="/map" element={<Map/>}></Route>
             </Routes>
           </BrowserRouter>
        </div>
