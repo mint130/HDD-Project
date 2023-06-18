@@ -1,4 +1,4 @@
-
+import './Main.css'
 import React, {useEffect, useState} from 'react';
 
 function Main(){
