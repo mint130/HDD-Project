@@ -1,10 +1,10 @@
 package com.HDD.configuration;
 
-import com.HDD.repository.MemberRepository;
-import com.HDD.security.MemberDetailService;
-import com.HDD.token.AuthTokenFilter;
-import com.HDD.token.JwtAuthenticationEntryPoint;
-import com.HDD.token.JwtUtils;
+import com.HDD.management.repository.MemberRepository;
+import com.HDD.management.security.MemberDetailService;
+import com.HDD.management.token.AuthTokenFilter;
+import com.HDD.management.token.JwtAuthenticationEntryPoint;
+import com.HDD.management.token.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +17,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -47,8 +47,20 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+//                .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
+//                .anyRequest().authenticated();
+
+                // 로그아웃 추가
+                .authorizeHttpRequests(auth->auth
+                .requestMatchers("/", "/home", "/api/auth/**").permitAll()
+                .anyRequest().authenticated()
+                 )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/signout"))
+                        .logoutSuccessUrl("/")
+                        //.deleteCookies()
+                        .invalidateHttpSession(true)
+                );
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
