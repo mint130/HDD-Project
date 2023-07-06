@@ -1,4 +1,4 @@
-package com.HDD.token;
+package com.HDD.management.token;
 
 import lombok.Getter;
 

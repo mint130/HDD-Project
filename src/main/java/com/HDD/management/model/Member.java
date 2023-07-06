@@ -1,4 +1,4 @@
-package com.HDD.model;
+package com.HDD.management.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

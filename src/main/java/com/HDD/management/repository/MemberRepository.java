@@ -1,6 +1,6 @@
-package com.HDD.repository;
+package com.HDD.management.repository;
 
-import com.HDD.model.Member;
+import com.HDD.management.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.HDD.controller;
+package com.HDD.management.controller;
 
-import com.HDD.model.Member;
-import com.HDD.repository.MemberRepository;
+import com.HDD.management.repository.MemberRepository;
+import com.HDD.management.model.Member;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

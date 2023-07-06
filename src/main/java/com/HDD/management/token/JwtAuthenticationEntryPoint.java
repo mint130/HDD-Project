@@ -1,4 +1,4 @@
-package com.HDD.token;
+package com.HDD.management.token;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

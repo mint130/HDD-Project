@@ -1,15 +1,10 @@
 package com.HDD.loginTest;
 
-import com.HDD.model.ERole;
-import com.HDD.model.Member;
-import com.HDD.model.Role;
-import com.HDD.repository.MemberRepository;
-import com.HDD.repository.RoleRepository;
-import com.HDD.security.MemberDetails;
-import com.HDD.token.JwtResponse;
-import com.HDD.token.JwtUtils;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import com.HDD.management.repository.MemberRepository;
+import com.HDD.management.repository.RoleRepository;
+import com.HDD.management.security.MemberDetails;
+import com.HDD.management.token.JwtResponse;
+import com.HDD.management.token.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,10 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)

@@ -1,5 +1,6 @@
-package com.HDD.model;
+package com.HDD.management.model;
 
+import com.HDD.management.converter.ERoleConverter;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,6 +13,6 @@ public class Role {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Convert(converter = ERoleConverter.class)
     private ERole name;
 }

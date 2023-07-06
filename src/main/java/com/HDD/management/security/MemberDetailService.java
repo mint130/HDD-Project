@@ -1,7 +1,7 @@
-package com.HDD.security;
+package com.HDD.management.security;
 
-import com.HDD.model.Member;
-import com.HDD.repository.MemberRepository;
+import com.HDD.management.model.Member;
+import com.HDD.management.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,7 +1,6 @@
-package com.HDD.token;
+package com.HDD.management.token;
 
-import com.HDD.security.MemberDetailService;
-import com.HDD.security.MemberDetails;
+import com.HDD.management.security.MemberDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

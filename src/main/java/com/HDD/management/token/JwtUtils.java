@@ -1,6 +1,6 @@
-package com.HDD.token;
+package com.HDD.management.token;
 
-import com.HDD.security.MemberDetails;
+import com.HDD.management.security.MemberDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;

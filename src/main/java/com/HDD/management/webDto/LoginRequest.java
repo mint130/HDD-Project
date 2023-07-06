@@ -1,4 +1,4 @@
-package com.HDD.webDto;
+package com.HDD.management.webDto;
 
 import lombok.Getter;
 import lombok.Setter;

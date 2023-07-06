@@ -1,9 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
+import Main from './Main.js';
+import { useNavigate } from 'react-router-dom';
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import styles from "./Signup.module.css";
+
 
 const parents = [
     { value: '', label: '' },
@@ -40,6 +43,8 @@ function SignUp() {
     const [email, setEmail] = useState(''); //이메일
     const [signification, setSignification]=useState(''); // 입력받은 인증코드
     const [inputNickname, setInputNickname]=useState(''); //닉네임
+    const navigate = useNavigate();
+
 
     const emailPattern = /^\S+(@g\.hongik\.ac\.kr)$/;
     const schema = Yup.object().shape({
@@ -107,7 +112,7 @@ function SignUp() {
 
         axios.get(`http://localhost:8080/api/auth/signup/create`, {
             params: {
-               // sendEmail: true,
+                // sendEmail: true,
                 request: "send_email",
                 email: email
 
@@ -122,14 +127,14 @@ function SignUp() {
             .catch((error) => console.error(error));
 
 
-       setEmailVerified(true);
+        setEmailVerified(true);
 
     };
 
     const handleVerificationCodeSubmit = (data) => {
-       // console.log(signification); //현재 내가 입력한것..?
-       // console.log(verificationCode); //서버에서 보낸 인증코드.. 활성화되어있다..
-       // verificationCode.toString();
+        // console.log(signification); //현재 내가 입력한것..?
+        // console.log(verificationCode); //서버에서 보낸 인증코드.. 활성화되어있다..
+        // verificationCode.toString();
         if (signification == verificationCode) {
 
             alert('이메일 인증이 완료되었습니다.');
@@ -157,6 +162,7 @@ function SignUp() {
         })
             .then(() => {
                 alert('회원가입이 완료되었습니다.');
+                navigate('/');
             })
             .catch(error => console.error(error));
     };
@@ -223,7 +229,7 @@ function SignUp() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}>
-                                <label htmlFor="email">이메일</label>
+                            <label htmlFor="email">이메일</label>
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
@@ -244,11 +250,11 @@ function SignUp() {
                         <div className={styles.right_btn_area}>
                             {!emailVerified && (
 
-                                    <button type="button"
-                                            className={`${styles.btn_verify} ${emailValid ? styles.btn_secondary : styles.btn_disable}`}
-                                            onClick={handleSendVerificationCode} disabled={!emailValid}>
-                                        인증번호 받기
-                                    </button>
+                                <button type="button"
+                                        className={`${styles.btn_verify} ${emailValid ? styles.btn_secondary : styles.btn_disable}`}
+                                        onClick={handleSendVerificationCode} disabled={!emailValid}>
+                                    인증번호 받기
+                                </button>
                             )}
                         </div>
 
@@ -281,9 +287,9 @@ function SignUp() {
                             </div>
                         </div>)}
                     <div  className={styles.row}>
-                            <div className={styles.list}>
-                                <label htmlFor='nickname'>닉네임</label>
-                            </div>
+                        <div className={styles.list}>
+                            <label htmlFor='nickname'>닉네임</label>
+                        </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
                                 <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
@@ -298,34 +304,34 @@ function SignUp() {
                             </div>
                         </div>
                         <div className={styles.right_btn_area}>
-                        <button type="submit"  className={styles.btn_verify + " " + styles.btn_secondary}onClick={handleCheckNickname}>중복 확인</button>
+                            <button type="submit"  className={styles.btn_verify + " " + styles.btn_secondary}onClick={handleCheckNickname}>중복 확인</button>
                         </div>
-                        </div>
+                    </div>
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor='major'>전공</label>
                         </div>
                         <div className={styles.wrap}>
 
-                                <select id="college" className={styles.sel} onChange={handleParentChange}>
-                                    {parents.map((option) => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </select>
-                                <select id="major" className={styles.sel} {...register('major',{required: "전공은 필수 입력입니다"})}>
-                                    {childOptions.map((option) => (
-                                        <option  key={option.value} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                            <select id="college" className={styles.sel} onChange={handleParentChange}>
+                                {parents.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                            <select id="major" className={styles.sel} {...register('major',{required: "전공은 필수 입력입니다"})}>
+                                {childOptions.map((option) => (
+                                    <option  key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                            <div className={styles.expand}>
-                                <span>{errors?.major?.message}</span>
-                            </div>
+                        <div className={styles.expand}>
+                            <span>{errors?.major?.message}</span>
+                        </div>
 
                         <div className={styles.right_btn_area}></div>
 
