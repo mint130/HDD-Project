@@ -4,35 +4,34 @@ import Select from 'react-select';
 import {useForm} from 'react-hook-form';
 import styles from "./Roommate_recruit.module.css";
 
-
+const gradeOptions = [
+    { value: '1', label: '1학년' },
+    { value: '2', label: '2학년' },
+    { value: '3', label: '3학년' },
+    { value: '4', label: '4학년' },
+    { value: 'etc', label: '기타' },
+];
+const dormitoryOptions=[
+    {value: '1기숙사', label: '1기숙사'},
+    {value: '2기숙사', label: '2기숙사'},
+    {value: '3기숙사', label: '3기숙사'},
+    {value: '자취', label: '자취'},
+]
 function Roommate_recruit() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
 
-    const gradeOptions = [
-        { value: '1', label: '1학년' },
-        { value: '2', label: '2학년' },
-        { value: '3', label: '3학년' },
-        { value: '4', label: '4학년' },
-        { value: 'etc', label: '기타' },
-    ];
 
     const handleGradeChange = (selectedOption) => {
         setValue('grade', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
 
-    const dormitoryOptions=[
-        {value: '1기숙사', label: '1기숙사'},
-        {value: '2기숙사', label: '2기숙사'},
-        {value: '3기숙사', label: '3기숙사'},
-        {value: '자취', label: '자취'},
-    ]
     const handleDormitoryChange = (selectedOption) => {
         setValue('dormitory', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
     const onSubmit=data=>console.log(data);
-    const allFieldValues = watch(); // 모든 필드의 값 감시
+    //const allFieldValues = watch(); // 모든 필드의 값 감시
 
-    console.log(allFieldValues); // 값 변화를 콘솔에 출력
+    //console.log(allFieldValues); // 값 변화를 콘솔에 출력
   //  console.log(watch("")); // watch input value by passing the name of it
     const onError= errors=>console.log(errors);
     return (
@@ -83,14 +82,14 @@ function Roommate_recruit() {
                         <textarea
                             id="pattern"
                             {...register('pattern',{required: true})}>
-                </textarea>
+                        </textarea>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="additional">추가 내용</label></div>
                         <textarea
                             id="additional"
                             {...register('additional')}>
-                </textarea>
+                        </textarea>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
