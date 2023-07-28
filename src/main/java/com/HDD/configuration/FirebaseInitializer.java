@@ -9,21 +9,19 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 @Slf4j
 @Service
 public class FirebaseInitializer {
 
-    @Value("${app.firebase-configuration-file}")
-    private String firebaseConfigPath;
-
     @PostConstruct
     public void initialize() {
         try {
+            FileInputStream servicAccount = new FileInputStream("src/main/resources/hdd-graduation-firebase-adminsdk-z6p4d-c6b39e72e0.json");
             FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(
-                    GoogleCredentials.fromStream(
-                            new ClassPathResource(firebaseConfigPath).getInputStream())).build();
+                    GoogleCredentials.fromStream(servicAccount)).build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized.");
