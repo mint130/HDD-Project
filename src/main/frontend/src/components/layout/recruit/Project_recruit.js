@@ -1,13 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm, Controller} from 'react-hook-form';
-import styles from "./Roommate_recruit.module.css";
+import styles from "./Roommate_recruit_write.module.css";
 import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import ko from "date-fns/locale/ko";
 import Select from "react-select";
-
 
 const gradeOptions = [
     { value: '1', label: '1학년' },

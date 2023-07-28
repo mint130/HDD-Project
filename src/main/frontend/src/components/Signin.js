@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {useForm} from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styles from "./Signin.module.css";
 
 function SignIn(){
     const{register, control, handleSubmit, watch, formState: {errors}}=useForm();
+    const navigate = useNavigate();
+
     const onSubmit=data=>{
         console.log(data);
         //post 요청 보낼 url
@@ -16,6 +19,8 @@ function SignIn(){
         })
             .then(() => {
                 alert('로그인 성공');
+                navigate("/");
+
             })
             .catch(error => console.error(error));
     };

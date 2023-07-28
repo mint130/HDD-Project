@@ -1,34 +1,56 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form';
-import styles from "./Roommate_recruit.module.css";
+import styles from "./Roommate_recruit_write.module.css";
 
 const gradeOptions = [
     { value: '1', label: '1학년' },
     { value: '2', label: '2학년' },
     { value: '3', label: '3학년' },
     { value: '4', label: '4학년' },
-    { value: 'etc', label: '기타' },
+    { value: '0', label: '기타' },
 ];
 const dormitoryOptions=[
-    {value: '1기숙사', label: '1기숙사'},
-    {value: '2기숙사', label: '2기숙사'},
-    {value: '3기숙사', label: '3기숙사'},
-    {value: '자취', label: '자취'},
+    {value: '1', label: '1기숙사'},
+    {value: '2', label: '2기숙사'},
+    {value: '3', label: '3기숙사'},
+    {value: '0', label: '자취'},
 ]
-function Roommate_recruit() {
+function Roommate_recruit_write() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
-
+    const navigate = useNavigate();
 
     const handleGradeChange = (selectedOption) => {
         setValue('grade', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
 
     const handleDormitoryChange = (selectedOption) => {
-        setValue('dormitory', selectedOption.value); // 선택된 학년 값을 필드에 설정
+        setValue('dormType', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
-    const onSubmit=data=>console.log(data);
+    const onSubmit=data=>{
+        console.log(data);
+        //post 요청 보낼 url
+        axios.post('http://localhost:8080/recruitment/roommate/write', {
+            sex: data.sex,
+            grade: data.grade,
+            dormType: data.dormType,
+            korean: data.korean,
+            smoke: data.smoke,
+            pattern: data.pattern,
+            info: data.info,
+            created: new Date(),
+            openChat: data.openChat
+        }, {
+            headers: { 'Content-type': 'application/json' }
+        })
+            .then(() => {
+                alert('룸메이트 구인글이 등록되었습니다');
+                navigate('/');
+            })
+            .catch(error => console.error(error));
+    };
     //const allFieldValues = watch(); // 모든 필드의 값 감시
 
     //console.log(allFieldValues); // 값 변화를 콘솔에 출력
@@ -37,13 +59,15 @@ function Roommate_recruit() {
     return (
         <form onSubmit={handleSubmit(onSubmit,onError)}>
             <div className={styles.container}>
-                <h1 className={styles.title}>룸메이트 구인</h1>
+                <h1 className={styles.title}>구인글 작성</h1>
                 <div className={styles.content}>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="gender">성별</label></div>
+                        <div className={styles.list}>
+                            <label htmlFor="sex">성별</label>
+                        </div>
                         <div className={styles.wrap}>
-                                <input type="radio" {...register("gender", { required: true })} value="female"/> 여자
-                                <input type="radio" {...register("gender", { required: true })} value="male"/> 남자
+                                <input type="radio" {...register("sex", { required: true })} value="F"/> 여자
+                                <input type="radio" {...register("sex", { required: true })} value="M"/> 남자
                         </div>
 
                     </div>
@@ -58,24 +82,24 @@ function Roommate_recruit() {
                         />
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="dormitory">유형</label></div>
+                        <div className={styles.list}><label htmlFor="dormType">유형</label></div>
                         <Select
-                            {...register('dormitory', {required: true})}
+                            {...register('dormType', {required: true})}
                             options={dormitoryOptions}
-                            id="dormitory"
-                            name="dormitory"
+                            id="dormType"
+                            name="dormType"
                             onChange={handleDormitoryChange}
                         />
                     </div>
 
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="nationality">국적</label></div>
-                        <input type="radio" {...register("nationality", {required: true})} value="local"/> 내국인
-                        <input type="radio" {...register("nationality", {required:true})} value="foreigner"/> 외국인
+                        <div className={styles.list}><label htmlFor="korean">국적</label></div>
+                        <input type="radio" {...register("korean", {required: true})} value="true"/> 내국인
+                        <input type="radio" {...register("korean", {required:true})} value="false"/> 외국인
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="isSmoke">흡연여부</label></div>
-                        <input type="checkbox" {...register("isSmoke", {required: true})}/> 흡연
+                        <div className={styles.list}><label htmlFor="smoke">흡연여부</label></div>
+                        <input type="checkbox" {...register("smoke", {required: true})}/> 흡연
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="pattern">생활 패턴</label></div>
@@ -85,10 +109,10 @@ function Roommate_recruit() {
                         </textarea>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="additional">추가 내용</label></div>
+                        <div className={styles.list}><label htmlFor="info">추가 내용</label></div>
                         <textarea
-                            id="additional"
-                            {...register('additional')}>
+                            id="info"
+                            {...register('info')}>
                         </textarea>
                     </div>
                     <div className={styles.row}>
@@ -96,10 +120,12 @@ function Roommate_recruit() {
                         <input type="file" {...register("fileUpload")}/>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="openChatting">오픈 채팅</label></div>
-                        <input type="url" {...register("openChatting", {required: true})}/>
+                        <div className={styles.list}><label htmlFor="openChat">오픈 채팅</label></div>
+                        <input type="url" {...register("openChat", {required: true})}/>
                     </div>
-                    <div className={styles.btn_area}><button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button></div>
+                    <div className={styles.btn_area}>
+                        <button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button>
+                    </div>
                 </div>
 
             </div>
@@ -110,4 +136,4 @@ function Roommate_recruit() {
 
 }
 
-export default Roommate_recruit
+export default Roommate_recruit_write

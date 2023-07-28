@@ -23,7 +23,7 @@ function Header() {
                             <a href="#">구인</a>
                             <ul>
                                 <li><Link to="/project">프로젝트 구인</Link></li>
-                                <li><Link to="/roommate">룸메이트 구인</Link></li>
+                                <li><Link to="/recruitment/roommate">룸메이트 구인</Link></li>
                             </ul>
                         </li>
                     </ul>
