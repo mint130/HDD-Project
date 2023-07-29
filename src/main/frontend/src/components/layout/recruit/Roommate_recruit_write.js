@@ -6,17 +6,17 @@ import {useForm} from 'react-hook-form';
 import styles from "./Roommate_recruit_write.module.css";
 
 const gradeOptions = [
-    { value: '1', label: '1학년' },
-    { value: '2', label: '2학년' },
-    { value: '3', label: '3학년' },
-    { value: '4', label: '4학년' },
-    { value: '0', label: '기타' },
+    { value: 1, label: '1학년' },
+    { value: 2, label: '2학년' },
+    { value: 3, label: '3학년' },
+    { value: 4, label: '4학년' },
+    { value: 0 , label: '기타' },
 ];
 const dormitoryOptions=[
-    {value: '1', label: '1기숙사'},
-    {value: '2', label: '2기숙사'},
-    {value: '3', label: '3기숙사'},
-    {value: '0', label: '자취'},
+    {value: 1, label: '1기숙사'},
+    {value: 2, label: '2기숙사'},
+    {value: 3, label: '3기숙사'},
+    {value: 0, label: '자취'},
 ]
 function Roommate_recruit_write() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
@@ -31,12 +31,15 @@ function Roommate_recruit_write() {
     };
     const onSubmit=data=>{
         console.log(data);
+        const isKorean = Boolean(data.korean);
+        //console.log(isKorean);
         //post 요청 보낼 url
         axios.post('http://localhost:8080/recruitment/roommate/write', {
+
             sex: data.sex,
             grade: data.grade,
             dormType: data.dormType,
-            korean: data.korean,
+            korean: isKorean,
             smoke: data.smoke,
             pattern: data.pattern,
             info: data.info,
@@ -47,14 +50,11 @@ function Roommate_recruit_write() {
         })
             .then(() => {
                 alert('룸메이트 구인글이 등록되었습니다');
-                navigate('/');
+                navigate('/recruitment/roommate');
             })
             .catch(error => console.error(error));
     };
-    //const allFieldValues = watch(); // 모든 필드의 값 감시
 
-    //console.log(allFieldValues); // 값 변화를 콘솔에 출력
-  //  console.log(watch("")); // watch input value by passing the name of it
     const onError= errors=>console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit,onError)}>
@@ -94,8 +94,8 @@ function Roommate_recruit_write() {
 
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="korean">국적</label></div>
-                        <input type="radio" {...register("korean", {required: true})} value="true"/> 내국인
-                        <input type="radio" {...register("korean", {required:true})} value="false"/> 외국인
+                        <input type="radio" value="true" {...register("korean", {required: true})}/> 내국인
+                        <input type="radio" value="false" {...register("korean", {required:true})}/> 외국인
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="smoke">흡연여부</label></div>
