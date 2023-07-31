@@ -57,6 +57,7 @@ function Roommate_recruit_write() {
 
     const onError= errors=>console.log(errors);
     return (
+
         <form onSubmit={handleSubmit(onSubmit,onError)}>
             <div className={styles.container}>
                 <h1 className={styles.title}>구인글 작성</h1>
@@ -66,62 +67,107 @@ function Roommate_recruit_write() {
                             <label htmlFor="sex">성별</label>
                         </div>
                         <div className={styles.wrap}>
-                                <input type="radio" {...register("sex", { required: true })} value="F"/> 여자
-                                <input type="radio" {...register("sex", { required: true })} value="M"/> 남자
+
+                                <div className={styles.radio_row}>
+                                    <input type="radio" {...register("sex", { required: true })} value="F"/> 여자
+                                </div>
+                                <div className={styles.radio_row}>
+                                    <input  type="radio" {...register("sex", { required: true })} value="M"/> 남자
+                                </div>
+
                         </div>
 
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label  htmlFor="grade">학년</label></div>
-                        <Select
-                            {...register('grade', { required: true })}
-                            options={gradeOptions}
-                            id="grade"
-                            name="grade"
-                            onChange={handleGradeChange}
-                        />
+                        <div className={styles.wrap}>
+                            <div className={styles.select}>
+                                <Select
+                                    {...register('grade', { required: true })}
+                                    placeholder="학년을 선택해주세요"
+                                    options={gradeOptions}
+                                    id="grade"
+                                    name="grade"
+                                    onChange={handleGradeChange}
+                                />
+                            </div>
+
+                        </div>
+
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="dormType">유형</label></div>
-                        <Select
-                            {...register('dormType', {required: true})}
-                            options={dormitoryOptions}
-                            id="dormType"
-                            name="dormType"
-                            onChange={handleDormitoryChange}
-                        />
+                        <div className={styles.wrap}>
+                            <div className={styles.select}>
+                                <Select
+
+                                    {...register('dormType', {required: true})}
+                                    options={dormitoryOptions}
+                                    placeholder="유형을 선택해주세요"
+                                    id="dormType"
+                                    name="dormType"
+                                    onChange={handleDormitoryChange}
+                                />
+                            </div>
+
+                        </div>
+
                     </div>
 
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="korean">국적</label></div>
-                        <input type="radio" value="true" {...register("korean", {required: true})}/> 내국인
-                        <input type="radio" value="false" {...register("korean", {required:true})}/> 외국인
+                        <div className={styles.radio_row}>
+                            <input type="radio" value="true" {...register("korean", {required: true})}/> 내국인
+                        </div>
+                        <div className={styles.radio_row}>
+                            <input type="radio" value="false" {...register("korean", {required:true})}/> 외국인
+                        </div>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="smoke">흡연여부</label></div>
-                        <input type="checkbox" {...register("smoke", {required: true})}/> 흡연
+                        <div className={styles.list}>
+                            <label htmlFor="smoke">흡연여부</label></div>
+                        <div className={styles.radio_row}>
+                            <input type="checkbox" {...register("smoke", {required: true})}/> 흡연
+                        </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="pattern">생활 패턴</label></div>
-                        <textarea
-                            id="pattern"
-                            {...register('pattern',{required: true})}>
+                        <div className={styles.wrap}>
+                         <textarea
+                             className={styles.textarea}
+                             id="pattern"
+                             {...register('pattern',{required: true})}>
                         </textarea>
+                        </div>
+
+
+
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="info">추가 내용</label></div>
+                        <div className={styles.wrap}>
                         <textarea
+                            className={styles.textarea}
                             id="info"
                             {...register('info')}>
                         </textarea>
+                        </div>
+
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
                         <input type="file" {...register("fileUpload")}/>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="openChat">오픈 채팅</label></div>
-                        <input type="url" {...register("openChat", {required: true})}/>
+                        <div className={styles.list}>
+                            <label htmlFor="openChat">오픈 채팅</label>
+                        </div>
+                        <div  className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input className={styles.input} type="url" placeholder="링크를 입력하세요" {...register("openChat", {required: true})}/>
+                            </div>
+
+                        </div>
                     </div>
                     <div className={styles.btn_area}>
                         <button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button>
