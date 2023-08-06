@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -25,6 +26,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends BCryptPasswordEncoder {
 
     @Autowired
@@ -32,6 +34,9 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
 
 
@@ -47,20 +52,22 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
-//                .anyRequest().authenticated();
+                .authorizeRequests()
+                .requestMatchers("/", "/home","/api/auth/**").permitAll()
+//                .requestMatchers("/recruitment/**").hasRole("MEMBER")
+                .anyRequest().authenticated();
 
                 // 로그아웃 추가
-                .authorizeHttpRequests(auth->auth
-                .requestMatchers("/", "/home", "/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-                 )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/signout"))
-                        .logoutSuccessUrl("/")
-                        //.deleteCookies()
-                        .invalidateHttpSession(true)
-                );
+//                .authorizeHttpRequests(auth->auth
+//                .requestMatchers("/", "/home", "/api/auth/**").permitAll()
+//                .anyRequest().authenticated()
+//                 )
+//                .logout(logout -> logout
+//                        .logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/signout"))
+//                        .logoutSuccessUrl("/")
+//                        //.deleteCookies()
+//                        .invalidateHttpSession(true)
+//                );
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -77,7 +84,7 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter(new JwtUtils(), new MemberDetailService(memberRepository, passwordEncoder()));
+        return new AuthTokenFilter(jwtUtils, new MemberDetailService(memberRepository, passwordEncoder()));
     }
 
     @Bean

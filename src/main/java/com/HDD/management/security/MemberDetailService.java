@@ -28,9 +28,9 @@ public class MemberDetailService implements UserDetailsService {
         Member member = memberRepository.findBySid(sid)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with Sid: " + sid));
 
-        List<GrantedAuthority> authorities = member.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+//        List<GrantedAuthority> authorities = member.getRoles().stream()
+//                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+//                .collect(Collectors.toList());
 
         return MemberDetails.build(member);
 //        return MemberDetails.builder()
