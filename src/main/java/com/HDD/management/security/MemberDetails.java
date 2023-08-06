@@ -5,10 +5,13 @@ import com.HDD.management.model.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,9 +42,11 @@ public class MemberDetails implements UserDetails {
     }
 
     public static MemberDetails build(Member member) {
+
         List<GrantedAuthority> authorities = member.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
+
 
         return new MemberDetails(
                 member.getSid(),

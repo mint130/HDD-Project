@@ -43,7 +43,7 @@ public class Member {
     private String major;
     private String doubleMajor;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "member_roles",
             joinColumns = @JoinColumn(name = "user_sid"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();

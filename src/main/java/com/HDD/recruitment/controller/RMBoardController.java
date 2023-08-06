@@ -1,5 +1,6 @@
 package com.HDD.recruitment.controller;
 
+import com.HDD.management.security.MemberDetails;
 import com.HDD.management.util.SecurityUtil;
 import com.HDD.management.webDto.MessageResponse;
 import com.HDD.recruitment.model.RoommateBoard;
@@ -7,6 +8,11 @@ import com.HDD.recruitment.service.RMBoardService;
 import com.HDD.recruitment.webDto.RMBoardRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +22,23 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/recruitment/roommate")
+@PreAuthorize("hasRole('MEMBER')")
 public class RMBoardController {
 
     private final RMBoardService rmBoardService;
 
     @PostMapping("/write")
-    public ResponseEntity<?> writeBoard(@RequestBody RMBoardRequest request, @RequestBody(required = false) String imgUrl) throws Exception {
-        RoommateBoard roommateBoard = new RoommateBoard(SecurityUtil.getLoginUserName(), request);
+    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestBody(required = false) String imgUrl) throws Exception {
+        RoommateBoard roommateBoard = new RoommateBoard(userDetails.getUsername(), request);
         rmBoardService.insertRMBoard(roommateBoard);
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
+    }
+
+    @GetMapping("/me")
+    public String getMyInfo(@AuthenticationPrincipal MemberDetails member) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getPrincipal().toString();
+        return email;
     }
 
     @GetMapping()
