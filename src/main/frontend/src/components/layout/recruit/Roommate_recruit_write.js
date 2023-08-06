@@ -21,6 +21,7 @@ const dormitoryOptions=[
 function Roommate_recruit_write() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
     const navigate = useNavigate();
+    const [isSmoke, setIsSmoke]=useState();
 
     const handleGradeChange = (selectedOption) => {
         setValue('grade', selectedOption.value); // 선택된 학년 값을 필드에 설정
@@ -31,9 +32,17 @@ function Roommate_recruit_write() {
     };
     const onSubmit=data=>{
         console.log(data);
+        //console.log(isSmoke);
         const isKorean = Boolean(data.korean);
+        //헤더에 jwt token
+        const jwtToken = localStorage.getItem('jwtToken');
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`,
+        };
         //console.log(isKorean);
         //post 요청 보낼 url
+       // console.log(jwtToken);
         axios.post('http://localhost:8080/recruitment/roommate/write', {
 
             sex: data.sex,
@@ -46,7 +55,7 @@ function Roommate_recruit_write() {
             created: new Date(),
             openChat: data.openChat
         }, {
-            headers: { 'Content-type': 'application/json' }
+            headers: headers,
         })
             .then(() => {
                 alert('룸메이트 구인글이 등록되었습니다');
@@ -117,17 +126,19 @@ function Roommate_recruit_write() {
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="korean">국적</label></div>
                         <div className={styles.radio_row}>
-                            <input type="radio" value="true" {...register("korean", {required: true})}/> 내국인
+                            <input type="radio" value={true} {...register("korean", {required: true})}/> 내국인
                         </div>
                         <div className={styles.radio_row}>
-                            <input type="radio" value="false" {...register("korean", {required:true})}/> 외국인
+                            <input type="radio" value={false} {...register("korean", {required:true})}/> 외국인
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor="smoke">흡연여부</label></div>
                         <div className={styles.radio_row}>
-                            <input type="checkbox" {...register("smoke", {required: true})}/> 흡연
+                            <input type="checkbox"
+                                checked={isSmoke} onChange={setIsSmoke}{...register("smoke" )}
+                            /> 흡연
                         </div>
                     </div>
                     <div className={styles.row}>

@@ -3,26 +3,34 @@ import axios from "axios";
 import {useForm} from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Signin.module.css";
-
+import {login} from '../actions/authActions';
 function SignIn(){
     const{register, control, handleSubmit, watch, formState: {errors}}=useForm();
     const navigate = useNavigate();
 
-    const onSubmit=data=>{
+    const onSubmit = (data) => {
         console.log(data);
-        //post 요청 보낼 url
+
         axios.post('http://localhost:8080/api/auth/signin', {
             sid: data.sid,
             password: data.password,
         }, {
-            headers: { 'Content-type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' }
         })
-            .then(() => {
+            .then(response => {
+                // 서버로부터 받은 응답에서 JWT 토큰을 추출합니다.
+                const token = response.data.token;
+               // const userInfo=response.data.user;
+
+                // JWT 토큰을 로컬 스토리지에 저장합니다.
+                localStorage.setItem('jwtToken', token);
                 alert('로그인 성공');
                 navigate("/");
-
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error('로그인 실패:', error);
+                // 로그인 실패 처리
+            });
     };
     const onError= errors=>console.log(errors);
     return (
