@@ -15,7 +15,7 @@ import java.io.InputStream;
 @Service
 public class FileService {
 
-    @Value("${app.firebase-bucket}")
+    @Value("${firebase.bucket-name}")
     private String firebaseBucket;
 
     public String uploadFiles(MultipartFile file, String nameFile) throws Exception {
