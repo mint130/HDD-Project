@@ -7,6 +7,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,9 +51,12 @@ public class RMBoardServiceImpl implements RMBoardService{
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> apiFuture = firestore.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documentSnapshots = apiFuture.get().getDocuments();
+
         for(QueryDocumentSnapshot snapshot : documentSnapshots){
             list.add(snapshot.toObject(RoommateBoard.class));
         }
+        // 최근에 등록한 순으로 정렬?
+        list.stream().sorted((p1, p2) -> p1.getCreated().compareTo(p2.getCreated()));
         return list;
     }
 

@@ -1,7 +1,5 @@
 package com.HDD.recruitment.controller;
 
-import com.HDD.management.security.MemberDetails;
-import com.HDD.management.util.SecurityUtil;
 import com.HDD.management.webDto.MessageResponse;
 import com.HDD.recruitment.model.RoommateBoard;
 import com.HDD.recruitment.service.FileService;
@@ -10,9 +8,7 @@ import com.HDD.recruitment.webDto.RMBoardRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
