@@ -15,6 +15,5 @@ public class RMBoardRequest {
     private boolean smoke;
     private String pattern; // 생활 패턴
     private String info;    // 기타 쓰는거
-    private Date created;
     private String openChat;
 }
