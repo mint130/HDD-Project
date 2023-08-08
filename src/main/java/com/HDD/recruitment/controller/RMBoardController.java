@@ -29,7 +29,7 @@ public class RMBoardController {
     @PostMapping("/write")
     public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestBody(required = false) MultipartFile file) throws Exception {
         RoommateBoard roommateBoard = new RoommateBoard(userDetails.getUsername(), request);
-        if(!file.isEmpty()){
+        if(file != null){
             fileService.uploadFiles(file, roommateBoard.getBoardId());
         }
         boardService.insertBoard(roommateBoard);
@@ -41,6 +41,9 @@ public class RMBoardController {
     public ResponseEntity<?> boardList(Model model) throws Exception {
         List<RoommateBoard> boardList = boardService.getBoardList();
         model.addAttribute("boardList", boardList);
+        for(RoommateBoard b : boardList){
+            System.out.println(b.getBoardId() + " " + b.getCreated());
+        }
         return ResponseEntity.ok(new MessageResponse("ok"));
     }
 

@@ -7,6 +7,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -51,6 +52,8 @@ public class PJBoardServiceImpl implements PJBoardService{
         for(QueryDocumentSnapshot snapshot : documentSnapshots){
             list.add(snapshot.toObject(ProjectBoard.class));
         }
+        // 최근에 등록한 순으로 정렬
+        list.sort(Comparator.comparing(ProjectBoard::getCreated).reversed());
         return list;
     }
 
@@ -65,7 +68,7 @@ public class PJBoardServiceImpl implements PJBoardService{
     @Override
     public String deleteBoard(String id) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document().delete();
+        ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document(id).delete();
         return "Document " + id + "is deleted";
     }
 }
