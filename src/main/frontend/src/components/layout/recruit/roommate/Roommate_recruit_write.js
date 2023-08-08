@@ -28,7 +28,7 @@ function Roommate_recruit_write() {
     };
 
     const handleDormitoryChange = (selectedOption) => {
-        setValue('dormType', selectedOption.value); // 선택된 학년 값을 필드에 설정
+        setValue('dormType', selectedOption.value); // 선택된 기숙사 값을 필드에 설정
     };
     const onSubmit=data=>{
         console.log(data);

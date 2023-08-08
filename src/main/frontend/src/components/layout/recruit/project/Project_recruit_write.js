@@ -1,27 +1,64 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm, Controller} from 'react-hook-form';
-import styles from "./Roommate_recruit_write.module.css";
+import styles from "./Project_recruit_write.module.css";
 import DatePicker, {registerLocale} from "react-datepicker";
+import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
 import ko from "date-fns/locale/ko";
 import Select from "react-select";
 
 const gradeOptions = [
-    { value: '1', label: '1학년' },
-    { value: '2', label: '2학년' },
-    { value: '3', label: '3학년' },
-    { value: '4', label: '4학년' },
-    { value: 'etc', label: '기타' },
+    { value: 1, label: '1학년' },
+    { value: 2, label: '2학년' },
+    { value: 3, label: '3학년' },
+    { value: 4, label: '4학년' },
+    { value: 0, label: '기타' },
 ];
-function Project_recruit() {
+function Project_recruit_write() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
     const [dateRange, setDateRange] = useState([null, null]);
+    const navigate = useNavigate();
     const [startDate, endDate] = dateRange;
+
     registerLocale("ko", ko);
-    const onSubmit=data=>console.log(data);
+
+    const onSubmit=data=>{
+        console.log(data);
+        //console.log(isSmoke);
+        //헤더에 jwt token
+        const jwtToken = localStorage.getItem('jwtToken');
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`,
+        };
+        console.log(startDate);
+        console.log(endDate);
+
+        //post 요청 보낼 url
+        // console.log(jwtToken);
+        axios.post('http://localhost:8080/recruitment/project/write', {
+
+            title: data.title,
+            major: data.major,
+            num: parseInt(data.num),
+            startDay: startDate,
+            finishDay: endDate,
+            grade: data.grade,
+            info: data.info,
+            openChat: data.openChat
+        }, {
+            headers: headers,
+        })
+            .then(() => {
+                alert('프로젝트 구인글이 등록되었습니다');
+                navigate('/recruitment/project');
+            })
+            .catch(error => console.error(error));
+    };
+
     const onError= errors=>console.log(errors);
+    
     const handleGradeChange = (selectedOption) => {
         setValue('grade', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
@@ -36,12 +73,12 @@ function Project_recruit() {
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                            <input
-                                type="text"
-                                id="title"
-                                placeholder="제목을 입력하세요"
-                                {...register('title')}
-                            /></div>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    placeholder="제목을 입력하세요"
+                                    {...register('title')}
+                                /></div>
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -60,15 +97,15 @@ function Project_recruit() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}>
-                            <label htmlFor="personnel">인원</label>
+                            <label htmlFor="num">인원</label>
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
                                 <input
                                     type="number"
-                                    id="personnel"
+                                    id="num"
                                     placeholder="인원을 입력하세요"
-                                    {...register('personnel')}
+                                    {...register('num')}
                                 />명</div>
                         </div>
                     </div>
@@ -92,24 +129,20 @@ function Project_recruit() {
                         <div className={styles.list}>
                             <label htmlFor="grade">학년</label>
                         </div>
-                        <Controller
-                            control={control}
+                        <Select
+                            {...register('grade', { required: true })}
+                            placeholder="학년을 선택해주세요"
+                            options={gradeOptions}
+                            id="grade"
                             name="grade"
-                            render={({field})=>(
-                                <Select
-                                    inputId="grade"
-                                    options={gradeOptions}
-                                    value={gradeOptions.find((option) => option.value === field.value)}
-                                    onChange={(option) => field.onChange(option.value)}/>
-
-                            )}
+                            onChange={handleGradeChange}
                         />
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="additional">추가 내용</label></div>
+                        <div className={styles.list}><label htmlFor="info">추가 내용</label></div>
                         <textarea
-                            id="additional"
-                            {...register('additional')}>
+                            id="info"
+                            {...register('info')}>
                         </textarea>
                     </div>
                     <div className={styles.row}>
@@ -117,8 +150,8 @@ function Project_recruit() {
                         <input type="file" {...register("fileUpload")}/>
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.list}><label htmlFor="openChatting">오픈 채팅</label></div>
-                        <input type="url" {...register("openChatting", {required: true})}/>
+                        <div className={styles.list}><label htmlFor="openChat">오픈 채팅</label></div>
+                        <input type="url" {...register("openChat", {required: true})}/>
                     </div>
                     <div className={styles.btn_area}><button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button></div>
                 </div>
@@ -129,4 +162,4 @@ function Project_recruit() {
     );
 }
 
-export default Project_recruit
+export default Project_recruit_write
