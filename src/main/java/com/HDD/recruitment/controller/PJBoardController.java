@@ -33,29 +33,21 @@ public class PJBoardController {
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
 
-    @GetMapping("/me")
-    public String getMyInfo(@AuthenticationPrincipal MemberDetails member) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getPrincipal().toString();
-        return email;
-    }
 
     @GetMapping()
-    public ResponseEntity<?> boardList(Model model) throws Exception {
+    public ResponseEntity<?> boardList() throws Exception {
         List<ProjectBoard> boardList = boardService.getBoardList();
-        model.addAttribute("boardList", boardList);
-        return ResponseEntity.ok(new MessageResponse("ok"));
+        return ResponseEntity.ok(boardList);
     }
 
     @GetMapping(value = {"/{path}", "/{path}/update"})
-    public ResponseEntity<?> readBoard(@PathVariable String path, Model model) throws Exception {
+    public ResponseEntity<?> readBoard(@PathVariable String path) throws Exception {
         ProjectBoard board = boardService.getBoard(path);
-        model.addAttribute("board", board);
-        return ResponseEntity.ok(new MessageResponse("ok"));
+        return ResponseEntity.ok(board);
     }
 
     @PostMapping("/{path}/update")
-    public ResponseEntity<?> updateBoard(@PathVariable String path, @RequestBody PJBoardRequest request, Model model) throws Exception {
+    public ResponseEntity<?> updateBoard(@PathVariable String path, @RequestBody PJBoardRequest request) throws Exception {
         ProjectBoard board = new ProjectBoard(path, request);
         boardService.updateBoard(board, path);
         return ResponseEntity.ok(new MessageResponse("수정되었습니다"));
