@@ -38,20 +38,18 @@ public class RMBoardController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> boardList(Model model) throws Exception {
+    public ResponseEntity<?> boardList() throws Exception {
         List<RoommateBoard> boardList = boardService.getBoardList();
-        model.addAttribute("boardList", boardList);
         for(RoommateBoard b : boardList){
             System.out.println(b.getBoardId() + " " + b.getCreated());
         }
-        return ResponseEntity.ok(new MessageResponse("ok"));
+        return ResponseEntity.ok(boardList);
     }
 
     @GetMapping(value = {"/{path}", "/{path}/update"})
-    public ResponseEntity<?> readBoard(@PathVariable String path, Model model) throws Exception {
+    public ResponseEntity<?> readBoard(@PathVariable String path) throws Exception {
         RoommateBoard board = boardService.getBoard(path);
-        model.addAttribute("board", board);
-        return ResponseEntity.ok(new MessageResponse("ok"));
+        return ResponseEntity.ok(board);
     }
 
     @PostMapping("/{path}/update")
