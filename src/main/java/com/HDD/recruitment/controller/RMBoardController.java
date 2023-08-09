@@ -53,8 +53,8 @@ public class RMBoardController {
     }
 
     @PostMapping("/{path}/update")
-    public ResponseEntity<?> updateBoard(@PathVariable String path, @RequestBody RMBoardRequest request, Model model) throws Exception {
-        RoommateBoard board = new RoommateBoard(path, request);
+    public ResponseEntity<?> updateBoard(@PathVariable String path, @AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request) throws Exception {
+        RoommateBoard board = new RoommateBoard(userDetails.getUsername(), request);
         boardService.updateBoard(board, path);
         return ResponseEntity.ok(new MessageResponse("수정되었습니다"));
     }
