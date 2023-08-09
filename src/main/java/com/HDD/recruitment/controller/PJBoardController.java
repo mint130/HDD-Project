@@ -47,8 +47,8 @@ public class PJBoardController {
     }
 
     @PostMapping("/{path}/update")
-    public ResponseEntity<?> updateBoard(@PathVariable String path, @RequestBody PJBoardRequest request) throws Exception {
-        ProjectBoard board = new ProjectBoard(path, request);
+    public ResponseEntity<?> updateBoard(@PathVariable String path, @AuthenticationPrincipal UserDetails userDetails, @RequestBody PJBoardRequest request) throws Exception {
+        ProjectBoard board = new ProjectBoard(userDetails.getUsername(), request);
         boardService.updateBoard(board, path);
         return ResponseEntity.ok(new MessageResponse("수정되었습니다"));
     }
