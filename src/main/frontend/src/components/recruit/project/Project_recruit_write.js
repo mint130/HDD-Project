@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
 import Select from "react-select";
+import "../datepicker.css";
 
 const gradeOptions = [
     { value: 1, label: '1학년' },
@@ -65,15 +66,16 @@ function Project_recruit_write() {
     return (
         <form onSubmit={handleSubmit(onSubmit,onError)}>
             <div className={styles.container}>
-                <h1 className={styles.title}>프로젝트 구인</h1>
+                <h1 className={styles.title}>구인글 작성</h1>
                 <div className={styles.content}>
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor="title">제목</label>
                         </div>
-                        <div className={styles.wrap}>
+                        <div className={styles.title_wrap}>
                             <div className={styles.form}>
                                 <input
+                                    className={styles.input}
                                     type="text"
                                     id="title"
                                     placeholder="제목을 입력하세요"
@@ -88,11 +90,12 @@ function Project_recruit_write() {
                         <div className={styles.wrap}>
                             <div className={styles.form}>
                                 <input
+                                    className={styles.input}
                                     type="text"
                                     id="major"
                                     placeholder="과를 입력하세요"
                                     {...register('major')}
-                                />과</div>
+                                /></div>
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -102,11 +105,12 @@ function Project_recruit_write() {
                         <div className={styles.wrap}>
                             <div className={styles.form}>
                                 <input
+                                    className={styles.input}
                                     type="number"
                                     id="num"
                                     placeholder="인원을 입력하세요"
                                     {...register('num')}
-                                />명</div>
+                                /></div>
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -121,6 +125,7 @@ function Project_recruit_write() {
                                 onChange={(update) => {
                                     setDateRange(update);
                                 }}
+                                isClearable={true}
                                 dateFormat="yyyy-MM-dd"
                             />
                         </div>
@@ -129,6 +134,7 @@ function Project_recruit_write() {
                         <div className={styles.list}>
                             <label htmlFor="grade">학년</label>
                         </div>
+                        <div className={styles.select}>
                         <Select
                             {...register('grade', { required: true })}
                             placeholder="학년을 선택해주세요"
@@ -137,13 +143,17 @@ function Project_recruit_write() {
                             name="grade"
                             onChange={handleGradeChange}
                         />
+                        </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="info">추가 내용</label></div>
+                        <div className={styles.wrap}>
                         <textarea
+                            className={styles.textarea}
                             id="info"
                             {...register('info')}>
                         </textarea>
+                        </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
@@ -151,7 +161,12 @@ function Project_recruit_write() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="openChat">오픈 채팅</label></div>
-                        <input type="url" {...register("openChat", {required: true})}/>
+                        <div className={styles.wrap}>
+                            <div className={styles.form}>
+                                <input type="url" className={styles.input} {...register("openChat", {required: true})}/>
+                            </div>
+                        </div>
+
                     </div>
                     <div className={styles.btn_area}><button className={styles.btn_type + " " + styles.btn_primary} type="submit">제출</button></div>
                 </div>
