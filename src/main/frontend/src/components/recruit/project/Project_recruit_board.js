@@ -73,13 +73,8 @@ function Project_recruit_board(){
                                     </div>
                                     <hr></hr>
                                 </div>
-
-
-
-
                             );
                         }
-
                     )}
                 </ul>
             </div>

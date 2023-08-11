@@ -1,6 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/ko';
+import styles from './Project_recruit_detail_page.module.css';
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
@@ -24,22 +27,64 @@ const Project_recruit_detail_page=
                 });
             }
         }
-
+        if(startDay!=null){ startDay=moment(startDay).format('YYYY-MM-DD');}
+        if(finishDay!=null){finishDay=moment(finishDay).format('YYYY-MM-DD');}
+        const dateRange = startDay !== null && finishDay !== null ? startDay + " - " + finishDay : "미정";
     return (
-        <div>
-            <h2>{title}</h2>
-            <h5>{major}</h5>
-            <h5>{num}</h5>
-            <h5>{startDay}</h5>
-            <h5>{finishDay}</h5>
-            <h5>{grade}</h5>
-            <h5>{info}</h5>
-            <h5>{openChat}</h5>
-            <div>
-                <button onClick={deleteBoard}>삭제</button>
-                <button onClick={moveToUpdate}>수정</button>
-                <button>마감하기</button>
+
+        <div className={styles.container} >
+            <h1 className={styles.title}>프로젝트 구인</h1>
+            <div className={styles.content}>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="title">제목</label>
+                    </div>
+                    {title}
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="major">과</label>
+                    </div>
+                    {major}과
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="num">인원</label>
+                    </div>
+                    {num}명
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="date">기간</label>
+                    </div>
+                    {dateRange}
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="grade">학년</label>
+                    </div>
+                    {grade}학년
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="info">추가 내용</label>
+                    </div>
+                    <div className={styles.wrap}>
+                        {info}</div>
+                </div>
+                <div className={styles.row}>
+                    <div className={styles.list}>
+                        <label htmlFor="openChat">오픈 채팅</label>
+                    </div>
+                    <a href={openChat}>{openChat}</a>
+                </div>
+                <div className={styles.btn_area}>
+                    <button  className={styles.btn_type + " " + styles.btn_primary} onClick={deleteBoard}>삭제</button>
+                    <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
+                    <button className={styles.btn_type + " " + styles.btn_primary}>마감하기</button>
+                </div>
             </div>
+
         </div>
 
     );

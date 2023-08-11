@@ -11,7 +11,7 @@
 }
 .wrap{
     display: block;
-    width: 280px;
+    width: 380px;
 }
 
 .title{
@@ -49,19 +49,12 @@
     padding-inline-end: 10px;
 
 }
-.form{
-    position: relative;
-    height: 40px;
-    border: solid 1px #dadada;
-    border-radius: 3px;
-    padding: 10px 10px 10px 10px;
-    background: #fff;
-    box-sizing: border-box;
 
-}
 .list{
     display: inline;
     width: 140px;
+
+
 }
 
 .expand{
@@ -92,15 +85,13 @@
 }
 .select{
     width: 180px;
-    font-size: 14px;
 }
 .input{
     width: 100%;
 }
 .btn_area{
     display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
+    justify-content: flex-end;
     border-top: 1px solid rgb(247, 247, 247);
     padding: 40px 0px;
 }
@@ -115,14 +106,13 @@
     border: 1px solid #013B70;
 }
 .btn_type{
-    display: block;
-    width:180px;
-    height: 48px;
-    padding: 0 10px;
-    font-size: 16px;
+    display:inline-block;;
+    padding: 8px 16px;
+    margin-left: 10px;
+    font-size: 14px;
     font-weight: 500;
     text-align: center;
     cursor: pointer;
     box-sizing: border-box;
-    border-radius: 3px;
+    border-radius: 8px;
 }
