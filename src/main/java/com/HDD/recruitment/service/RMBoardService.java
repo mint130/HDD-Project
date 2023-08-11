@@ -14,4 +14,6 @@ public interface RMBoardService {
     public String updateBoard(RoommateBoard board, String id) throws Exception;
 
     public String deleteBoard(String id) throws Exception;
+
+    public String closeBoard(String id) throws Exception;
 }
