@@ -72,4 +72,11 @@ public class PJBoardServiceImpl implements PJBoardService{
         ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document(id).delete();
         return "Document " + id + "is deleted";
     }
+
+    @Override
+    public String closeBoard(String id) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document(id).update("recruited", true);
+        return "Document " + id + "is closed";
+    }
 }

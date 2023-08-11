@@ -64,4 +64,10 @@ public class RMBoardController {
         boardService.deleteBoard(path);
         return ResponseEntity.ok(new MessageResponse("삭제되었습니다"));
     }
+
+    @GetMapping("/{path}/close")
+    public ResponseEntity<?> closeBoard(@PathVariable String path) throws Exception {
+        boardService.closeBoard(path);
+        return ResponseEntity.ok(new MessageResponse("마갑되었습니다"));
+    }
 }
