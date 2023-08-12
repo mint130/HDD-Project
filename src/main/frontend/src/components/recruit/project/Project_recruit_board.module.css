@@ -40,12 +40,13 @@
     width: 620px;
     padding: 10px 0px 10px 0px;
     background: #fff;
-
 }
+
 .column_right{
-    display: block;
+    display: flex;
     font-size: 16px;
     width: 60px;
+    justify-content: space-around;
 }
 .post_title{
     padding: 4px 0px 4px 0px;

@@ -36,7 +36,8 @@ const Project_recruit_detail = () => {
                 : (
                     <Project_recruit_detail_page
                         boardId={board.boardId}
-                        isRecruited={board.isRecruited}
+                        recruited={board.recruited}
+                        memberId={board.memberId}
                         title={board.title}
                         major={board.major}
                         num={board.num}

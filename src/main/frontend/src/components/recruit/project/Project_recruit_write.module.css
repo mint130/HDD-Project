@@ -60,6 +60,7 @@
 
 }
 .list{
+    font-weight: 600;
     display: inline;
     width: 140px;
 }
