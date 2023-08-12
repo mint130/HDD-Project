@@ -30,6 +30,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject((memberPrinciple.getUsername()))
+                .claim("nickname", memberPrinciple.getNickname())
                 .setIssuedAt(new Date())
                 //.setClaims(createClaims(authentication))
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))

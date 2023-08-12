@@ -34,8 +34,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         try {
             String jwt = parseJwt(request);
-            System.out.println(jwt);
-            System.out.println(jwtUtils.validateJwt(jwt));
+
             if (jwt != null && jwtUtils.validateJwt(jwt)) {
                 String sid = jwtUtils.getSidFromJwtToken(jwt);
                 UserDetails memberDetails = memberDetailService.loadUserByUsername(sid);
