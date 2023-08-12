@@ -61,7 +61,7 @@ public class PJBoardServiceImpl implements PJBoardService{
     public String updateBoard(ProjectBoard board, String id) throws Exception {
         board.setBoardId(id);
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture
+        ApiFuture<WriteResult> apiFuture
                 = firestore.collection(COLLECTION_NAME).document(id).set(board);
         return apiFuture.get().getUpdateTime().toString();
     }

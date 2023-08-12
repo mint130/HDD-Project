@@ -1,0 +1,9 @@
+package com.HDD.recruitment.comment.webDto;
+
+import lombok.Getter;
+
+@Getter
+public class CommentRequest {
+    private String parentId;
+    private String content;
+}
