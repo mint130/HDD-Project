@@ -54,7 +54,6 @@ const Project_recruit_update=()=>{
             //console.log(resp.data);
         } catch (error) {
             console.error('Error fetching board:', error);
-
         }
     };
 
@@ -62,15 +61,7 @@ const Project_recruit_update=()=>{
         getBoard();
     }, []);
 
-
     const onSubmit=data=>{
-        //console.log(data);
-        //console.log(isSmoke);
-        //헤더에 jwt token
-
-        //console.log(startDate);
-        //console.log(endDate);
-
         axios.post(`http://localhost:8080/recruitment/project/${boardId}/update`, {
             boardId: data.boardId,
             title: data.title,
@@ -103,10 +94,8 @@ const Project_recruit_update=()=>{
 
 
     return (
-
             <form onSubmit={handleSubmit(onSubmit,onError)}>
                 <div className={styles.container}>
-
                     <h1 className={styles.title}>구인글 수정</h1>
                     <div className={styles.content}>
                         <div className={styles.row}>
@@ -242,18 +231,12 @@ const Project_recruit_update=()=>{
                                                    {...register("openChat", {required: true})}/>
                                         )}
                                     /></div>
-
                             </div>
-
                         </div>
-
                         <div className={styles.btn_area}><button className={styles.btn_type + " " + styles.btn_primary} type="submit">수정</button></div>
                     </div>
-
                 </div>
             </form>
-
-
     );
 };
 

@@ -12,8 +12,6 @@ function Project_recruit_board(){
     const [boardList, setBoardList] = useState([]);
     const [pageList, setPageList]=useState([]);
 
-
-
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
@@ -52,7 +50,7 @@ function Project_recruit_board(){
                             if(board.finishDay!=null){finishDay=moment(board.finishDay).format('YYYY-MM-DD');}
                             const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
                             let isRecruited="구인 중";
-                            if(isRecruited==true){isRecruited="구인 완료";}
+                            if(board.recruited==true){isRecruited="구인 완료";}
                             return (
                                 <div>
                                     <div className={styles.column}>
@@ -67,7 +65,6 @@ function Project_recruit_board(){
                                                     <span className={styles.post_variable}> {board.info}</span>
                                                 </div>
                                             </Link>
-
                                         </li>
                                         <div className={styles.column_right}><h4>{isRecruited}</h4></div>
                                     </div>
