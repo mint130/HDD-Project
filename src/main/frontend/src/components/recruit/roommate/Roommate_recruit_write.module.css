@@ -27,14 +27,14 @@ input{
     color: red;
 }
 .content{
-    width: 480px;
+    width: 520px;
     margin: 0px auto;
 }
 .row{
     display: inline-flex;
     width: 100%;
     padding: 12px 20px;
-    font-size: 14px;
+    font-size: 16px;
     flex-direction: row;
     align-items: center;
 
@@ -58,6 +58,7 @@ input{
 }
 .list{
     display: inline;
+    font-weight: 600;
     width: 140px;
 
 
@@ -91,6 +92,7 @@ input{
 }
 .select{
     width: 180px;
+    font-size: 14px;
 }
 .input{
     width: 100%;

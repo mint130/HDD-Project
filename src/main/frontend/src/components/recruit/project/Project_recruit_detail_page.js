@@ -12,7 +12,8 @@ const Project_recruit_detail_page=
         const navigate = useNavigate();
         const jwtToken = localStorage.getItem('jwtToken');
         const [isWriter, setIsWriter]=useState(false);
-
+        const [dateRange, setDateRange]=useState('');
+        const [newGrade, setNewGrade]=useState('');
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`,
@@ -41,12 +42,20 @@ const Project_recruit_detail_page=
         }
         useEffect(() => {
             const currentUserId = jwt_decode(jwtToken).sub;
+            //jwt decode 결과 :console.log(jwt_decode(jwtToken));
             if (memberId === currentUserId) setIsWriter(true);
+            if (startDay != null && finishDay != null) {
+                const formattedStartDay = moment(startDay).format('YYYY-MM-DD');
+                const formattedFinishDay = moment(finishDay).format('YYYY-MM-DD');
+                setDateRange(formattedStartDay + " - " + formattedFinishDay);
+            } else {
+                setDateRange("미정");
+            }
+            if(grade===0) setNewGrade('기타'); else setNewGrade(grade+"학년");
         }, []);
 
-        if(startDay!=null){ startDay=moment(startDay).format('YYYY-MM-DD');}
-        if(finishDay!=null){finishDay=moment(finishDay).format('YYYY-MM-DD');}
-        const dateRange = startDay !== null && finishDay !== null ? startDay + " - " + finishDay : "미정";
+
+
     return (
         <div className={styles.container} >
             <h1 className={styles.title}>프로젝트 구인</h1>
@@ -79,7 +88,7 @@ const Project_recruit_detail_page=
                     <div className={styles.list}>
                         <label htmlFor="grade">학년</label>
                     </div>
-                    {grade}학년
+                    {newGrade}
                 </div>
                 <div className={styles.row}>
                     <div className={styles.list}>

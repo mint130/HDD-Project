@@ -1,15 +1,24 @@
-input{
-    accent-color: #013B70;
-}
+
 .container{
-    width: 720px;
+    width: 900px;
     margin: 0px auto;
 }
-.wrap{
-    display: block;
-    width: 260px;
+.content{
+    margin: 0px 20px 0px 20px;
+    width: inherit;
 }
+table{
+    border-collapse:collapse;
+    font-size: 18px;
+    width: inherit;
 
+}
+thead{
+    border-top: 2px solid rgba(0, 0, 0, 0.80);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.80);
+    background: #EEEFF1;
+
+}
 .title{
     padding: 20px;
     font-style: normal;
@@ -17,44 +26,21 @@ input{
     font-size: 40px;
     color: #000000;
 }
-.expand{
-    display: block;
-    margin-top: 8px;
-    line-height: 14px;
-}
-.expand span{
-    font-size: 12px;
-    color: red;
-}
-.content{
-    width: 480px;
-    margin: 0px auto;
-}
-.row{
-    display: inline-flex;
-    width: 100%;
-    padding: 10px 20px;
-    font-size:14px;
-}
-.form{
-    position: relative;
-    height: 40px;
-    border: solid 1px #dadada;
-    border-radius: 3px;
-    padding: 10px 10px 10px 10px;
-    background: #fff;
-    box-sizing: border-box;
+
+
+tr {
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.80);
 
 }
-.list{
-    display: inline;
-    width: 140px;
-    padding-top: 12px;
+th{
+    padding: 7px;
+}
+td {
+    padding: 7px;
+    text-align: center;
+}
 
-}
-.radio{
-    accent-color: #013B70;
-}
 .btn_area{
     display: flex;
     -webkit-box-pack: center;
