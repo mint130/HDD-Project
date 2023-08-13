@@ -1,19 +1,22 @@
 package com.HDD.recruitment.controller;
 
 import com.HDD.management.webDto.MessageResponse;
+import com.HDD.recruitment.comment.model.Comment;
+import com.HDD.recruitment.comment.service.CommentService;
 import com.HDD.recruitment.model.RoommateBoard;
 import com.HDD.recruitment.service.FileService;
 import com.HDD.recruitment.service.RMBoardService;
 import com.HDD.recruitment.webDto.RMBoardRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,6 +28,12 @@ public class RMBoardController {
 
     private final RMBoardService boardService;
     private final FileService fileService;
+    private final CommentService commentService;
+
+    @PostConstruct
+    public void init(){
+        commentService.setCollectionName("RoommateBoard");
+    }
 
     @PostMapping("/write")
     public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestBody(required = false) MultipartFile file) throws Exception {
@@ -49,7 +58,8 @@ public class RMBoardController {
     @GetMapping(value = {"/{path}", "/{path}/update"})
     public ResponseEntity<?> readBoard(@PathVariable String path) throws Exception {
         RoommateBoard board = boardService.getBoard(path);
-        return ResponseEntity.ok(board);
+        List<Comment> commentList = commentService.getComments(path);
+        return ResponseEntity.ok(new Result(board, commentList));
     }
 
     @PostMapping("/{path}/update")
@@ -69,5 +79,16 @@ public class RMBoardController {
     public ResponseEntity<?> closeBoard(@PathVariable String path) throws Exception {
         boardService.closeBoard(path);
         return ResponseEntity.ok(new MessageResponse("마갑되었습니다"));
+    }
+
+    @Getter
+    static class Result {
+        private RoommateBoard board;
+        private List<Comment> comment;
+
+        public Result(RoommateBoard board, List<Comment> comment) {
+            this.board = board;
+            this.comment = comment;
+        }
     }
 }

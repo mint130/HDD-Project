@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentService {
     private static final String COLLECTION_NAME = "COMMENT";
     private String collectionName;    // 룸메 구인인지 플젝 구인인지 구분
-    private Firestore firestore = FirestoreClient.getFirestore();
+    private final Firestore firestore = FirestoreClient.getFirestore();
 
     public void setCollectionName(String collectionName) {
         this.collectionName = collectionName;
@@ -54,17 +54,25 @@ public class CommentService {
         return list;
     }
 
-    // 원댓 삭제 시 memberId, content "삭제된 댓글입니다" 로 변경
-    // 답댓 삭제 시 삭제
+    // 답글 있는 원댓 삭제 시 memberId, content "삭제된 댓글입니다" 로 변경
+    // 답글 없는 원댓 or 답댓 삭제 시 삭제
     public String deleteComment(String boardId, String commentId) throws Exception {
-        DocumentReference documentReference = firestore.collection(collectionName).document(boardId)
-                .collection(COLLECTION_NAME).document(commentId);
+        CollectionReference collectionReference =  firestore.collection(collectionName).document(boardId)
+                .collection(COLLECTION_NAME);
+        DocumentReference documentReference = collectionReference.document(commentId);
         ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
 
         // 원댓
-        if (apiFuture.get().get("parentId") == apiFuture.get().get("commentId")) {
-            documentReference.update("memberId", null);
-            documentReference.update("content", "삭제된 댓글입니다");
+        if (apiFuture.get().get("parentId").equals(apiFuture.get().get("commentId"))) {
+            ApiFuture<QuerySnapshot> children = collectionReference.whereEqualTo("parentId", commentId).whereNotEqualTo("commentId", commentId).get();
+            List<QueryDocumentSnapshot> documentSnapshots = children.get().getDocuments();
+
+            if (documentSnapshots.isEmpty()) { // 답글이 없는 경우
+                documentReference.delete();
+            } else {    // 답글이 있는 경우
+                documentReference.update("memberId", null);
+                documentReference.update("content", "삭제된 댓글입니다");
+            }
         }
         else{
             documentReference.delete();
