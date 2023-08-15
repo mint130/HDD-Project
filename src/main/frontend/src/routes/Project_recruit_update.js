@@ -43,7 +43,7 @@ const Project_recruit_update=()=>{
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/project/${boardId}`,{headers:headers});
-            const boardData = resp.data;
+            const boardData = resp.data.board;
             setBoard(boardData);
             setValue('title', boardData.title);
             setValue('major', boardData.major);
@@ -224,7 +224,7 @@ const Project_recruit_update=()=>{
                             <div className={styles.wrap}>
                                 <div className={styles.form}>
                                     <Controller
-                                        name="openChats"
+                                        name="openChat"
                                         control={control}
                                         render={({ field }) => (
                                             <input type="url"className={styles.input}

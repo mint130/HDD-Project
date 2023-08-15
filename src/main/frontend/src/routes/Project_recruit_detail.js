@@ -18,7 +18,7 @@ const Project_recruit_detail = () => {
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/project/${boardId}`,{headers:headers});
-            setBoard(resp.data);
+            setBoard(resp.data.board);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching board:', error);
