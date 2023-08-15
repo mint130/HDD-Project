@@ -29,7 +29,7 @@ const Roommate_recruit_update=()=>{
         dormType: 0,
         korean: true,
         sex: '',
-        smoke: false,
+        smoke: isSmoke,
         pattern:'',
         grade: 0,
         info: '',
@@ -44,6 +44,7 @@ const Roommate_recruit_update=()=>{
             setValue('pattern', boardData.pattern);
             setValue('dormType', boardData.dormType);
             setValue('smoke', boardData.smoke);
+            //setIsSmoke(boardData.smoke);
             setValue('sex', boardData.sex);
             setValue('korean',boardData.korean);
             setValue('grade', boardData.grade);
@@ -65,6 +66,7 @@ const Roommate_recruit_update=()=>{
         getBoard();
         //setIsSmoke(board.smoke);
     }, []);
+
 
     const onSubmit=data=>{
         console.log(data);
@@ -156,10 +158,32 @@ const Roommate_recruit_update=()=>{
                           </div>
                           <div className={styles.wrap}>
                               <div className={styles.radio_row}>
-                                  <input type="radio" value={true} {...register("korean", {required: true})}/> 내국인
+                                  <Controller
+                                  name="korean"
+                                  control={control}
+                                  render={({field})=>(
+                                      <input
+                                          type="radio"
+                                          value={true}
+                                          checked={field.value === true}
+                                          onChange={() => field.onChange(true)}
+                                      />
+                                  )}
+                                  /> 내국인
                               </div>
                               <div className={styles.radio_row}>
-                                  <input type="radio" value={false} {...register("korean", {required:true})}/> 외국인
+                                  <Controller
+                                      name="korean"
+                                      control={control}
+                                      render={({field})=>(
+                                          <input
+                                              type="radio"
+                                              value={false}
+                                              checked={field.value === false}
+                                              onChange={() => field.onChange(false)}
+                                          />
+                                      )}
+                                  /> 외국인
                               </div>
                           </div>
                       </div>
@@ -168,14 +192,19 @@ const Roommate_recruit_update=()=>{
                                <label htmlFor="smoke">흡연</label>
                            </div>
                            <div className={styles.radio_row}>
-
+                               <Controller
+                                   name="smoke"
+                                   control={control}
+                                   render={({ field }) => (
                                        <input
-                                           checked={isSmoke}
-                                           onChange={(e) => setIsSmoke(e.target.checked)}
+                                           checked={watch('smoke')}
+                                           onChange={(e) => field.onChange(e.target.checked)}
                                            type="checkbox"
                                            id="smoke"
-                                           {...register}
-                                       /> 흡연
+                                           {...field}
+                                       />
+                                   )}
+                               /> 흡연
                            </div>
                        </div>
                     <div className={styles.row}>
