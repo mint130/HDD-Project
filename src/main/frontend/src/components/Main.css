@@ -31,17 +31,26 @@ div.photo{
     line-height:270px;
 }
 
-div.login{
+div.logout{
     background-color:#ecebeb;
     border-radius:5px;
     width: 200px;
-    height:120px;
+    height: 140px;
     margin:10px;
     z-index : 0;
     position : absolute;
     left : 640px;
 }
-
+div.login{
+    background-color:#ecebeb;
+    border-radius:5px;
+    width: 200px;
+    height: 120px;
+    margin:10px;
+    z-index : 0;
+    position : absolute;
+    left : 640px;
+}
 div.notice{
     background-color:white;
     border-radius :5px;
@@ -200,8 +209,48 @@ div.notice hr{
     font-size:16px;
     cursor: pointer;
 }
+
+.submit_logout {
+    width:80px;
+    border:solid 0px;
+    padding: 7px;
+    border-radius : 5px;
+    background-color:#003E75;
+    color: white;
+    font-size:12px;
+    cursor: pointer;
+}
 .submit_login a{
     color: white;
+}
+.nickname{
+    display: contents;
+}
+.profile{
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+}
+.profile_block{
+    display: flex;
+    justify-content: space-evenly;
+}
+.profile_img{
+    width: 50px;
+    height: 50px;
+}
+.profile_info{
+    padding: 4px;
+    display: flex;
+    align: center;
+    flex-direction: column;
+    align-items: center;
+}
+.profile_btn{
+    padding-right: 4px;
+    padding-left: 4px;
 }
 .find {
     float : left;

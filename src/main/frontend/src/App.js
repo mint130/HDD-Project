@@ -1,6 +1,7 @@
-import React, {useEffect}from 'react';
+import React, {useEffect, useState}from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 import SignUp from './components/Signup';
 import SignIn from './components/Signin';
 import Project_recruit_board from "./components/recruit/project/Project_recruit_board";
@@ -18,6 +19,14 @@ import Roommate_recruit_update from "./routes/Roommate_recruit_update";
 
 function App() {
 
+    //authenticated: 로그인 상태 확인
+
+    const jwtToken = localStorage.getItem('jwtToken');
+    const isAuthenticated = jwtToken !== null;
+
+    useEffect(() => {
+
+    }, [isAuthenticated]);
     return (
        <div className='App'>
           <BrowserRouter>

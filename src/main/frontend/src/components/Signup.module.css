@@ -10,7 +10,7 @@
 
 
 .container{
-    width: 640px;
+    width: 720px;
     margin: 0px auto;
 }
 .wrap{
@@ -35,7 +35,7 @@
     color: red;
 }
 .content{
-    width: 480px;
+    width: 520px;
     margin: 0px auto;
 }
 .row{
