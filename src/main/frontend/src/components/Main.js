@@ -1,8 +1,44 @@
 import './Main.css'
+import jwt_decode from 'jwt-decode';
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 function Main(){
+    const navigate = useNavigate();
+    const jwtToken = localStorage.getItem('jwtToken');
+    const isAuthenticated = jwtToken !== null;
+    const decodedToken = jwtToken ? jwt_decode(jwtToken) : null;
+    const [userId, setUserId] = useState('');
+    const [userNickname, setUserNickname] = useState('');
+    const currentUserNickname = decodedToken ? decodedToken.nickname : null;
+    const currentUserId = decodedToken ? decodedToken.sub : null;
 
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwtToken}`,
+    };
+
+    useEffect(() => {
+        if (isAuthenticated && decodedToken) {
+            setUserId(currentUserId);
+            setUserNickname(currentUserNickname);
+        }
+    }, [isAuthenticated, decodedToken]);
+
+    const logOut=async()=>{
+        if(window.confirm('로그아웃 하시겠습니까?')){
+            localStorage.removeItem("jwtToken");
+            await axios.get('//localhost:8080/api/auth/signout', { headers: headers }).then((res)=>{
+                //localStorage.removeItem("jwtToken");
+                //console.log(res);
+                //alert(res.data.message);
+                //navigate('');
+         });
+        }
+
+    }
     const [val1, setVal1] = useState("");
     const {coll,dept} = {coll:[ {coll:'학생공지'},
             {coll:'공과대학'},{coll:'건축도시대학'},{coll:'경영대학'},{coll:'문과대학'},{coll:'법과대학'},{coll:'사범대학'},
@@ -30,6 +66,7 @@ function Main(){
     function noticeC(e){
         document.querySelector('h4').innerHTML = e;
     }
+    const profileUrl="/img.png";
     return (
 
         <div className="App">
@@ -38,20 +75,55 @@ function Main(){
                 <div className="photo">
                     photo
                 </div>
-                <div className="login">
-                    <form>
-                        <p className="submit">
-                            <button type="submit" value="로그인" className="submit_login">
-                                <a href="/api/auth/signin">로그인 바로가기</a>
-                            </button>
-                        </p>
-                        <p className="find">
-                            <a href="find.html">PW 찾기</a>
-                        </p>
-                        <p className="register">
-                            <a href="/api/auth/signup/create">회원가입</a>
-                        </p>
-                    </form>
+                <div>
+                    {!isAuthenticated ? (
+                        <div className="login">
+                        <form>
+                            <p className="submit">
+                                <button type="submit" value="로그인" className="submit_login">
+                                    <a href="/api/auth/signin">로그인 바로가기</a>
+                                </button>
+                            </p>
+                            <p className="find">
+                                <a href="find.html">PW 찾기</a>
+                            </p>
+                            <p className="register">
+                                <a href="/api/auth/signup/create">회원가입</a>
+                            </p>
+                        </form>
+                        </div>
+                    ) : (
+                        <div className="logout">
+                        <form className="profile">
+                            <img src={profileUrl} className="profile_img"/>
+                            <div className="profile_info">
+                                <p>
+                                    <h2 className="nickname">{userNickname}</h2> 님
+                                </p>
+                                <p>
+                                    <h2>{userId}</h2>
+                                </p>
+                            </div>
+
+                            <div className="profile_block">
+                                <div className="profile_btn">
+                                    <button onClick={logOut} value="로그아웃" className="submit_logout">
+                                        로그아웃
+                                    </button>
+                                </div>
+                                <div className="profile_btn">
+                                        <button  value="마이페이지" className="submit_logout">
+                                            마이페이지
+                                        </button>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                        </div>
+
+                    )}
                 </div>
                 <div className="notice">
                     <div className="form-group">
