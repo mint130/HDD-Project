@@ -6,18 +6,16 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RMBoardServiceImpl implements RMBoardService{
     public static final String COLLECTION_NAME = "RoommateBoard";
+    private Firestore firestore = FirestoreClient.getFirestore();
 
     @Override
     public String insertBoard(RoommateBoard board) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
+
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document();
         board.setBoardId(documentReference.getId());
@@ -30,7 +28,6 @@ public class RMBoardServiceImpl implements RMBoardService{
     // 선택한 구인글 상세정보
     @Override
     public RoommateBoard getBoard(String id) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document(id);
         ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
@@ -49,7 +46,6 @@ public class RMBoardServiceImpl implements RMBoardService{
     @Override
     public List<RoommateBoard> getBoardList() throws Exception {
         List<RoommateBoard> list = new ArrayList<>();
-        Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> apiFuture = firestore.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documentSnapshots = apiFuture.get().getDocuments();
 
@@ -64,7 +60,6 @@ public class RMBoardServiceImpl implements RMBoardService{
     @Override
     public String updateBoard(RoommateBoard board, String id) throws Exception {
         board.setBoardId(id);
-        Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> apiFuture
                 = firestore.collection(COLLECTION_NAME).document(id).set(board);
         return apiFuture.get().getUpdateTime().toString();
@@ -72,15 +67,43 @@ public class RMBoardServiceImpl implements RMBoardService{
 
     @Override
     public String deleteBoard(String id) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document(id).delete();
         return "Document " + id + "is deleted";
     }
 
     @Override
     public String closeBoard(String id) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> apiFuture = firestore.collection(COLLECTION_NAME).document(id).update("recruited", true);
         return "Document " + id + "is closed";
+    }
+
+    @Override
+    public List<RoommateBoard> searchBoard(List<String> sex, List<Integer> dormType, List<Boolean> smoke) throws Exception {
+        List<RoommateBoard> list = new ArrayList<>();
+        CollectionReference collectionReference = firestore.collection(COLLECTION_NAME);
+        if (sex == null) {
+            sex = Arrays.asList("M", "F");
+        }
+/*        if (grade == null) {
+            grade = Arrays.asList(1, 2, 3, 4, 0);
+        }*/
+        if (dormType == null) {
+            dormType = Arrays.asList(1, 2, 3, 0);
+        }
+        if (smoke == null) {
+            smoke = Arrays.asList(true, false);
+        }
+
+        ApiFuture<QuerySnapshot> apiFuture = collectionReference
+                .whereIn("sex", sex)
+                .whereIn("dormType", dormType)
+                .whereIn("smoke", smoke)
+                .get();
+        List<QueryDocumentSnapshot> documentSnapshots = apiFuture.get().getDocuments();
+
+        for (QueryDocumentSnapshot snapshot : documentSnapshots) {
+            list.add(snapshot.toObject(RoommateBoard.class));
+        }
+        return list;
     }
 }

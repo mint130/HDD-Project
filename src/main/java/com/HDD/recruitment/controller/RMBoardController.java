@@ -55,6 +55,12 @@ public class RMBoardController {
         return ResponseEntity.ok(boardList);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchBoard(@RequestParam(value = "sex", required = false) List<String> sex, @RequestParam(value = "dormType", required = false) List<Integer> dormType, @RequestParam(value = "smoke", required = false) List<Boolean> smoke) throws Exception {
+        List<RoommateBoard> boardList = boardService.searchBoard(sex, dormType, smoke);
+        return ResponseEntity.ok(boardList);
+    }
+
     @GetMapping(value = {"/{path}", "/{path}/update"})
     public ResponseEntity<?> readBoard(@PathVariable String path) throws Exception {
         RoommateBoard board = boardService.getBoard(path);
@@ -80,6 +86,8 @@ public class RMBoardController {
         boardService.closeBoard(path);
         return ResponseEntity.ok(new MessageResponse("마갑되었습니다"));
     }
+
+
 
     @Getter
     static class Result {
