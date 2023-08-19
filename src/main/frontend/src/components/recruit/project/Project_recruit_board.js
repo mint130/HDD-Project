@@ -24,7 +24,8 @@ function Project_recruit_board(){
             console.log(resp.data); // 콘솔에 데이터 출력
 
         } catch (error) {
-            console.error('Error fetching board list:', error);
+            alert("로그인이 필요합니다.");
+            navigate("/api/auth/signin");
         }
     }
 
