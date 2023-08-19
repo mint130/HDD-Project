@@ -45,7 +45,7 @@
     display: flex;
     justify-content: flex-end;
     border-top: 1px solid rgb(247, 247, 247);
-    padding: 40px 0px;
+    padding: 20px 0px;
 }
 .btn_primary{
     color: #fff;
