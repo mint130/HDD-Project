@@ -23,7 +23,7 @@ function Roommate_recruit_board(){
         try {
             const resp = await axios.get('http://localhost:8080/recruitment/roommate', { headers: headers });
             setBoardList(resp.data);
-            console.log(resp.data); // 콘솔에 데이터 출력
+            //console.log(resp.data); // 콘솔에 데이터 출력
 
         } catch (error) {
             alert("로그인이 필요합니다.");
