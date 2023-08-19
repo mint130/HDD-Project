@@ -17,14 +17,14 @@ public class Comment {
     @NotEmpty
     private String boardId;
     @NotEmpty
-    private String memberId;
+    private String nickname;
     @NotEmpty
     private String content;
     @NotEmpty
     private Date created;
 
-    public Comment(String memberId, String boardId, CommentRequest request) {
-        this.memberId = memberId;
+    public Comment(String nickname, String boardId, CommentRequest request) {
+        this.nickname = nickname;
         this.boardId = boardId;
         this.content = request.getContent();
         this.created = new Date(System.currentTimeMillis());
