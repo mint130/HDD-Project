@@ -104,7 +104,7 @@ const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, 
                         <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
                         <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
                     </div>:
-                    <div className={styles.btn_area}></div>}
+                    null}
                 <div>
                     <Comment commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
 

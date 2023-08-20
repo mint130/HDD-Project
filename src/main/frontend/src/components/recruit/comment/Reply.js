@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import styles from "./Reply.module.css";
 const Reply=({boardId, commentId, onCommentSubmit, type})=>{
 
-    const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
+    const{register, setValue, handleSubmit,  formState: {errors}}=useForm();
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
@@ -13,7 +13,6 @@ const Reply=({boardId, commentId, onCommentSubmit, type})=>{
     const writeReply=data=>{
         axios.post(`http://localhost:8080/recruitment/${type}/${boardId}/comment/${commentId}`, {
             content: data.content,
-            parentId: commentId
         }, {
             headers: headers,
         })

@@ -4,25 +4,23 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import styles from "./Comment.module.css";
 import Reply from "./Reply";
-//import { GoReply } from 'react-icons/fa';
+import { HiReply, HiTrash } from "react-icons/hi";
 //import IconButton from "@mui/material/IconButton";
 //import CommentIcon from '@mui/icons-material/Comment';
+import jwt_decode from "jwt-decode";
 
 const Comment=({commentList, boardId, onCommentSubmit, type})=>{
 
-    const [isReplyOpen, setReplyOpen] = useState(false);
-    const handleCommentClick = () => {
-        setReplyOpen(prevState => !prevState); // 개별 답글의 상태를 토글
-    };
-
     const{register,  setValue, handleSubmit, formState: {errors}}=useForm();
     const jwtToken = localStorage.getItem('jwtToken');
+    const currentUserId = jwt_decode(jwtToken).sub;
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwtToken}`,
     };
     useEffect(()=>{
         console.log(commentGroups);
+        console.log(currentUserId);
     },[
         commentList
     ])
@@ -62,33 +60,39 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
     });
     const CommentItem = ({ comment, boardId, onCommentSubmit, type }) => {
         const [isReplyOpen, setReplyOpen] = useState(false);
+        //const isWriter = comment.memberId === currentUserId;
+
 
         const handleCommentClick = () => {
             setReplyOpen(prevState => !prevState);
         };
 
         const deleteComment = (commentId) => {
-            axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
+            if(window.confirm('게시글을 삭제하시겠습니까?')){
+                axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
                 alert('댓글이 삭제되었습니다.');
                 onCommentSubmit();
 
-            }).catch(error=>console.error(error));
+            }).catch(error=>console.error(error));}
         };
 
         return (
-            <li key={comment.commentId}
-                className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
-                <h2>{comment.nickname} 님</h2>
-                <h3>{comment.content}</h3>
+            <div>
+                <li key={comment.commentId}
+                    className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
+                    <h2>{comment.nickname} 님</h2>
+                    <h3>{comment.content}</h3>
+                </li>
+                {comment.memberId==currentUserId?
+                    <HiTrash onClick={() => deleteComment(comment.commentId)}/>:null}
                 {comment.commentId === comment.parentId ?
                     <div>
-                        <button onClick={handleCommentClick}>답글</button>
+                        <HiReply onClick={handleCommentClick}/>
                         {isReplyOpen ? <Reply commentId={comment.commentId} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} /> : null}
                     </div>
                     : null
                 }
-                <button onClick={() => deleteComment(comment.commentId)}>삭제</button>
-            </li>
+            </div>
         );
     };
 
@@ -103,20 +107,22 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
     const onError= errors=>console.log(errors);
     return (
         <div className={styles.comment_row}>
-            <ul>
-                {commentGroups[null] && RenderComments(commentGroups[null])}
-                {Object.keys(commentGroups).map((parentId) => {
-                    if (parentId !== 'null') {
-                        return (
-                            <li key={parentId}>
-                                <ul>{RenderComments(commentGroups[parentId])}
-                                </ul>
-                            </li>
-                        );
-                    }
-                    return null;
-                })}
-            </ul>
+            <div className={styles.comment_list}>
+                <ul>
+                    {commentGroups[null] && RenderComments(commentGroups[null])}
+                    {Object.keys(commentGroups).map((parentId) => {
+                        if (parentId !== 'null') {
+                            return (
+                                <li key={parentId}>
+                                    <ul>{RenderComments(commentGroups[parentId])}
+                                    </ul>
+                                </li>
+                            );
+                        }
+                        return null;
+                    })}
+                </ul>
+            </div>
             <div className={styles.comment_write}>
                 <form
                     onSubmit={handleSubmit(writeComment,onError)}>
