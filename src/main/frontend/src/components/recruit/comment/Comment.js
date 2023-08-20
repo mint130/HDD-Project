@@ -3,16 +3,26 @@ import {useForm} from 'react-hook-form';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import styles from "./Comment.module.css";
-
+import Reply from "./Reply";
 const Comment=({commentList, boardId, onCommentSubmit, type})=>{
 
-    const navigate = useNavigate();
-    const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
+    const [isReplyOpen, setReplyOpen] = useState(false);
+    const handleCommentClick = () => {
+        setReplyOpen(prevState => !prevState); // 개별 답글의 상태를 토글
+    };
+
+    const{register,  setValue, handleSubmit, formState: {errors}}=useForm();
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwtToken}`,
     };
+    useEffect(()=>{
+        console.log(commentGroups);
+    },[
+        commentList
+    ])
+    //댓글 작성 함수
     const writeComment=data=>{
         console.log(data);
         axios.post(`http://localhost:8080/recruitment/${type}/${boardId}/comment`, {
@@ -28,6 +38,14 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
             .catch(error => console.error(error));
 
     };
+    //댓글 삭제 함수
+    const deleteComments=(commentId)=>{
+        axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
+            alert('댓글이 삭제되었습니다.');
+            onCommentSubmit();
+
+        }).catch(error=>console.error(error));
+    }
     const commentGroups = {};
     // 원댓글과 대댓글을 정확한 위치에 그룹화
     commentList.forEach((comment) => {
@@ -46,37 +64,40 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
         }
     });
 
+    const RenderComments = (comments) => {
 
-    const renderComments = (comments) => {
         return comments.map((comment) => (
+
             <li key={comment.commentId}
                 className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
                 <h2>{comment.nickname} 님</h2>
                 <h3>{comment.content}</h3>
-                {/* 댓글에 대한 추가 정보 */}
+                {comment.commentId === comment.parentId ?
+                    <div>
+                        <button onClick={handleCommentClick}>답글</button>
+                        {isReplyOpen?<Reply commentId={comment.commentId} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} />:null}
+                    </div>
+                    : null
+                }
+                {
+                    <button onClick={()=>deleteComments(comment.commentId)}>삭제</button>
+                }
             </li>
         ));
     };
 
-    const writeReply=async()=>{
 
-
-    }
-    useEffect(()=>{
-        console.log(commentGroups);
-    },[
-        commentList
-    ])
     const onError= errors=>console.log(errors);
     return (
         <div className={styles.comment_row}>
             <ul>
-                {commentGroups[null] && renderComments(commentGroups[null])}
+                {commentGroups[null] && RenderComments(commentGroups[null])}
                 {Object.keys(commentGroups).map((parentId) => {
                     if (parentId !== 'null') {
                         return (
                             <li key={parentId}>
-                                <ul>{renderComments(commentGroups[parentId])}</ul>
+                                <ul>{RenderComments(commentGroups[parentId])}
+                                </ul>
                             </li>
                         );
                     }
@@ -84,7 +105,8 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
                 })}
             </ul>
             <div className={styles.comment_write}>
-                <form onSubmit={handleSubmit(writeComment,onError)}>
+                <form
+                    onSubmit={handleSubmit(writeComment,onError)}>
                     <textarea
                         className={styles.textarea}
                         type="text"
