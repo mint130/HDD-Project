@@ -4,6 +4,10 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import styles from "./Comment.module.css";
 import Reply from "./Reply";
+//import { GoReply } from 'react-icons/fa';
+//import IconButton from "@mui/material/IconButton";
+//import CommentIcon from '@mui/icons-material/Comment';
+
 const Comment=({commentList, boardId, onCommentSubmit, type})=>{
 
     const [isReplyOpen, setReplyOpen] = useState(false);
@@ -38,14 +42,7 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
             .catch(error => console.error(error));
 
     };
-    //댓글 삭제 함수
-    const deleteComments=(commentId)=>{
-        axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
-            alert('댓글이 삭제되었습니다.');
-            onCommentSubmit();
 
-        }).catch(error=>console.error(error));
-    }
     const commentGroups = {};
     // 원댓글과 대댓글을 정확한 위치에 그룹화
     commentList.forEach((comment) => {
@@ -63,11 +60,22 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
             commentGroups[comment.parentId].push(comment); // 대댓글
         }
     });
+    const CommentItem = ({ comment, boardId, onCommentSubmit, type }) => {
+        const [isReplyOpen, setReplyOpen] = useState(false);
 
-    const RenderComments = (comments) => {
+        const handleCommentClick = () => {
+            setReplyOpen(prevState => !prevState);
+        };
 
-        return comments.map((comment) => (
+        const deleteComment = (commentId) => {
+            axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
+                alert('댓글이 삭제되었습니다.');
+                onCommentSubmit();
 
+            }).catch(error=>console.error(error));
+        };
+
+        return (
             <li key={comment.commentId}
                 className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
                 <h2>{comment.nickname} 님</h2>
@@ -75,15 +83,20 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
                 {comment.commentId === comment.parentId ?
                     <div>
                         <button onClick={handleCommentClick}>답글</button>
-                        {isReplyOpen?<Reply commentId={comment.commentId} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} />:null}
+                        {isReplyOpen ? <Reply commentId={comment.commentId} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} /> : null}
                     </div>
                     : null
                 }
-                {
-                    <button onClick={()=>deleteComments(comment.commentId)}>삭제</button>
-                }
+                <button onClick={() => deleteComment(comment.commentId)}>삭제</button>
             </li>
-        ));
+        );
+    };
+
+   const RenderComments = (comments) => {
+
+       return comments.map((comment) => (
+           <CommentItem key={comment.commentId} comment={comment} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} />
+       ));
     };
 
 
