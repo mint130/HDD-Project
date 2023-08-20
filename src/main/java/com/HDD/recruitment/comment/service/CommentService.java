@@ -36,10 +36,6 @@ public class CommentService {
                 = documentReference.set(comment);
         return apiFuture.get().getUpdateTime().toString();
     }
-    // 답글 달기
-    public String insertReply(String boardId, String commentId, Comment comment) throws Exception {
-        return null;
-    }
 
     public List<Comment> getComments(String boardId) throws Exception {
         List<Comment> list = new ArrayList<>();
@@ -54,7 +50,7 @@ public class CommentService {
         return list;
     }
 
-    // 답글 있는 원댓 삭제 시 닉네임 = null, content "삭제된 댓글입니다" 로 변경
+    // 답글 있는 원댓 삭제 시 memberId & 닉네임 = null, content "삭제된 댓글입니다" 로 변경
     // 답글 없는 원댓 or 답댓 삭제 시 삭제
     public String deleteComment(String boardId, String commentId) throws Exception {
         CollectionReference collectionReference =  firestore.collection(collectionName).document(boardId)
@@ -70,6 +66,7 @@ public class CommentService {
             if (documentSnapshots.isEmpty()) { // 답글이 없는 경우
                 documentReference.delete();
             } else {    // 답글이 있는 경우
+                documentReference.update("memberId", null);
                 documentReference.update("nickname", null);
                 documentReference.update("content", "삭제된 댓글입니다");
             }
