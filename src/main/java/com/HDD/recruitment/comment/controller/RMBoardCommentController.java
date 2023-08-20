@@ -33,14 +33,14 @@ public class RMBoardCommentController{
 
     @PostMapping("/comment")
     public ResponseEntity<?> writeComment(@AuthenticationPrincipal MemberDetails userDetails, @PathVariable String boardId, @RequestBody CommentRequest request) throws Exception {
-        Comment comment = new Comment(userDetails.getNickname(), boardId, request);
+        Comment comment = new Comment(userDetails.getUsername(), userDetails.getNickname(), boardId, request);
         commentService.insertComment(boardId, null, comment);
         return ResponseEntity.ok(new MessageResponse("댓글이 등록되었습니다"));
     }
 
     @PostMapping("/comment/{commentId}")
     public ResponseEntity<?> writeReply(@AuthenticationPrincipal MemberDetails userDetails, @PathVariable String boardId, @PathVariable String commentId, @RequestBody CommentRequest request) throws Exception {
-        Comment comment = new Comment(userDetails.getNickname(), boardId, request);
+        Comment comment = new Comment(userDetails.getUsername(), userDetails.getNickname(), boardId, request);
         commentService.insertComment(boardId, commentId, comment);
         return ResponseEntity.ok(new MessageResponse("댓글이 등록되었습니다"));
     }
