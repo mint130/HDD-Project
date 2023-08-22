@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import {useForm} from 'react-hook-form';
-import styles from "./Reply.module.css";
+import styles from "./Comment.module.css";
 const Reply=({boardId, commentId, onCommentSubmit, type})=>{
 
     const{register, setValue, handleSubmit,  formState: {errors}}=useForm();
@@ -28,8 +28,7 @@ const Reply=({boardId, commentId, onCommentSubmit, type})=>{
     const onError= errors=>console.log(errors);
 
     return (
-        <div className={styles.comment_write}>
-            <form
+            <form className={styles.comment_write}
                 onSubmit={handleSubmit(writeReply,onError)}>
                     <textarea
                         className={styles.textarea}
@@ -38,9 +37,9 @@ const Reply=({boardId, commentId, onCommentSubmit, type})=>{
                         placeholder="답글을 입력하세요"
                         {...register('content')}
                     />
-                <button className={styles.btn_type + " " + styles.btn_primary} type="submit">댓글 작성</button>
+                <button className={styles.btn_type + " " + styles.btn_primary} type="submit">답글 작성</button>
             </form>
-        </div>
+
     );
 }
 export default Reply;

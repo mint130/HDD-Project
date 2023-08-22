@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from "./Roommate_recruit_detail_page.module.css"
 import jwt_decode from "jwt-decode";
-import Comment from "../comment/Comment";
-
+import Comment_list from "../comment/Comment_list";
 //게시글 상세 페이지
 const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onCommentSubmit})=>{
     const navigate = useNavigate();
@@ -106,7 +105,7 @@ const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, 
                     </div>:
                     null}
                 <div>
-                    <Comment commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
+                    <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
 
                 </div>
             </div>

@@ -1,18 +1,19 @@
 .comment_row{
     width: 100%;
+    padding-top:8px;
 }
 .original_comment {
 
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 10px 0;
+
 }
 
 /* 대댓글 스타일 */
 .reply_comment {
     background-color:rgba(217, 217, 217, 0.50);
     border: 1px solid #999;
-    padding: 8px;
+    padding: 10px;
     margin-left: 20px;
 }
 .textarea{
@@ -27,12 +28,26 @@
     resize: none;
 }
 .comment_write{
-    display: inline;
-    width: 100%;
+    height: 150px;
+    padding-top:8px;
 }
 .comment_list{
 
 }
+
+.icon_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+.icon{
+
+    height: 16px;
+    width: 16px;
+    padding-left: 10px;
+}
+
 .btn_primary{
     color: #fff;
     border: solid 1px rgba(0,0,0,.08);
