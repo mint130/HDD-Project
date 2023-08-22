@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import {useForm} from 'react-hook-form';
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import styles from "./Comment.module.css";
-import Reply from "./Reply";
-import { HiReply, HiTrash } from "react-icons/hi";
-//import IconButton from "@mui/material/IconButton";
-//import CommentIcon from '@mui/icons-material/Comment';
-import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import {useForm} from "react-hook-form";
 
-const Comment=({commentList, boardId, onCommentSubmit, type})=>{
+const Comment=({type, boardId, onCommentSubmit})=>{
 
     const{register,  setValue, handleSubmit, formState: {errors}}=useForm();
     const jwtToken = localStorage.getItem('jwtToken');
-    const currentUserId = jwt_decode(jwtToken).sub;
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwtToken}`,
     };
-    useEffect(()=>{
-        console.log(commentGroups);
-        console.log(currentUserId);
-    },[
-        commentList
-    ])
+
     //댓글 작성 함수
     const writeComment=data=>{
         console.log(data);
@@ -40,92 +29,10 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
             .catch(error => console.error(error));
 
     };
-
-    const commentGroups = {};
-    // 원댓글과 대댓글을 정확한 위치에 그룹화
-    commentList.forEach((comment) => {
-        if (!commentGroups[comment.parentId]) {
-            commentGroups[comment.parentId] = [];
-        }
-
-        // 원댓글과 대댓글을 적절한 위치에 추가
-        if (comment.parentId === null) {
-            commentGroups[comment.commentId] = [comment]; // 원댓글
-        } else {
-            if (!commentGroups[comment.parentId]) {
-                commentGroups[comment.parentId] = [];
-            }
-            commentGroups[comment.parentId].push(comment); // 대댓글
-        }
-    });
-    const CommentItem = ({ comment, boardId, onCommentSubmit, type }) => {
-        const [isReplyOpen, setReplyOpen] = useState(false);
-        //const isWriter = comment.memberId === currentUserId;
-
-
-        const handleCommentClick = () => {
-            setReplyOpen(prevState => !prevState);
-        };
-
-        const deleteComment = (commentId) => {
-            if(window.confirm('게시글을 삭제하시겠습니까?')){
-                axios.get(`http://localhost:8080/recruitment/${type}/${boardId}/${commentId}/delete`, {headers:headers}).then(()=>{
-                alert('댓글이 삭제되었습니다.');
-                onCommentSubmit();
-
-            }).catch(error=>console.error(error));}
-        };
-
-        return (
-            <div>
-                <li key={comment.commentId}
-                    className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
-                    <h2>{comment.nickname} 님</h2>
-                    <h3>{comment.content}</h3>
-                </li>
-                {comment.memberId==currentUserId?
-                    <HiTrash onClick={() => deleteComment(comment.commentId)}/>:null}
-                {comment.commentId === comment.parentId ?
-                    <div>
-                        <HiReply onClick={handleCommentClick}/>
-                        {isReplyOpen ? <Reply commentId={comment.commentId} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} /> : null}
-                    </div>
-                    : null
-                }
-            </div>
-        );
-    };
-
-   const RenderComments = (comments) => {
-
-       return comments.map((comment) => (
-           <CommentItem key={comment.commentId} comment={comment} boardId={boardId} onCommentSubmit={onCommentSubmit} type={type} />
-       ));
-    };
-
-
     const onError= errors=>console.log(errors);
     return (
-        <div className={styles.comment_row}>
-            <div className={styles.comment_list}>
-                <ul>
-                    {commentGroups[null] && RenderComments(commentGroups[null])}
-                    {Object.keys(commentGroups).map((parentId) => {
-                        if (parentId !== 'null') {
-                            return (
-                                <li key={parentId}>
-                                    <ul>{RenderComments(commentGroups[parentId])}
-                                    </ul>
-                                </li>
-                            );
-                        }
-                        return null;
-                    })}
-                </ul>
-            </div>
-            <div className={styles.comment_write}>
-                <form
-                    onSubmit={handleSubmit(writeComment,onError)}>
+        <form className={styles.comment_write}
+            onSubmit={handleSubmit(writeComment,onError)}>
                     <textarea
                         className={styles.textarea}
                         type="text"
@@ -133,12 +40,9 @@ const Comment=({commentList, boardId, onCommentSubmit, type})=>{
                         placeholder="댓글을 입력하세요"
                         {...register('content')}
                     />
-                    <button className={styles.btn_type + " " + styles.btn_primary} type="submit">댓글 작성</button>
-                </form>
-            </div>
-        </div>
+            <button className={styles.btn_type + " " + styles.btn_primary} type="submit">댓글 작성</button>
+        </form>
     );
-
 }
 
 export default Comment;

@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import styles from './Project_recruit_detail_page.module.css';
 import jwt_decode from "jwt-decode";
-import Comment from "../comment/Comment";
+import Comment_list from "../comment/Comment_list";
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
@@ -111,7 +111,7 @@ const Project_recruit_detail_page=
                         <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
                     </div>:
                    null}
-                <Comment commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"project"}/>
+                <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"project"}/>
             </div>
         </div>
 
