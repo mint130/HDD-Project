@@ -44,11 +44,12 @@ const Comment_list=({commentList, boardId, onCommentSubmit, type})=>{
     });
 
     const CommentItem = ({ comment, boardId, onCommentSubmit, type }) => {
-        const [isReplyOpen, setReplyOpen] = useState(false);
+        const [isReplyOpen, setReplyOpen] = useState(false);  //답글 창 열렸는 지 여부
         //답글 창 제어 함수
         const handleCommentClick = () => {
             setReplyOpen(prevState => !prevState);
         };
+
         //댓글 삭제 함수
         const deleteComment = (commentId) => {
             if(window.confirm('댓글을 삭제하시겠습니까?')){
@@ -70,7 +71,7 @@ const Comment_list=({commentList, boardId, onCommentSubmit, type})=>{
                         {comment.memberId==currentUserId?
                             <HiTrash className={styles.icon} onClick={() => deleteComment(comment.commentId)}/>
                             :null}
-                        {comment.commentId === comment.parentId ?
+                        {comment.commentId === comment.parentId && comment.memberId!=null?
                             <HiReply className={styles.icon} onClick={handleCommentClick}/>
                             :null}
                     </div>
