@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Project_recruit_detail_page from "../components/recruit/project/Project_recruit_detail_page";
+import Project_recruit_detail_page from "../components/recruit/detail/Project_recruit_detail_page";
 
 //게시글 상세
 const Project_recruit_detail = () => {
