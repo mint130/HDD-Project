@@ -5,8 +5,6 @@ import {useNavigate} from "react-router-dom";
 import styles from "./Comment.module.css";
 import Reply from "./Reply";
 import { HiReply, HiTrash } from "react-icons/hi";
-//import IconButton from "@mui/material/IconButton";
-//import CommentIcon from '@mui/icons-material/Comment_list';
 import jwt_decode from "jwt-decode";
 import Comment from "./Comment";
 const Comment_list=({commentList, boardId, onCommentSubmit, type})=>{
