@@ -2,13 +2,13 @@ import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import styles from "./Roommate_recurit_board.module.css";
 import {Link, useNavigate} from 'react-router-dom';
-import Select from "react-select";
+import Roommate_recruit_search from "../search/Roommate_recruit_search";
+import {setBatch} from "react-redux/es/utils/batch";
 
 //게시판 글 목록
 function Roommate_recruit_board(){
     const navigate = useNavigate();
     const [boardList, setBoardList] = useState([]);
-
 
 
     const navigateToWritePage = () => {
@@ -31,6 +31,21 @@ function Roommate_recruit_board(){
         }
     }
 
+    const getSearchBoardList= async (searchParams)=>{
+        try{
+            console.log(searchParams);
+            const resp=await axios.get('http://localhost:8080/recruitment/roommate/search',{
+                params:searchParams,
+                headers: headers}
+             );
+            setBoardList(resp.data);
+            console.log(resp.data);
+        }
+        catch (e) {
+
+        }
+
+    }
 
     useEffect(() => {
         getBoardList(); // 페이지 진입 시 getBoardList 호출
@@ -48,6 +63,7 @@ function Roommate_recruit_board(){
         <div className={styles.container}>
             <h1 className={styles.title}>룸메이트 구인</h1>
             <div className={styles.content}>
+                <Roommate_recruit_search onSearch={getSearchBoardList}/>
                 <table>
                     <thead>
                     <tr>

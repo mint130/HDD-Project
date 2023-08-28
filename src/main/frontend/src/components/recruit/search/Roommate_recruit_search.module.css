@@ -1,0 +1,20 @@
+.search{
+    margin-bottom: 20px;
+    display: block;
+    border: solid 1px #dadada;
+}
+.row{
+    padding-right: 10px;
+    font-size: 16px;
+    /*flex-direction: row;
+    align-items: center;*/
+
+}
+.item{
+    float:left;
+}
+
+.select{
+    width: 80px;
+    font-size: 14px;
+}
