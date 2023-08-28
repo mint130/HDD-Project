@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Roommate_recruit_detail_page from "../components/recruit/roommate/Roommate_recruit_detail_page";
+import Roommate_recruit_detail_page from "../components/recruit/detail/Roommate_recruit_detail_page";
 
 //게시글 상세
 const Roommate_recruit_detail=()=>{

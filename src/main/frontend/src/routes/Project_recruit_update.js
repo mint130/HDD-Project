@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import styles from "../components/recruit/project/Project_recruit_write.module.css";
+import styles from "../components/recruit/write/Project_recruit_write.module.css"
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "../components/recruit/datepicker.css";
