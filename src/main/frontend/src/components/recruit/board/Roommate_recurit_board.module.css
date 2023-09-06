@@ -20,7 +20,6 @@ thead{
 
 }
 .icon{
-
     display: inline-flex;
     align-items: center;
 }
@@ -54,9 +53,9 @@ td {
 .btn_area{
     display: flex;
     -webkit-box-pack: center;
-    justify-content: center;
+    justify-content: flex-end;
     border-top: 1px solid rgb(247, 247, 247);
-    padding: 40px 0px;
+    padding: 20px 0px;
 }
 .btn_primary{
     color: #fff;
@@ -70,18 +69,14 @@ td {
 }
 .btn_type{
     display: block;
-
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
     text-align: center;
     cursor: pointer;
     box-sizing: border-box;
     border-radius: 15px;
-    width: 105px;
-    height: 50px;
-    padding: 15px 28px;
-    justify-content: center;
-    align-items: center;
+    width: 100px;
+    padding: 12px;
+
 
 }
 .search_area{
