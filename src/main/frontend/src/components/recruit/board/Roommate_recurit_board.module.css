@@ -19,6 +19,11 @@ thead{
     background: #EEEFF1;
 
 }
+.icon{
+
+    display: inline-flex;
+    align-items: center;
+}
 .title{
     padding-top:20px;
     padding-bottom: 20px;
@@ -28,7 +33,10 @@ thead{
     color: #000000;
 }
 
-
+.title_area{
+    display: flex;
+    justify-content: space-between;
+}
 tr {
     cursor: pointer;
     border-bottom: 1px solid rgba(0, 0, 0, 0.80);
@@ -75,4 +83,20 @@ td {
     justify-content: center;
     align-items: center;
 
+}
+.search_area{
+    display: flex;
+    align-items: center;
+}
+.btn_search{
+    display: block;
+    width: 100px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 3px;
 }
