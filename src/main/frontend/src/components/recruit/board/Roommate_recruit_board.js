@@ -4,11 +4,17 @@ import styles from "./Roommate_recurit_board.module.css";
 import {Link, useNavigate} from 'react-router-dom';
 import Roommate_recruit_search from "../search/Roommate_recruit_search";
 import {setBatch} from "react-redux/es/utils/batch";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 
 //게시판 글 목록
 function Roommate_recruit_board(){
     const navigate = useNavigate();
     const [boardList, setBoardList] = useState([]);
+    const [search, setSearch]=useState(false);
+
+    const onClickSearch=(e)=>{
+        setSearch(prevState => prevState ? false : true);
+    };
 
 
     const navigateToWritePage = () => {
@@ -30,6 +36,7 @@ function Roommate_recruit_board(){
             navigate("/api/auth/signin");
         }
     }
+
 
     const getSearchBoardList= async (searchParams)=>{
         try{
@@ -61,9 +68,30 @@ function Roommate_recruit_board(){
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>룸메이트 구인</h1>
+            <div className={styles.title_area}>
+                <h1 className={styles.title}>룸메이트 구인</h1>
+                <div className={styles.search_area}>
+                    <button className={styles.btn_search+" "+styles.btn_secondary}
+                            onClick={onClickSearch}>
+                        {search?
+                            <div className={styles.icon}>
+                            검색닫기
+                            <HiChevronUp className={styles.icon}/>
+                            </div>:
+                            <div>
+                            검색하기
+                            <HiChevronDown className={styles.icon}/>
+                        </div>}
+                    </button>
+                </div>
+
+
+            </div>
+
             <div className={styles.content}>
-                <Roommate_recruit_search onSearch={getSearchBoardList}/>
+                {search?
+                    <Roommate_recruit_search onSearch={getSearchBoardList}/>:
+                    null}
                 <table>
                     <thead>
                     <tr>
