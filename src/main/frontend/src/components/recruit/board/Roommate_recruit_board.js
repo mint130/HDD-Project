@@ -5,12 +5,16 @@ import {Link, useNavigate} from 'react-router-dom';
 import Roommate_recruit_search from "../search/Roommate_recruit_search";
 import {setBatch} from "react-redux/es/utils/batch";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
+import Pagination from "./Pagination";
 
 //게시판 글 목록
 function Roommate_recruit_board(){
     const navigate = useNavigate();
     const [boardList, setBoardList] = useState([]);
     const [search, setSearch]=useState(false);
+    const [limit, setLimit] = useState(10); //페이지 당 게시물 수
+    const [page, setPage] = useState(1);    //현재 페이지 번호
+    const offset = (page - 1) * limit;  //첫 게시물의 위치
 
     const onClickSearch=(e)=>{
         setSearch(prevState => prevState ? false : true);
@@ -78,7 +82,7 @@ function Roommate_recruit_board(){
                             검색닫기
                             <HiChevronUp className={styles.icon}/>
                             </div>:
-                            <div>
+                            <div className={styles.icon}>
                             검색하기
                             <HiChevronDown className={styles.icon}/>
                         </div>}
@@ -105,7 +109,7 @@ function Roommate_recruit_board(){
                     </tr>
                     </thead>
                     <tbody>
-                    {boardList.map((board) => (
+                    {boardList.slice(offset, offset+limit).map((board) => (
                         
                         <tr key={board.boardId} onClick={() => handleRowClick(board.boardId)}>
                             <td>{board.sex=="M"?"남":"여"}</td>
@@ -119,6 +123,12 @@ function Roommate_recruit_board(){
                     ))}
                     </tbody>
                 </table>
+                <Pagination
+                    total={boardList.length}
+                    limit={limit}
+                    page={page}
+                    setPage={setPage}
+                />
             </div>
             <div className={styles.btn_area}>
                 <button className={styles.btn_type + " " + styles.btn_primary} type="submit" onClick={navigateToWritePage}>글쓰기</button>

@@ -5,12 +5,15 @@ import { useNavigate, Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ko';
 import Select from "react-select";
+import Pagination from "./Pagination";
 
 //게시판 글 목록
 function Project_recruit_board(){
     const navigate = useNavigate();
     const [boardList, setBoardList] = useState([]);
-    const [pageList, setPageList]=useState([]);
+    const [limit, setLimit] = useState(5); //페이지 당 게시물 수
+    const [page, setPage] = useState(1);    //현재 페이지 번호
+    const offset = (page - 1) * limit;  //첫 게시물의 위치
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
@@ -44,7 +47,7 @@ function Project_recruit_board(){
             <h1 className={styles.title}>프로젝트 구인</h1>
             <div className={styles.content}>
                 <ul className={styles.row}>
-                    {boardList.map((board)=>{
+                    {boardList.slice(offset, offset+limit).map((board)=>{
                             let startDay = "";
                             if(board.startDay!=null){ startDay=moment(board.startDay).format('YYYY-MM-DD');}
                             let finishDay="";
@@ -73,6 +76,12 @@ function Project_recruit_board(){
                         }
                     )}
                 </ul>
+                <Pagination
+                    total={boardList.length}
+                    limit={limit}
+                    page={page}
+                    setPage={setPage}
+                />
             </div>
 
             <div className={styles.btn_area}>
