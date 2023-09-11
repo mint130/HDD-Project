@@ -38,8 +38,8 @@ function Roommate_recruit_search({ onSearch }) {
     };
 
     return (
-        <div className={styles.search}>
-            <div className={styles.search_area}>
+        <div className={styles.block}>
+            <div className={styles.table}>
                 <dl className={styles.column}>
                     <dt className={styles.item}>성별</dt>
                     <dd className={styles.content}>
