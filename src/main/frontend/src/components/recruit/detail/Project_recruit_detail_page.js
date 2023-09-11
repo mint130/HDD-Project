@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ko';
-import styles from './Project_recruit_detail_page.module.css';
+import styles from './Detail_page.module.css';
 import jwt_decode from "jwt-decode";
 import Comment_list from "../comment/Comment_list";
-import Bottom_Button from "./Bottom_Button";
+import Bottom_button from "./Bottom_button";
+import List from "./List";
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
@@ -41,6 +42,15 @@ const Project_recruit_detail_page=
                 });
             }
         }
+        const Writer_button=()=>{
+            return (
+                <div className={styles.btn_area}>
+                    <button  className={styles.btn_type + " " + styles.btn_primary} onClick={deleteBoard}>삭제</button>
+                    <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
+                    <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
+                </div>
+            );
+        }
         useEffect(() => {
             const currentUserId = jwt_decode(jwtToken).sub;
             //jwt decode 결과 :console.log(jwt_decode(jwtToken));
@@ -61,36 +71,11 @@ const Project_recruit_detail_page=
             <div className={styles.container} >
             <h1 className={styles.title}>프로젝트 구인</h1>
             <div className={styles.content}>
-                <div className={styles.row}>
-                    <div className={styles.list}>
-                        <label htmlFor="title">제목</label>
-                    </div>
-                    {title}
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.list}>
-                        <label htmlFor="major">과</label>
-                    </div>
-                    {major}과
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.list}>
-                        <label htmlFor="num">인원</label>
-                    </div>
-                    {num}명
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.list}>
-                        <label htmlFor="date">기간</label>
-                    </div>
-                    {dateRange}
-                </div>
-                <div className={styles.row}>
-                    <div className={styles.list}>
-                        <label htmlFor="grade">학년</label>
-                    </div>
-                    {grade===0?"기타":grade+"학년"}
-                </div>
+                <List label={'제목'} item={title}/>
+                <List label={'과'} item={major+'과'}/>
+                <List label={'인원'} item={num+'명'}/>
+                <List label={'기간'} item={dateRange}/>
+                <List label={'학년'} item={grade===0?'기타':grade+'학년'}/>
                 <div className={styles.row}>
                     <div className={styles.list}>
                         <label htmlFor="info">추가 내용</label>
@@ -105,17 +90,13 @@ const Project_recruit_detail_page=
                     <div className={styles.wrap}><a href={openChat}>{openChat}</a> </div>
                 </div>
                 {recruited==false&&isWriter==true?
-                    <div className={styles.btn_area}>
-                        <button  className={styles.btn_type + " " + styles.btn_primary} onClick={deleteBoard}>삭제</button>
-                        <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
-                        <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
-                    </div>:
-                   null}
+                    <Writer_button /> :
+                    null}
                 <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"project"}/>
             </div>
 
         </div>
-            <Bottom_Button url={openChat}/>
+            {recruited==false? <Bottom_button url={openChat}/> : null}
         </div>
 
     );

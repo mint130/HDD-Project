@@ -2,6 +2,7 @@
 .container{
     width: 720px;
     margin: 0px auto;
+    padding-bottom: 120px;
 }
 .wrap{
     display: block;
@@ -23,7 +24,7 @@
 .row{
     display: inline-flex;
     width: 100%;
-    padding: 12px 20px;
+    padding: 14px 20px;
     font-size: 16px;
     flex-direction: row;
     align-items: center;
