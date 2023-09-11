@@ -17,7 +17,7 @@ function Roommate_recruit_board(){
     const offset = (page - 1) * limit;  //첫 게시물의 위치
 
     const onClickSearch=(e)=>{
-        setSearch(prevState => prevState ? false : true);
+        setSearch(!search);
     };
 
 
@@ -50,10 +50,9 @@ function Roommate_recruit_board(){
                 headers: headers}
              );
             setBoardList(resp.data);
-            console.log(resp.data);
         }
         catch (e) {
-
+            console.log(e);
         }
 
     }
@@ -70,10 +69,44 @@ function Roommate_recruit_board(){
 
     }
 
+    function reload(){
+        window.location.reload();
+    }
+
+    const Table=()=>{
+        return (
+            <table>
+            <thead>
+            <tr>
+                <th>성별</th>
+                <th>학년</th>
+                <th>유형</th>
+                <th>국적</th>
+                <th>흡연 여부</th>
+                <th>내용</th>
+                <th>구인 상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            {boardList.slice(offset, offset+limit).map((board) => (
+                <tr key={board.boardId} onClick={() => handleRowClick(board.boardId)}>
+                    <td>{board.sex=="M"?"남":"여"}</td>
+                    <td>{board.grade==0?"기타":board.grade+"학년"}</td>
+                    <td>{board.dormType==0?"자취":board.dormType+"기숙사"}</td>
+                    <td>{board.korean==true?"내국인":"외국인"}</td>
+                    <td>{board.smoke==true?"흡연":"비흡연"}</td>
+                    <td>{board.pattern}</td>
+                    <td>{board.recruited==false?"구인 중":"구인 완료"}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>)
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title_area}>
-                <h1 className={styles.title}>룸메이트 구인</h1>
+                <h1 className={styles.title} onClick={reload}>룸메이트 구인</h1>
                 <div className={styles.search_area}>
                     <button className={styles.btn_search+" "+styles.btn_secondary}
                             onClick={onClickSearch}>
@@ -88,41 +121,16 @@ function Roommate_recruit_board(){
                         </div>}
                     </button>
                 </div>
-
-
             </div>
 
             <div className={styles.content}>
-                {search?
-                    <Roommate_recruit_search onSearch={getSearchBoardList}/>:
-                    null}
-                <table>
-                    <thead>
-                    <tr>
-                        <th>성별</th>
-                        <th>학년</th>
-                        <th>유형</th>
-                        <th>국적</th>
-                        <th>흡연 여부</th>
-                        <th>내용</th>
-                        <th>구인 상태</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {boardList.slice(offset, offset+limit).map((board) => (
-                        
-                        <tr key={board.boardId} onClick={() => handleRowClick(board.boardId)}>
-                            <td>{board.sex=="M"?"남":"여"}</td>
-                            <td>{board.grade==0?"기타":board.grade+"학년"}</td>
-                            <td>{board.dormType==0?"자취":board.dormType+"기숙사"}</td>
-                            <td>{board.korean==true?"내국인":"외국인"}</td>
-                            <td>{board.smoke==true?"흡연":"비흡연"}</td>
-                            <td>{board.pattern}</td>
-                            <td>{board.recruited==false?"구인 중":"구인 완료"}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
+                <div className={`${styles.search_block_area} ${search ? styles.open : ''}`}>
+                   <Roommate_recruit_search onSearch={getSearchBoardList} />
+                </div>
+                {boardList.length!=0?
+                    <Table />:
+                    <h2>검색 결과가 없습니다</h2>
+                }
                 <Pagination
                     total={boardList.length}
                     limit={limit}

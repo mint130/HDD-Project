@@ -1,11 +1,12 @@
-.search{
+.block{
     margin-bottom: 20px;
     display: block;
     width: inherit;
     border: solid 1px #dadada;
 }
-.search_area{
+.table{
     display: inline-block;
+    width:900px;
     text-align: center;
 }
 .column{

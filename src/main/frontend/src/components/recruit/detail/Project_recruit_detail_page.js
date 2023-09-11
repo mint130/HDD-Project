@@ -6,6 +6,7 @@ import 'moment/locale/ko';
 import styles from './Project_recruit_detail_page.module.css';
 import jwt_decode from "jwt-decode";
 import Comment_list from "../comment/Comment_list";
+import Bottom_Button from "./Bottom_Button";
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
@@ -14,7 +15,6 @@ const Project_recruit_detail_page=
         const jwtToken = localStorage.getItem('jwtToken');
         const [isWriter, setIsWriter]=useState(false);
         const [dateRange, setDateRange]=useState('');
-        const [newGrade, setNewGrade]=useState('');
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`,
@@ -52,13 +52,13 @@ const Project_recruit_detail_page=
             } else {
                 setDateRange("미정");
             }
-            if(grade===0) setNewGrade('기타'); else setNewGrade(grade+"학년");
         }, []);
 
 
 
     return (
-        <div className={styles.container} >
+        <div>
+            <div className={styles.container} >
             <h1 className={styles.title}>프로젝트 구인</h1>
             <div className={styles.content}>
                 <div className={styles.row}>
@@ -89,7 +89,7 @@ const Project_recruit_detail_page=
                     <div className={styles.list}>
                         <label htmlFor="grade">학년</label>
                     </div>
-                    {newGrade}
+                    {grade===0?"기타":grade+"학년"}
                 </div>
                 <div className={styles.row}>
                     <div className={styles.list}>
@@ -113,6 +113,9 @@ const Project_recruit_detail_page=
                    null}
                 <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"project"}/>
             </div>
+
+        </div>
+            <Bottom_Button url={openChat}/>
         </div>
 
     );

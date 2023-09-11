@@ -42,6 +42,11 @@ function Project_recruit_board(){
         navigate("/recruitment/project/write");
     };
 
+
+    function reload(){
+        window.location.reload();
+    }
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>프로젝트 구인</h1>
