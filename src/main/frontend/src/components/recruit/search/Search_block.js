@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from "./Roommate_recruit_search.module.css"
-function Roommate_recruit_search({ onSearch }) {
-
-
+import styles from "./Search_block.module.css"
+function Search_block({ onSearch }) {
     const [searchParams, setSearchParams] = useState({
         sex: "M", dormType: null, smoke: false
     });
@@ -83,4 +81,4 @@ function Roommate_recruit_search({ onSearch }) {
     );
 }
 
-export default Roommate_recruit_search;
+export default Search_block;

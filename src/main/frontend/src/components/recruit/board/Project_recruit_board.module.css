@@ -27,6 +27,11 @@
 .content{
 }
 
+.title_area{
+    display: flex;
+    justify-content: space-between;
+}
+
 .title{
     padding-top: 20px;
     padding-bottom: 20px;
@@ -41,6 +46,10 @@
     width: 620px;
     padding: 10px 0px 10px 0px;
     background: #fff;
+}
+.search_area{
+    display: flex;
+    align-items: center;
 }
 
 .column_right{

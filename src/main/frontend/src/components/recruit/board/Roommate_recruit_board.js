@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import styles from "./Roommate_recurit_board.module.css";
 import {Link, useNavigate} from 'react-router-dom';
-import Roommate_recruit_search from "../search/Roommate_recruit_search";
+import Search_block from "../search/Search_block";
 import {setBatch} from "react-redux/es/utils/batch";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import Pagination from "./Pagination";
@@ -16,7 +16,7 @@ function Roommate_recruit_board(){
     const [page, setPage] = useState(1);    //현재 페이지 번호
     const offset = (page - 1) * limit;  //첫 게시물의 위치
 
-    const onClickSearch=(e)=>{
+    const onClickSearch=()=>{
         setSearch(!search);
     };
 
@@ -122,10 +122,9 @@ function Roommate_recruit_board(){
                     </button>
                 </div>
             </div>
-
             <div className={styles.content}>
                 <div className={`${styles.search_block_area} ${search ? styles.open : ''}`}>
-                   <Roommate_recruit_search onSearch={getSearchBoardList} />
+                   <Search_block onSearch={getSearchBoardList} />
                 </div>
                 {boardList.length!=0?
                     <Table />:

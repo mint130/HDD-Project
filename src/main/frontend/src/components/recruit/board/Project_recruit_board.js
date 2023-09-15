@@ -4,9 +4,8 @@ import styles from "./Project_recruit_board.module.css";
 import { useNavigate, Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ko';
-import Select from "react-select";
 import Pagination from "./Pagination";
-
+import Search_bar from "../search/Search_bar";
 //게시판 글 목록
 function Project_recruit_board(){
     const navigate = useNavigate();
@@ -32,6 +31,15 @@ function Project_recruit_board(){
         }
     }
 
+
+    const getSearchBoardList = (search) => {
+
+        const filterMajorList = boardList.filter((p) => {
+            return p.major.includes(search)+p.title.includes(search)+p.info.includes(search)
+        })
+        setBoardList(filterMajorList)
+    }
+
     useEffect(() => {
         getBoardList(); // 페이지 진입 시 getBoardList 호출
 
@@ -47,40 +55,58 @@ function Project_recruit_board(){
         window.location.reload();
     }
 
+    const Board=()=>{
+        return (
+            <ul className={styles.row}>
+                {boardList.slice(offset, offset+limit).map((board)=>{
+                        let startDay = "";
+                        if(board.startDay!=null){ startDay=moment(board.startDay).format('YYYY-MM-DD');}
+                        let finishDay="";
+                        if(board.finishDay!=null){finishDay=moment(board.finishDay).format('YYYY-MM-DD');}
+                        const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
+                        return (
+                            <div>
+                                <div className={styles.column}>
+                                    <li className={styles.column_left} key={board.boardId}>
+                                        <Link to={`/recruitment/project/${board.boardId}`}>
+                                            <h1 className={styles.post_title}>{board.title}</h1>
+                                            <div className={styles.post_content}>
+                                                <span className={styles.post_variable}>{board.major+"과"}</span>
+                                                <span className={styles.post_variable}> {board.grade==0?"기타":board.grade+"학년"}</span>
+                                                <span className={styles.post_variable}> {board.num+"명"}</span>
+                                                <span className={styles.post_variable}> {dateRange}</span>
+                                                <span className={styles.post_variable}> {board.info}</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                    <div className={styles.column_right}><h4>{board.recruited==false?"구인 중":"구인 완료"}</h4></div>
+                                </div>
+                                <hr></hr>
+                            </div>
+                        );
+                    }
+                )}
+            </ul>
+        );
+
+
+    }
+
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>프로젝트 구인</h1>
+            <div className={styles.title_area}>
+                <h1 className={styles.title} onClick={reload}>프로젝트 구인</h1>
+                <div className={styles.search_area}>
+                    <Search_bar onSearch={getSearchBoardList} />
+                </div>
+
+            </div>
+
             <div className={styles.content}>
-                <ul className={styles.row}>
-                    {boardList.slice(offset, offset+limit).map((board)=>{
-                            let startDay = "";
-                            if(board.startDay!=null){ startDay=moment(board.startDay).format('YYYY-MM-DD');}
-                            let finishDay="";
-                            if(board.finishDay!=null){finishDay=moment(board.finishDay).format('YYYY-MM-DD');}
-                            const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
-                            return (
-                                <div>
-                                    <div className={styles.column}>
-                                        <li className={styles.column_left} key={board.boardId}>
-                                            <Link to={`/recruitment/project/${board.boardId}`}>
-                                                <h1 className={styles.post_title}>{board.title}</h1>
-                                                <div className={styles.post_content}>
-                                                    <span className={styles.post_variable}>{board.major+"과"}</span>
-                                                    <span className={styles.post_variable}> {board.grade==0?"기타":board.grade+"학년"}</span>
-                                                    <span className={styles.post_variable}> {board.num+"명"}</span>
-                                                    <span className={styles.post_variable}> {dateRange}</span>
-                                                    <span className={styles.post_variable}> {board.info}</span>
-                                                </div>
-                                            </Link>
-                                        </li>
-                                        <div className={styles.column_right}><h4>{board.recruited==false?"구인 중":"구인 완료"}</h4></div>
-                                    </div>
-                                    <hr></hr>
-                                </div>
-                            );
-                        }
-                    )}
-                </ul>
+                {boardList.length!=0?
+                <Board/>
+                :
+                <h2>검색결과가 없습니다</h2>}
                 <Pagination
                     total={boardList.length}
                     limit={limit}
