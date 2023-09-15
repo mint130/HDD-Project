@@ -6,6 +6,8 @@ import styles from "./Comment.module.css";
 import Reply from "./Reply";
 import { HiReply, HiTrash } from "react-icons/hi";
 import jwt_decode from "jwt-decode";
+import moment from 'moment';
+import 'moment/locale/ko';
 import Comment from "./Comment";
 const Comment_list=({commentList, boardId, onCommentSubmit, type})=>{
 
@@ -61,7 +63,10 @@ const Comment_list=({commentList, boardId, onCommentSubmit, type})=>{
             <div className={styles.comment_row}>
                 <li key={comment.commentId}
                     className={`${comment.commentId === comment.parentId ? styles.original_comment : styles.reply_comment}`}>
-                    <h2>{comment.nickname} 님</h2>
+                    <div className={styles.comment_title}>
+                        <h2>{comment.nickname} 님</h2>
+                        <span className={styles.comment_time}>{moment(comment.created).format('YYYY-MM-DD HH:mm')}</span>
+                    </div>
                     <h3>{comment.content}</h3>
 
 
