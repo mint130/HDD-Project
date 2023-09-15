@@ -117,8 +117,6 @@ function Project_recruit_board(){
 
             <div className={styles.btn_area}>
                 <button className={styles.btn_type + " " + styles.btn_primary} type="submit" onClick={navigateToWritePage}>글쓰기</button>
-
-
             </div>
         </div>
     );
