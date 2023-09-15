@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from "./Roommate_recruit_detail_page.module.css"
+import styles from './Detail_page.module.css';
 import jwt_decode from "jwt-decode";
 import Comment_list from "../comment/Comment_list";
-import Bottom_Button from "./Bottom_Button";
+import Bottom_button from "./Bottom_button";
+import List from "./List";
+
 //게시글 상세 페이지
-const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onCommentSubmit})=>{
+const Roommate_recruit_detail_page=(
+    {boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onCommentSubmit})=>{
     const navigate = useNavigate();
     const jwtToken = localStorage.getItem('jwtToken');
     const [isWriter, setIsWriter]=useState(false);
@@ -36,6 +39,18 @@ const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, 
             });
         }
     }
+
+    const Writer_button=()=>{
+        return (
+            <div className={styles.btn_area}>
+                <button  className={styles.btn_type + " " + styles.btn_primary} onClick={deleteBoard}>삭제</button>
+                <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
+                <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
+            </div>
+        );
+    }
+
+
     useEffect(() => {
         //console.log(commentList);
         const currentUserId = jwt_decode(jwtToken).sub;
@@ -47,36 +62,11 @@ const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, 
             <div className={styles.container} >
                 <h1 className={styles.title}>룸메이트 구인</h1>
                 <div className={styles.content}>
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="sex">성별</label>
-                        </div>
-                        {sex=='M'?"남":"여"}
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="grade">학년</label>
-                        </div>
-                        {grade==0?"기타":grade+"학년"}
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="dormType">유형</label>
-                        </div>
-                        {dormType==0?"자취":dormType+"기숙사"}
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="korean">국적</label>
-                        </div>
-                        {korean==true?"내국인":"외국인"}
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="smoke">흡연 여부</label>
-                        </div>
-                        {smoke==true?"흡연":"비흡연"}
-                    </div>
+                    <List label={'성별'} item={sex=='M'?"남":"여"}/>
+                    <List label={'학년'} item={grade==0?"기타":grade+"학년"}/>
+                    <List label={'유형'} item={dormType==0?"자취":dormType+"기숙사"}/>
+                    <List label={'국적'} item={korean==true?"내국인":"외국인"}/>
+                    <List label={'흡연 여부'} item={smoke==true?"흡연":"비흡연"}/>
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor="pattern">생활 패턴</label>
@@ -98,19 +88,13 @@ const Roommate_recruit_detail_page=({boardId, created, memberId, dormType, sex, 
                         <div className={styles.wrap}><a href={openChat}>{openChat}</a> </div>
                     </div>
                     {recruited==false&&isWriter==true?
-                        <div className={styles.btn_area}>
-                            <button  className={styles.btn_type + " " + styles.btn_primary} onClick={deleteBoard}>삭제</button>
-                            <button  className={styles.btn_type + " " + styles.btn_primary} onClick={moveToUpdate}>수정</button>
-                            <button className={styles.btn_type + " " + styles.btn_primary} onClick={closeBoard}>마감하기</button>
-                        </div>:
+                        <Writer_button /> :
                         null}
-                    <div>
-                        <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
+                    <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
 
-                    </div>
                 </div>
             </div>
-            <Bottom_Button url={openChat}/>
+            {recruited==false? <Bottom_button url={openChat}/> : null}
         </div>
 
     );

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {HiOutlineLink,HiStar} from "react-icons/hi";
 import {useLocation} from "react-router-dom";
 
-function Bottom_Button({url}){
+function Bottom_button({url}){
 
     const location = useLocation();
     const handleCopyClipBoard = async (text: string) => {
@@ -130,4 +130,4 @@ const Container=styled.div`
     border-top: 1px solid #e8e8e8;
     padding: 16px;
 `
-export default Bottom_Button;
+export default Bottom_button;

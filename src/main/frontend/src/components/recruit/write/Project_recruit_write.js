@@ -110,7 +110,8 @@ function Project_recruit_write() {
                                     id="num"
                                     placeholder="인원을 입력하세요"
                                     {...register('num')}
-                                /></div>
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className={styles.row}>
