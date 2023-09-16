@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
-import styles from "./Signup.module.css";
+import styles from "./sign_up/Signup.module.css";
 
 function Promotion() {
 
