@@ -27,7 +27,7 @@ public class RestaurantMarkerService {
         });
     }
 
-    public List<RestaurantMarker> findMembers() {
+    public List<RestaurantMarker> findMarkers() {
         return restaurantMarkerRepository.findAll();
     }
 
