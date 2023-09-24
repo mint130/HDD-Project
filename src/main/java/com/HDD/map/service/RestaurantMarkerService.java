@@ -35,4 +35,20 @@ public class RestaurantMarkerService {
         return restaurantMarkerRepository.findById(memberId);
     }
 
+    public Long addLike(String storeName){
+        RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
+        int currentLikes = foundMarker.getLikes();
+        foundMarker.setLikes(currentLikes++);
+
+        return foundMarker.getId();
+    }
+
+    public Long addDislike(String storeName){
+        RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
+        int currentDislikes = foundMarker.getDislikes();
+        foundMarker.setLikes(currentDislikes++);
+
+        return foundMarker.getId();
+    }
+
 }

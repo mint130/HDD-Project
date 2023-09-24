@@ -18,7 +18,6 @@ public class RestaurantMarker {
     private String address;
     private String phoneNum;
     private int likes;
-
     private int dislikes;
 
     public Long getId() {
