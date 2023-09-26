@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class PromotionService {
-    private static final String COLLECTION_NAME = "PROMOTION";
+    private static final String COLLECTION_NAME = "Promotion";
     private final Firestore firestore = FirestoreClient.getFirestore();
 
     // 홍보 추가

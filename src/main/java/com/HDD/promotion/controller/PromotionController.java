@@ -14,12 +14,12 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/promotion")
-@PreAuthorize("hasRole('MEMBER')")
 public class PromotionController {
 
     private final PromotionService promotionService;
 
     @GetMapping()
+    @PreAuthorize("hasRole('MEMBER') or hasRole('ADMIN')")
     public ResponseEntity<?> getPromotions(@RequestParam(value = "hall", required = false) String hall) throws Exception {
         List<Promotion> promotionList;
         if (hall == null) {
@@ -32,6 +32,7 @@ public class PromotionController {
 
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addPromotion(@RequestBody Promotion promotion) throws Exception {
         promotionService.insertPromotion(promotion);
         return ResponseEntity.ok(new MessageResponse("추가되었습니다"));
