@@ -1,12 +1,14 @@
 package com.HDD.promotion.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Promotion {
     private String major;
     private String title;
