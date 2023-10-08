@@ -1,6 +1,7 @@
 package com.HDD.recruitment.controller;
 
 import com.HDD.management.webDto.MessageResponse;
+import com.HDD.recruitment.bookmark.service.BookmarkService;
 import com.HDD.recruitment.comment.model.Comment;
 import com.HDD.recruitment.comment.service.CommentService;
 import com.HDD.recruitment.model.RoommateBoard;
@@ -29,6 +30,7 @@ public class RMBoardController {
     private final RMBoardService boardService;
     private final FileService fileService;
     private final CommentService commentService;
+    private final BookmarkService bookmarkService;
 
     @PostConstruct
     public void init(){
@@ -49,9 +51,6 @@ public class RMBoardController {
     @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
         List<RoommateBoard> boardList = boardService.getBoardList();
-        for(RoommateBoard b : boardList){
-            System.out.println(b.getBoardId() + " " + b.getCreated());
-        }
         return ResponseEntity.ok(boardList);
     }
 
@@ -61,11 +60,33 @@ public class RMBoardController {
         return ResponseEntity.ok(boardList);
     }
 
-    @GetMapping(value = {"/{path}", "/{path}/update"})
-    public ResponseEntity<?> readBoard(@PathVariable String path) throws Exception {
+    @GetMapping("/{path}")
+    public ResponseEntity<?> readBoard(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String path, @RequestParam(required = false) String request) throws Exception {
         RoommateBoard board = boardService.getBoard(path);
         List<Comment> commentList = commentService.getComments(path);
-        return ResponseEntity.ok(new Result(board, commentList));
+
+        boolean isBookmarked = false;
+        if(bookmarkService.isBookmarkedR(userDetails.getUsername(), path)) isBookmarked = true;
+        System.out.println("request = " + request);
+        // 새로 클릭한 경우에만 DB 업데이트
+        if (request != null && request.equals("bookmark")) {
+            isBookmarked = !isBookmarked;
+            if (isBookmarked) {
+                System.out.println("북마크됨");
+                bookmarkService.addRoommateBookmark(userDetails.getUsername(), path);
+            }
+            else {
+                System.out.println("북마크 해제");
+                bookmarkService.removeRoommateBookmark(userDetails.getUsername(), path);
+            }
+        }
+        return ResponseEntity.ok(new Result(board, commentList, isBookmarked));
+    }
+
+    @GetMapping( "/{path}/update")
+    public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
+        RoommateBoard board = boardService.getBoard(path);
+        return ResponseEntity.ok(board);
     }
 
     @PostMapping("/{path}/update")
@@ -93,10 +114,12 @@ public class RMBoardController {
     static class Result {
         private RoommateBoard board;
         private List<Comment> comment;
+        private boolean bookmark;
 
-        public Result(RoommateBoard board, List<Comment> comment) {
+        public Result(RoommateBoard board, List<Comment> comment, boolean bookmark) {
             this.board = board;
             this.comment = comment;
+            this.bookmark = bookmark;
         }
     }
 }
