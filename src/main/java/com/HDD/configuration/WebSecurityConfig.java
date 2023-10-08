@@ -52,8 +52,8 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                .requestMatchers("/", "/home","/api/auth/**").permitAll()
+                .authorizeHttpRequests()
+                .requestMatchers("/", "/**", "/home","/api/auth/**").permitAll()
                 .requestMatchers("/promotion/add").hasRole("ADMIN")
 //                .requestMatchers("/recruitment/**", "/map/**").hasRole("MEMBER")
                 .anyRequest().authenticated();
