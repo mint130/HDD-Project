@@ -54,8 +54,8 @@ public class WebSecurityConfig extends BCryptPasswordEncoder {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .requestMatchers("/", "/home","/api/auth/**").permitAll()
-                .requestMatchers("/recruitment/**", "/promotion", "/map/**").hasRole("MEMBER")
                 .requestMatchers("/promotion/add").hasRole("ADMIN")
+//                .requestMatchers("/recruitment/**", "/map/**").hasRole("MEMBER")
                 .anyRequest().authenticated();
 
                 // 로그아웃 추가
