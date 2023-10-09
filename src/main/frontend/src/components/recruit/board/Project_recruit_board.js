@@ -6,9 +6,11 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import Pagination from "./Pagination";
 import Search_bar from "../search/Search_bar";
+import Board from "./Board";
 //게시판 글 목록
 function Project_recruit_board(){
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [boardList, setBoardList] = useState([]);
     const [limit, setLimit] = useState(5); //페이지 당 게시물 수
     const [page, setPage] = useState(1);    //현재 페이지 번호
@@ -24,6 +26,7 @@ function Project_recruit_board(){
             const resp = await axios.get('http://localhost:8080/recruitment/project', { headers: headers });
             setBoardList(resp.data);
             console.log(resp.data); // 콘솔에 데이터 출력
+            setLoading(false);
 
         } catch (error) {
             alert("로그인이 필요합니다.");
@@ -34,10 +37,10 @@ function Project_recruit_board(){
 
     const getSearchBoardList = (search) => {
 
-        const filterMajorList = boardList.filter((p) => {
+        const filterList = boardList.filter((p) => {
             return p.major.includes(search)+p.title.includes(search)+p.info.includes(search)
         })
-        setBoardList(filterMajorList)
+        setBoardList(filterList)
     }
 
     useEffect(() => {
@@ -55,42 +58,7 @@ function Project_recruit_board(){
         window.location.reload();
     }
 
-    const Board=()=>{
-        return (
-            <ul className={styles.row}>
-                {boardList.slice(offset, offset+limit).map((board)=>{
-                        let startDay = "";
-                        if(board.startDay!=null){ startDay=moment(board.startDay).format('YYYY-MM-DD');}
-                        let finishDay="";
-                        if(board.finishDay!=null){finishDay=moment(board.finishDay).format('YYYY-MM-DD');}
-                        const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
-                        return (
-                            <div>
-                                <div className={styles.column}>
-                                    <li className={styles.column_left} key={board.boardId}>
-                                        <Link to={`/recruitment/project/${board.boardId}`}>
-                                            <h1 className={styles.post_title}>{board.title}</h1>
-                                            <div className={styles.post_content}>
-                                                <span className={styles.post_variable}>{board.major+"과"}</span>
-                                                <span className={styles.post_variable}> {board.grade==0?"기타":board.grade+"학년"}</span>
-                                                <span className={styles.post_variable}> {board.num+"명"}</span>
-                                                <span className={styles.post_variable}> {dateRange}</span>
-                                                <span className={styles.post_variable}> {board.info}</span>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    <div className={styles.column_right}><h4>{board.recruited==false?"구인 중":"구인 완료"}</h4></div>
-                                </div>
-                                <hr></hr>
-                            </div>
-                        );
-                    }
-                )}
-            </ul>
-        );
 
-
-    }
 
     return (
         <div className={styles.container}>
@@ -103,10 +71,18 @@ function Project_recruit_board(){
             </div>
 
             <div className={styles.content}>
-                {boardList.length!=0?
-                <Board/>
-                :
-                <h2>검색결과가 없습니다</h2>}
+                {
+                    loading? <h2>Loading...</h2>:(
+                        boardList.length!=0
+                            ? 
+                            <Board
+                                boardList={boardList}
+                                offset={offset}
+                                limit={limit}/>
+                            : <h2>검색 결과가 없습니다</h2>   
+                        )
+
+                }
                 <Pagination
                     total={boardList.length}
                     limit={limit}

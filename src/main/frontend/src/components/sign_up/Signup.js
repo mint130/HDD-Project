@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import Main from './Main.js';
+import Main from '../Main.js';
 import { useNavigate } from 'react-router-dom';
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
