@@ -36,7 +36,7 @@ const Promotion_item = ({promotion}) => {
             <Content>
                 <li>위치: {promotion.hall+"동 "}{promotion.etc}</li>
                 <li>과: {promotion.major+"과"}</li>
-                <li>기간: {dateRange}</li>
+                <li>일시: {dateRange}</li>
             </Content>
 
         </Div>
