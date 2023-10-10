@@ -11,8 +11,8 @@ import Project_recruit_write from "./components/recruit/write/Project_recruit_wr
 import Main from './components/Main';
 import Header from './layout/header/Header';
 import Map from './components/MapPage';
-import Promotion from './components/recruit/promotion/Promotion'
-import Add_Promotion from "./components/recruit/promotion/Add_promotion";
+import Promotion from './components/promotion/Promotion'
+import Add_Promotion from "./components/promotion/Add_promotion";
 import Project_recruit_detail from "./routes/Project_recruit_detail";
 import Project_recruit_update from "./routes/Project_recruit_update";
 import Roommate_recruit_detail from "./routes/Roommate_recruit_detail";
