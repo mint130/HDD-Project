@@ -20,7 +20,10 @@ const Title = styled.h1`
     font-size: 40px;
     color: #000000;
 `
-
+const H2 = styled.h2`
+    padding-top: 20px;
+    padding-bottom: 20px;
+`
 function Promotion() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -81,7 +84,7 @@ function Promotion() {
                         (promotion)=>(
                             <Promotion_item promotion={promotion}/>
                         )
-                    ): <h2>등록된 게시물이 없습니다.</h2>
+                    ): <H2>등록된 게시물이 없습니다.</H2>
                 )
             }
             <button onClick={navigateToAddPage}>추가하기</button>
