@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
-import styles from "../../sign_up/Signup.module.css";
+import styles from "../sign_up/Signup.module.css";
 import DatePicker from "react-datepicker";
 import {useNavigate} from "react-router-dom";
 
@@ -23,14 +23,8 @@ function Add_Promotion() {
             title: data.title,
             start: startDate,
             finish: endDate,
-            hall: data.hall+"동",
+            hall: data.hall,
             etc: data.etc
-            //major: data.major,
-            //title: data.title,
-            //start: data.start,
-            //finish: data.finish,
-            //hall: data.hall,
-            //etc: data.etc
 
         }, {
             headers: headers,
