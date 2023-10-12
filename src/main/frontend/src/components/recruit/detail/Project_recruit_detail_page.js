@@ -11,7 +11,7 @@ import List from "./List";
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
-    ({boardId, memberId, title, major, num, startDay, finishDay, grade, info, openChat, created, recruited, commentList, onCommentSubmit})=>{
+    ({boardId, memberId, title, major, num, startDay, finishDay, grade, info, openChat, created, recruited, commentList, onSubmit, isBookmarked})=>{
         const navigate = useNavigate();
         const jwtToken = localStorage.getItem('jwtToken');
         const [isWriter, setIsWriter]=useState(false);
@@ -42,6 +42,7 @@ const Project_recruit_detail_page=
                 });
             }
         }
+
         const Writer_button=()=>{
             return (
                 <div className={styles.btn_area}>
@@ -52,6 +53,7 @@ const Project_recruit_detail_page=
             );
         }
         useEffect(() => {
+            console.log(isBookmarked);
             const currentUserId = jwt_decode(jwtToken).sub;
             //jwt decode 결과 :console.log(jwt_decode(jwtToken));
             if (memberId === currentUserId) setIsWriter(true);
@@ -92,11 +94,11 @@ const Project_recruit_detail_page=
                 {recruited==false&&isWriter==true?
                     <Writer_button /> :
                     null}
-                <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"project"}/>
+                <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onSubmit} type={"project"}/>
             </div>
 
         </div>
-            {recruited==false? <Bottom_button url={openChat}/> : null}
+            {recruited==false? <Bottom_button onButtonSubmit={onSubmit} isBookmarked={isBookmarked} url={openChat}/> : null}
         </div>
 
     );

@@ -1,10 +1,20 @@
 import styled from "styled-components";
 import {HiOutlineLink,HiStar} from "react-icons/hi";
 import {useLocation} from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
 
-function Bottom_button({url}){
+function Bottom_button({url, isBookmarked, onButtonSubmit}){
+    const jwtToken = localStorage.getItem('jwtToken');
 
     const location = useLocation();
+    const pathname=location.pathname.split('/');
+    const id=pathname[3];   //문서 id
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwtToken}`,
+    };
+
     const handleCopyClipBoard = async (text: string) => {
         try {
             await navigator.clipboard.writeText(text);
@@ -18,13 +28,50 @@ function Bottom_button({url}){
         window.open(url, '_blank')
     }
 
+    const handleBookmark = async ()=>{
+        console.log(id+" "+isBookmarked);
+        //isBookmarked==false?
+        //    addBookmark():deleteBookmark();
+        axios.get(`http://localhost:8080${location.pathname}`, {
+            params:{
+                request: "bookmark"
+            },
+            headers: headers}).then(()=>{
+            isBookmarked==true?alert('북마크가 삭제되었습니다.'):alert('북마크가 등록되었습니다.');
+            onButtonSubmit();
+        }).catch(error=>console.error(error));
+    }
+
+   /* const deleteBookmark=()=>{
+        if(window.confirm('북마크를 삭제하시겠습니까?')){
+            axios.get(`http://localhost:8080/${location.pathname}`, {
+                params:{
+                    request: "bookmark"
+                },
+                headers: headers}).then(()=>{
+                alert('북마크가 삭제되었습니다.');
+            }).catch(error=>console.error(error));
+        }
+    }
+    const addBookmark=()=>{
+        if(window.confirm('북마크를 등록하시겠습니까?')){
+            axios.get(`http://localhost:8080/${location.pathname}`, {
+                params:{
+                    request: "bookmark"
+                },
+                headers: headers}).then(()=>{
+                alert('북마크가 등록되었습니다.');
+            }).catch(error=>console.error(error));
+        }
+    }*/
+
     return (
         <Div>
             <Container>
                 <Link_Button onClick={() => handleCopyClipBoard(`http://localhost:3000${location.pathname}`)}>
                     <HiOutlineLink className="icon" />
                 </Link_Button>
-                <Bookmark_Button className="Bookmark_Button">
+                <Bookmark_Button isBookmarked={isBookmarked} onClick={handleBookmark} className="Bookmark_Button">
                     <HiStar className="icon" />
                 </Bookmark_Button>
                 <OpenChatting_Button onClick={() => handleOpenChattingTap(url)}>
@@ -46,15 +93,15 @@ const Bookmark_Button = styled.button`
     cursor: pointer;
     box-sizing: border-box;
     border-radius: 8px;
-    color: #013B70;
-    background-color: rgb(255, 255, 255);
+    color: ${(props)=>(props.isBookmarked==false? '#013B70':'#ffffff')};
+    background-color: ${(props) => (props.isBookmarked==false ? '#ffffff': '#013b70')};
     border: 1px solid #013B70;
     
     &:hover {
     cursor: pointer;
-    color: #fff;
-    background-color: #013B70;
-    border: solid 1px rgba(0,0,0,.08);
+    color: ${(props)=>(props.isBookmarked==false? '#ffffff':"#013b70")};
+    background-color: ${(props)=>(props.isBookmarked==false? '#013B70':'#ffffff')};
+    border: ${(props)=>(props.isBookmarked==false? 'solid 1px rgba(0,0,0,.08);':'solid 1px #013B70;')};
     
   }
   

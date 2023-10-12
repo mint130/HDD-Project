@@ -9,7 +9,7 @@ import List from "./List";
 
 //게시글 상세 페이지
 const Roommate_recruit_detail_page=(
-    {boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onCommentSubmit})=>{
+    {boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onSubmit, isBookmarked})=>{
     const navigate = useNavigate();
     const jwtToken = localStorage.getItem('jwtToken');
     const [isWriter, setIsWriter]=useState(false);
@@ -90,11 +90,11 @@ const Roommate_recruit_detail_page=(
                     {recruited==false&&isWriter==true?
                         <Writer_button /> :
                         null}
-                    <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onCommentSubmit} type={"roommate"}/>
+                    <Comment_list commentList={commentList} boardId={boardId} onCommentSubmit={onSubmit} type={"roommate"}/>
 
                 </div>
             </div>
-            {recruited==false? <Bottom_button url={openChat}/> : null}
+            {recruited==false? <Bottom_button url={openChat} onButtonSubmit={onSubmit} isBookmarked={isBookmarked}/> : null}
         </div>
 
     );

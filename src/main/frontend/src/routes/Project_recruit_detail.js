@@ -9,6 +9,7 @@ const Project_recruit_detail = () => {
     const [loading, setLoading] = useState(true);
     const [board, setBoard] = useState({});
     const [commentList, setCommentList]=useState([]);
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
@@ -19,8 +20,10 @@ const Project_recruit_detail = () => {
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/project/${boardId}`,{headers:headers});
+            //console.log(resp.data);
             setBoard(resp.data.board);
             setCommentList(resp.data.comment);
+            setIsBookmarked(resp.data.bookmark);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching board:', error);
@@ -31,7 +34,7 @@ const Project_recruit_detail = () => {
     useEffect(() => {
         getBoard();
     }, []);
-    const handleCommentSubmit = async () => {
+    const handleSubmit = async () => {
         // 댓글 작성 후 실행할 함수
         await getBoard(); // 데이터 다시 로드
     };
@@ -52,7 +55,8 @@ const Project_recruit_detail = () => {
                         info={board.info}
                         openChat={board.openChat}
                         commentList={commentList}
-                        onCommentSubmit={handleCommentSubmit}
+                        isBookmarked={isBookmarked}
+                        onSubmit={handleSubmit}
                     />
                 )}
         </div>
