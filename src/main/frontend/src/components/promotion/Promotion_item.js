@@ -8,8 +8,18 @@ const Div = styled.div`
     //box-shadow: 5px 5px 0px 0px #000;
     padding: 10px;
     margin: 10px 0px 0px 0px;
+    display: flex;
+    align-items: center;
 `
+const Text = styled.div`
 
+`
+const Image = styled.div`
+    width: 150px;
+    height: 200px;
+    background-color: #d9d9d9; 
+    margin: 0px 10px 0px 0px;
+`
 const Title = styled.div`
     display: inline-flex;
     padding: 5px 16px;
@@ -17,12 +27,12 @@ const Title = styled.div`
     border: 1px solid #000;
 `
 const Content = styled.div`
-    margin: 10px;
+    margin: 10px 0px 10px 0px;
     font-size: 16px;
     
 `
 const Li = styled.li`
-    padding: 2px;
+    padding: 1px;
 `
 const Promotion_item = ({promotion}) => {
     let startDay = "";
@@ -32,12 +42,18 @@ const Promotion_item = ({promotion}) => {
     const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
     return (
         <Div>
-            <Title><h2>{promotion.title}</h2></Title>
-            <Content>
-                <li>위치: {promotion.hall+"동 "}{promotion.etc}</li>
-                <li>과: {promotion.major+"과"}</li>
-                <li>일시: {dateRange}</li>
-            </Content>
+            <Image>
+                포스터
+            </Image>
+            <Text>
+                <Title><h2>{promotion.title}</h2></Title>
+                <Content>
+                    <Li>위치: {promotion.hall+"동 "}{promotion.etc}</Li>
+                    <Li>과: {promotion.major+"과"}</Li>
+                    <Li>일시: {dateRange}</Li>
+                </Content>
+            </Text>
+
 
         </Div>
 
