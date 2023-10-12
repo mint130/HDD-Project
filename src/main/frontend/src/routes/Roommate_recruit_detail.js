@@ -9,6 +9,7 @@ const Roommate_recruit_detail=()=>{
     const [loading, setLoading] = useState(true);
     const [board, setBoard] = useState({});
     const [commentList, setCommentList]=useState([]);
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
@@ -21,7 +22,7 @@ const Roommate_recruit_detail=()=>{
             const resp = await axios.get(`http://localhost:8080/recruitment/roommate/${boardId}`,{headers:headers});
             setBoard(resp.data.board);
             setCommentList(resp.data.comment);
-
+            setIsBookmarked(resp.data.bookmark);
             //console.log(board);
             //console.log(commentList);
 
@@ -36,7 +37,7 @@ const Roommate_recruit_detail=()=>{
         getBoard();
     }, []);
 
-    const handleCommentSubmit = async () => {
+    const handleSubmit = async () => {
         // 댓글 작성 후 실행할 함수
         await getBoard(); // 데이터 다시 로드
     };
@@ -59,7 +60,8 @@ const Roommate_recruit_detail=()=>{
                         info={board.info}
                         openChat={board.openChat}
                         commentList={commentList}
-                        onCommentSubmit={handleCommentSubmit}
+                        isBookmarked={isBookmarked}
+                        onSubmit={handleSubmit}
                     />
 
 
