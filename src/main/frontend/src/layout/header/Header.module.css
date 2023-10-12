@@ -8,14 +8,9 @@ a:focus { text-decoration: none; }
 a:hover, a:active { text-decoration: none; }
 hr{ border-top:1px solid #9C9C9C; border-bottom:1px solid #F6F6F6; }
 
+
 *:focus {
     outline: 0;
-}
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
 }
 .loginContainer {
     display: flex;
@@ -41,12 +36,6 @@ hr{ border-top:1px solid #9C9C9C; border-bottom:1px solid #F6F6F6; }
     background: linear-gradient(180deg, #002148 0%, #003E75 100%);
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15);
 
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 150px;
-    text-align:center;
-    letter-spacing: -0.1em;
 }
 
 .title{
