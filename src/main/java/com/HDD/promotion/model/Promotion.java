@@ -16,6 +16,7 @@ public class Promotion {
     private Date finish;
     private String hall;    // R동, T동 이런거
     private String etc;     // 기타(층 같은거)
+    private String imageUrl;
 
     public Promotion(String major, String title, Date start, Date finish, String hall, String etc) {
         this.major = major;
