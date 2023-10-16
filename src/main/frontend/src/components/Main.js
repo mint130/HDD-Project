@@ -37,7 +37,10 @@ function Main(){
                 //navigate('');
          });
         }
+    }
 
+    const navigateToMyPage = () => {
+        navigate('/mypage')
     }
     const [val1, setVal1] = useState("");
     const {coll,dept} = {coll:[ {coll:'학생공지'},
@@ -112,7 +115,7 @@ function Main(){
                                     </button>
                                 </div>
                                 <div className="profile_btn">
-                                        <button  value="마이페이지" className="submit_logout">
+                                        <button onClick={navigateToMyPage} value="마이페이지" className="submit_logout">
                                             마이페이지
                                         </button>
                                 </div>
