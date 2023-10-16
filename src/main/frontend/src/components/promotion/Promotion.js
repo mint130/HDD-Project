@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 
 const Div = styled.div`
-    width: 720px;
+    width: 900px;
     margin: 0px auto;
     padding-bottom: 120px;
 `

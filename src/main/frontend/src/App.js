@@ -17,7 +17,7 @@ import Project_recruit_detail from "./routes/Project_recruit_detail";
 import Project_recruit_update from "./routes/Project_recruit_update";
 import Roommate_recruit_detail from "./routes/Roommate_recruit_detail";
 import Roommate_recruit_update from "./routes/Roommate_recruit_update";
-
+import My_page from "./components/my_page/My_page";
 function App() {
 
     //authenticated: 로그인 상태 확인
@@ -47,6 +47,7 @@ function App() {
                 <Route path="/recruitment/project/:boardId/update" element={<Project_recruit_update/>}/>
                 <Route path="/recruitment/roommate/:boardId" element={<Roommate_recruit_detail/>}/>
                 <Route path="/recruitment/roommate/:boardId/update" element={<Roommate_recruit_update/>}/>
+                <Route path="/mypage" element={<My_page/>}/>
             </Routes>
           </BrowserRouter>
        </div>
