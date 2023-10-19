@@ -36,7 +36,7 @@ public class PromotionController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = "multipart/form-data")
     public ResponseEntity<?> addPromotion(@RequestBody Promotion promotion, @RequestPart MultipartFile file, String nameFile) throws Exception {
         String imageUrl = fileService.uploadFiles(file, nameFile);
         promotion.setImageUrl(imageUrl);
