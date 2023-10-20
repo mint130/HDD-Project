@@ -39,7 +39,7 @@ function Promotion() {
             const resp = await axios.get('http://localhost:8080/promotion', { headers: headers });
             setPromotionList(resp.data);
             setLoading(false);
-           // console.log(resp.data);
+            //console.log(resp.data);
         }
         catch (error) {
             alert("로그인이 필요합니다.");

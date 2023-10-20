@@ -14,7 +14,7 @@ const Div = styled.div`
 const Text = styled.div`
 
 `
-const Image = styled.div`
+const Image = styled.img`
     width: 150px;
     height: 200px;
     background-color: #d9d9d9; 
@@ -42,9 +42,7 @@ const Promotion_item = ({promotion}) => {
     const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
     return (
         <Div>
-            <Image>
-                포스터
-            </Image>
+            <Image src={promotion.imageUrl}/>
             <Text>
                 <Title><h2>{promotion.title}</h2></Title>
                 <Content>
