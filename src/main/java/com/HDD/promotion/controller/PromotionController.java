@@ -6,10 +6,6 @@ import com.HDD.promotion.service.PromotionService;
 import com.HDD.recruitment.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +33,7 @@ public class PromotionController {
 
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<?> addPromotion(@RequestBody Promotion promotion, @ModelAttribute MultipartFile file, String nameFile) throws Exception {
+    public ResponseEntity<?> addPromotion(@RequestPart Promotion promotion, @ModelAttribute MultipartFile file, String nameFile) throws Exception {
         String imageUrl = fileService.uploadFiles(file, nameFile);
         promotion.setImageUrl(imageUrl);
         promotionService.insertPromotion(promotion);
