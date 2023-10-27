@@ -34,6 +34,7 @@ public class ProjectBoard {
     @NotEmpty
     private Date created;
     private boolean isRecruited = false;
+    private String imageName;
 
     public ProjectBoard(String memberId, PJBoardRequest request) {
         this.memberId = memberId;

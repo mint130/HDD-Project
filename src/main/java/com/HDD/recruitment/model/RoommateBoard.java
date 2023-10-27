@@ -34,6 +34,7 @@ public class RoommateBoard {
     @NotEmpty
     private Date created;   // 파이어베이스에 제대로 저장되는지 확인 필요
     private boolean isRecruited = false;
+    private String imageName;
 
     public RoommateBoard(String memberId, RMBoardRequest request) {
         this.memberId = memberId;
