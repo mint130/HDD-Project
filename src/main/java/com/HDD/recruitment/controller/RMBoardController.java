@@ -1,5 +1,6 @@
 package com.HDD.recruitment.controller;
 
+import com.HDD.common.Pair;
 import com.HDD.management.webDto.MessageResponse;
 import com.HDD.recruitment.bookmark.service.BookmarkService;
 import com.HDD.recruitment.comment.model.Comment;
@@ -28,7 +29,6 @@ import java.util.List;
 public class RMBoardController {
 
     private final RMBoardService boardService;
-    private final FileService fileService;
     private final CommentService commentService;
     private final BookmarkService bookmarkService;
 
@@ -37,32 +37,29 @@ public class RMBoardController {
         commentService.setCollectionName("RoommateBoard");
     }
 
-    @PostMapping("/write")
-    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestBody(required = false) MultipartFile file) throws Exception {
+    @PostMapping(value = "/write", consumes = "multipart/form-data")
+    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestPart(required = false) MultipartFile file, @RequestBody(required = false) String nameFile) throws Exception {
         RoommateBoard roommateBoard = new RoommateBoard(userDetails.getUsername(), request);
-        if(file != null){
-            fileService.uploadFiles(file, roommateBoard.getBoardId());
-        }
-        boardService.insertBoard(roommateBoard);
+        boardService.insertBoard(roommateBoard, file, nameFile);
 
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
 
     @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
-        List<RoommateBoard> boardList = boardService.getBoardList();
+        List<Pair<RoommateBoard, String>> boardList = boardService.getBoardList();
         return ResponseEntity.ok(boardList);
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> searchBoard(@RequestParam(value = "sex", required = false) List<String> sex, @RequestParam(value = "dormType", required = false) List<Integer> dormType, @RequestParam(value = "smoke", required = false) List<Boolean> smoke) throws Exception {
-        List<RoommateBoard> boardList = boardService.searchBoard(sex, dormType, smoke);
+        List<Pair<RoommateBoard, String>> boardList = boardService.searchBoard(sex, dormType, smoke);
         return ResponseEntity.ok(boardList);
     }
 
     @GetMapping("/{path}")
     public ResponseEntity<?> readBoard(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String path, @RequestParam(required = false) String request) throws Exception {
-        RoommateBoard board = boardService.getBoard(path);
+        Pair<RoommateBoard, String> board = boardService.getBoard(path);
         List<Comment> commentList = commentService.getComments(path);
 
         boolean isBookmarked = false;
@@ -85,7 +82,7 @@ public class RMBoardController {
 
     @GetMapping( "/{path}/update")
     public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
-        RoommateBoard board = boardService.getBoard(path);
+        Pair<RoommateBoard, String> board = boardService.getBoard(path);
         return ResponseEntity.ok(board);
     }
 
@@ -112,11 +109,11 @@ public class RMBoardController {
 
     @Getter
     static class Result {
-        private RoommateBoard board;
+        private Pair<RoommateBoard, String> board;
         private List<Comment> comment;
         private boolean bookmark;
 
-        public Result(RoommateBoard board, List<Comment> comment, boolean bookmark) {
+        public Result(Pair<RoommateBoard, String> board, List<Comment> comment, boolean bookmark) {
             this.board = board;
             this.comment = comment;
             this.bookmark = bookmark;

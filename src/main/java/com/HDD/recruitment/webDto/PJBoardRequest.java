@@ -16,5 +16,4 @@ public class PJBoardRequest {
     private int grade;   // 1, 2, 3, 4, 0(기타 학년)
     private String info;
     private String openChat;
-
 }
