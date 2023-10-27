@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import styles from "./Mapfood.module.css";
-
+import {useState} from 'react';
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -16,6 +16,9 @@ function MapPage(){
     let ps;
     let infowindow;
     let map;
+    const [x, setX] = useState([]);
+
+
     useEffect(() => {
 
         const container = document.getElementById('map');
@@ -42,6 +45,7 @@ function MapPage(){
 // 키워드로 장소를 검색
 
     const searchPlaces = ()=>{
+
         let keyword = '홍대' + document.getElementById('keyword').value;
         if (keyword == '홍대') {
             alert('키워드를 입력해주세요!');
@@ -54,6 +58,7 @@ function MapPage(){
 
 // 키워드 검색 완료 시 호출되는 콜백함수
     const placesSearchCB = (data, status, pagination)=> {
+
         if (status === kakao.maps.services.Status.OK) {
 
             // 정상적으로 검색이 완료됐으면
@@ -78,6 +83,8 @@ function MapPage(){
     }
 
     const displayPlaces = (places)=>{
+        const div = document.getElementById('storeinfo');
+        div.style.display = 'none'
         let listEl = document.getElementById('placesList'),
             menuEl = document.getElementById('menu_wrap'),
             fragment = document.createDocumentFragment(),
@@ -106,8 +113,7 @@ function MapPage(){
             // 해당 장소에 인포윈도우에 장소명을 표시합니다
 
             (function(marker, title,plat, plng, address,phone) {
-
-
+                const div = document.getElementById('storeinfo');
 
                 kakao.maps.event.addListener(marker, 'click', function() {
                     document.getElementById('title').value = title;
@@ -116,6 +122,9 @@ function MapPage(){
                     document.getElementById('address').value = address;
                     document.getElementById('phone').value = phone;
                     displayInfowindow(marker, title);
+                    if(div.style.display === 'none')  {
+                        div.style.display = 'block';
+                    }
                 });
 
                 itemEl.onclick =  function () {
@@ -125,6 +134,9 @@ function MapPage(){
                     document.getElementById('address').value = address;
                     document.getElementById('phone').value = phone;
                     displayInfowindow(marker, title);
+                    if(div.style.display === 'none')  {
+                        div.style.display = 'block';
+                    }
                 };
 
 
@@ -235,6 +247,7 @@ function MapPage(){
     // 카테고리 선택 , 식당 추가 버튼
     const displayInfowindow = (marker, title) => {
 
+
         let content =
             '<div style="padding:3px;z-index:1; font-size:11px;">'
             + title +
@@ -244,6 +257,7 @@ function MapPage(){
 
     }
 
+
     const handleSubmit=data=>{
         console.log(data);
         //post 요청 보낼 url
@@ -252,8 +266,8 @@ function MapPage(){
             phoneNum: data.phone,
             lat: data.plat,
              lng:data.plng,
-             address: data.address
-
+             address: data.address,
+             category : data.category
         }, {
             headers: { 'Content-type': 'application/json' }
         })
@@ -271,6 +285,10 @@ function MapPage(){
         }
     }
 
+    const handleRadiobtn = (e) => {
+        console.log(e.target.value)
+        setX(e.target.value)
+    }
     return(
 
             <div className={styles.container}>
@@ -299,16 +317,31 @@ function MapPage(){
                 <button type="button">양식</button>
                 <button type="button">한식</button>
                 <button type="button">중식</button>
-                <button type="button">분식</button>
             </div>
             <form onSubmit={handleSubmit}>
-                <div className={styles.info}>
-                    <div className={styles.storeinfo}>
-                        <input type="text" id="title" name="title" ></input>
-                        <input type="text" id="plat" name="plat" ></input>
-                        <input type="text" id="plng" name="plng" v></input>
-                        <input type="text" id="address" name="address" ></input>
-                        <input type="text" id="phone" name="phone" ></input>
+                <div className={styles.info} >
+                    <div className={styles.storeinfo} id ='storeinfo'>
+                        <div className={styles.noneDiv}>
+                            <input type="text" id="plat" name="plat" ></input>
+                            <input type="text" id="plng" name="plng" ></input>
+                            <input type="text" id="phone" name="phone" ></input>
+                        </div>
+                        <div className={styles.storename}>
+                            <input type="text" id="title" name="title" ></input>
+                            <input type="text" id="address" name="address" ></input>
+                        </div>
+
+                        <div className={styles.selectcategory}>
+                            <p>카테고리를 선택하세요.</p>
+                            <input type="radio" id ="category" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                            <lable>한식</lable>
+                            <input type="radio" id ="category" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                            <lable>일식</lable>
+                            <input type="radio" id ="category" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                            <lable>양식</lable>
+                            <input type="radio" id ="category" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                            <lable>중식</lable>
+                        </div>
                         <button type="submit">식당 추가하기</button>
                     </div>
                 </div>

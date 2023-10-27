@@ -10,7 +10,8 @@ import Roommate_recruit_write from "./components/recruit/write/Roommate_recruit_
 import Project_recruit_write from "./components/recruit/write/Project_recruit_write";
 import Main from './components/Main';
 import Header from './layout/header/Header';
-import Map from './components/MapPage';
+import Map from './components/map/Mapfood';
+import MapCafe from './components/map/Mapcafe';
 import Promotion from './components/promotion/Promotion'
 import Add_Promotion from "./components/promotion/Add_promotion";
 import Project_recruit_detail from "./routes/Project_recruit_detail";
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/promotion" element={<Promotion/>}></Route>
                 <Route path="/promotion/add" element={<Add_Promotion/>}></Route>
                 <Route path="/map" element={<Map/>}></Route>
+                <Route path="/mapcafe" element={<MapCafe/>}></Route>
                 <Route path="/recruitment/project/:boardId" element={<Project_recruit_detail/>}/>
                 <Route path="/recruitment/project/:boardId/update" element={<Project_recruit_update/>}/>
                 <Route path="/recruitment/roommate/:boardId" element={<Roommate_recruit_detail/>}/>
