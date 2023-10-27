@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import styles from "./Mapcafe.module.css";
 import "./Map.css";
+import {useState} from 'react';
+import axios from "axios";
 /*global kakao*/
 
 const {kakao} =window;
@@ -10,6 +12,8 @@ function MapPageCafe(){
     let ps;
     let infowindow;
     let map;
+    const [x, setX] = useState([]);
+
     useEffect(() => {
 
         const container = document.getElementById('map');
@@ -71,6 +75,8 @@ function MapPageCafe(){
     }
 
     const displayPlaces = (places)=>{
+        const div = document.getElementById('storeinfo');
+        div.style.display = 'none'
         let listEl = document.getElementById('placesList'),
             menuEl = document.getElementById('menu_wrap'),
             fragment = document.createDocumentFragment(),
@@ -95,21 +101,38 @@ function MapPageCafe(){
             // LatLngBounds 객체에 좌표를 추가합니다
             bounds.extend(placePosition);
 
-            // 마커와 검색결과 항목에 mouseover 했을때
+            // 마커와 검색결과 항목을 클릭했을때
             // 해당 장소에 인포윈도우에 장소명을 표시합니다
-            // mouseout 했을 때는 인포윈도우를 닫습니다
-            (function(marker, title) {
 
-                kakao.maps.event.addListener(marker, 'click', function(mouseEvent) {
+            (function(marker, title,plat, plng, address,phone) {
+                const div = document.getElementById('storeinfo');
+
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    document.getElementById('title').value = title;
+                    document.getElementById('plat').value = plat;
+                    document.getElementById('plng').value = plng;
+                    document.getElementById('address').value = address;
+                    document.getElementById('phone').value = phone;
                     displayInfowindow(marker, title);
+                    if(div.style.display === 'none')  {
+                        div.style.display = 'block';
+                    }
                 });
 
                 itemEl.onclick =  function () {
+                    document.getElementById('title').value = title;
+                    document.getElementById('plat').value = plat;
+                    document.getElementById('plng').value = plng;
+                    document.getElementById('address').value = address;
+                    document.getElementById('phone').value = phone;
                     displayInfowindow(marker, title);
+                    if(div.style.display === 'none')  {
+                        div.style.display = 'block';
+                    }
                 };
 
 
-            })(marker, places[i].place_name);
+            })(marker, places[i].place_name, places[i].y,places[i].x,places[i].road_address_name,places[i].phone);
 
 
             fragment.appendChild(itemEl);
@@ -211,16 +234,44 @@ function MapPageCafe(){
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
     const displayInfowindow = (marker, title) => {
-        let content = '<div style="padding:3px;z-index:1; font-size:11px;">' + title + '<button type = "submit" style="font-size:10px"> 추가하기 </button></div>';
+        let content =
+            '<div style="padding:3px;z-index:1; font-size:11px;">'
+            + title +
+            '</div>';
         infowindow.setContent(content);
         infowindow.open(map, marker);
     }
+
+    const handleSubmit=data=>{
+        console.log(data);
+        //post 요청 보낼 url
+        axios.post('http://localhost:8080/mapcafe', {
+            storeName: data.title,
+            phoneNum: data.phone,
+            lat: data.plat,
+            lng:data.plng,
+            address: data.address,
+            category : data.category
+        }, {
+            headers: { 'Content-type': 'application/json' }
+        })
+            .then(() => {
+                alert('저장되었습니다.');
+
+            })
+            .catch(error => console.error(error));
+    };
 
     // 검색결과 목록의 자식 Element를 제거하는 함수입니다
     const removeAllChildNods = (el) => {
         while (el.hasChildNodes()) {
             el.removeChild (el.lastChild);
         }
+    }
+
+    const handleRadiobtn = (e) => {
+        console.log(e.target.value)
+        setX(e.target.value)
     }
 
     return(
@@ -231,7 +282,7 @@ function MapPageCafe(){
                         <a className={styles.food} href="/map">맛집</a>
                         <a className={styles.cafe} href="/mapcafe">카페</a>
                     </div>
-                    <div id="map" style={{width:"550px",height:"400px"}}>
+                    <div id="map" className={styles.map}>
                     </div>
                     <div id="menu_wrap" className={styles.bg_white}>
                         <div className={styles.option}>
@@ -250,8 +301,35 @@ function MapPageCafe(){
                     <button type="button">프랜차이즈</button>
                     <button type="button">커피</button>
                     <button type="button">아이스크림</button>
-
                 </div>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.info} >
+                        <div className={styles.storeinfo} id ='storeinfo'>
+                            <div className={styles.noneDiv}>
+                                <input type="text" id="plat" name="plat" ></input>
+                                <input type="text" id="plng" name="plng" ></input>
+                                <input type="text" id="phone" name="phone" ></input>
+                            </div>
+                            <div className={styles.storename}>
+                                <input type="text" id="title" name="title" ></input>
+                                <input type="text" id="address" name="address" ></input>
+                            </div>
+
+                            <div className={styles.selectcategory}>
+                                <p>카테고리를 선택하세요.</p>
+                                <input type="radio" id ="category" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                                <lable>카공</lable>
+                                <input type="radio" id ="category" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                                <lable>프랜차이즈</lable>
+                                <input type="radio" id ="category" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                                <lable>커피</lable>
+                                <input type="radio" id ="category" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                                <lable>아이스크림</lable>
+                            </div>
+                            <button type="submit">식당 추가하기</button>
+                        </div>
+                    </div>
+                </form>
 
 
             </div>

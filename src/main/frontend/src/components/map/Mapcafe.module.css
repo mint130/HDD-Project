@@ -1,7 +1,77 @@
 .select {position:relative ;left:180px;top:30px;width:500px;}
-.latlng {position:relative; left: 750px; width:500px;}
-.food {padding:3px 80px 3px 80px; border-radius:5px; border:solid 2px #8a8a8a; background-color:white;}
-.cafe {padding:3px 80px 3px 80px; border-radius:5px; border:solid 2px #8a8a8a; background-color:lightblue;}
-.select  a {color:black;font-size:14px;}
-.filter {position:relative; top:55px; left:100px; width:500px;}
-.filter button {border-radius:10px; border: solid 1px #002148; padding:3px;margin-right:15px;font-size:14px;background-color:white;}
+
+.food {
+    padding:3px 80px 3px 80px;
+    border-radius:5px;
+    border:solid 2px #8a8a8a;
+    background-color:white;
+}
+
+.cafe {
+    padding:3px 80px 3px 80px;
+    border-radius:5px;
+    border:solid 2px #8a8a8a;
+    background-color:lightblue;
+}
+
+.select a {
+    color:black;
+    font-size:14px;
+}
+
+.filter {
+    position:relative;
+    top:55px;
+    left:100px;
+    width:500px;
+}
+
+.filter button {
+    border-radius:10px;
+    border: solid 1px #002148;
+    padding:3px;
+    margin-right:15px;
+    font-size:14px;
+    background-color:white;
+}
+
+#storeinfo {
+
+    display : none;
+
+}
+.storeinfo {
+    position: absolute;
+    display: none;
+    height : 120px;
+    left : 670px;
+    width: 450px;
+    top: 250px;
+    border: solid 2px rgba(0,0,0,.08);
+}
+.storeinfo input {
+    background-color: transparent;
+    padding: 10px;
+    font-size: 14px;
+}
+.storename{
+    display: flex;
+}
+.selectcategory{
+    font-size: 14px;
+    display: inline;
+}
+.selectcategory p{
+    padding: 10px;
+}
+.selectcategory input{
+    margin: 5px;
+}
+.storeinfo button {
+    position : relative;
+    left : 50px;
+}
+
+.noneDiv {
+    display:none;
+}

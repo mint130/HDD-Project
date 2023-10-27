@@ -36,29 +36,44 @@
     background-color:white;
 }
 
-.info {
-    position: absolute;
-    height : 400px;
-    left : 700px;
-    top : 250px;
-    background-color: lightgray;
-    width: 400px;
+
+#storeinfo {
+
+    display : none;
 
 }
 .storeinfo {
-    position: relative;
-    top: 50px;
+    position: absolute;
+    display: none;
+    height : 120px;
+    left : 670px;
+    width: 400px;
+    top: 250px;
+    border: solid 2px rgba(0,0,0,.08);
 }
 .storeinfo input {
     background-color: transparent;
-    margin: 0 auto;
-    display: block;
-    text-align: center;
     padding: 10px;
-
+    font-size: 14px;
 }
-
+.storename{
+    display: flex;
+}
+.selectcategory{
+    font-size: 14px;
+    display: inline;
+}
+.selectcategory p{
+    padding:10px;
+}
+.selectcategory input{
+    margin:5px;
+}
 .storeinfo button {
     position : relative;
-    top: 130px;
+    left : 50px;
+}
+
+.noneDiv {
+    display:none;
 }
