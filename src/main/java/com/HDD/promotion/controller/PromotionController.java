@@ -33,7 +33,7 @@ public class PromotionController {
     }
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<?> addPromotion(@RequestBody Promotion promotion, @RequestPart MultipartFile file, String nameFile) throws Exception {
+    public ResponseEntity<?> addPromotion(@RequestPart Promotion promotion, @RequestPart MultipartFile file, String nameFile) throws Exception {
         promotion.setImageName(nameFile);
         promotionService.insertPromotion(promotion, file, nameFile);
         return ResponseEntity.ok(new MessageResponse("추가되었습니다"));

@@ -2,9 +2,11 @@ import React, {useState, useEffect, useRef} from "react";
 import axios, {postForm} from "axios";
 import {useForm} from 'react-hook-form';
 import styles from "../sign_up/Signup.module.css";
+import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import {useNavigate} from "react-router-dom";
-import File_upload from "./File_upload";
+import File_upload from "../File_upload";
+import * as Style from "../style";
 
 function Add_Promotion() {
     const navigate = useNavigate();
@@ -65,41 +67,74 @@ function Add_Promotion() {
 
     return (
         <form onSubmit={handleSubmit(addPromotion,onError)}>
-            <div className={styles.container}>
-                <h1 className={styles.title}>홍보 추가</h1>
-                <div>
-                    <label>전공</label>
-                    <input type="text"  {...register('major')}/>
-                </div>
-                <div>
-                    <label>제목</label>
-                    <input type="text" {...register('title')}/>
-                </div>
-                <div>
-                    <label>기간</label>
-                    <DatePicker
-                        selectsRange={true}
-                        startDate={startDate}
-                        endDate={endDate}
-                        onChange={(update) => {
-                            setDateRange(update);
-                        }}
-                        isClearable={true}
-                        dateFormat="yyyy-MM-dd"
-                    />
-                </div>
-                <div>
-                    <label>건물 이름</label>
-                    <input type="text" {...register('hall')}/>
-                </div>
-                <div>
-                    <label>위치</label>
-                    <input type="text" {...register('etc')}/>
-                </div>
+            <Style.Container>
+                <Style.Title>홍보 추가</Style.Title>
+                <Style.Content>
+                    <Style.Row>
+                        <Style.List>
+                            <label>전공</label>
+                        </Style.List>
+                        <Style.Form>
+                            <input type="text"  {...register('major')}/>
+                        </Style.Form>
 
-                <File_upload onFileUpload={handleFileUpload}/>
-                <button type="submit">제출하기</button>
-            </div>
+                    </Style.Row>
+                    <Style.Row>
+                        <Style.List>
+                            <label>제목</label>
+                        </Style.List>
+                        <Style.Form>
+                            <input type="text" {...register('title')}/>
+                        </Style.Form>
+
+                    </Style.Row>
+                    <Style.Row>
+                        <Style.List>
+                            <label>기간</label>
+                        </Style.List>
+
+                        <DatePicker
+                            selectsRange={true}
+                            startDate={startDate}
+                            endDate={endDate}
+                            onChange={(update) => {
+                                setDateRange(update);
+                            }}
+                            isClearable={true}
+                            dateFormat="yyyy-MM-dd"
+                        />
+                    </Style.Row>
+                    <Style.Row>
+                        <Style.List>
+                            <label>건물 이름</label>
+                        </Style.List>
+                        <Style.Form>
+                            <input type="text" {...register('hall')}/>
+                        </Style.Form>
+
+                    </Style.Row>
+                    <Style.Row>
+                        <Style.List>
+                            <label>위치</label>
+                        </Style.List>
+                        <Style.Form>
+                            <input type="text" {...register('etc')}/>
+                        </Style.Form>
+
+                    </Style.Row>
+                    <Style.Row>
+                        <Style.List>
+                            <label>파일 첨부</label>
+                        </Style.List>
+                        <File_upload onFileUpload={handleFileUpload}/>
+                    </Style.Row>
+
+                    <Style.ButtonArea>
+                        <Style.Button type="submit">제출하기</Style.Button>
+                    </Style.ButtonArea>
+                </Style.Content>
+
+            </Style.Container>
         </form>
     );
 }

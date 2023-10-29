@@ -36,18 +36,18 @@ const Li = styled.li`
 `
 const Promotion_item = ({promotion}) => {
     let startDay = "";
-    if(promotion.start!=null){ startDay=moment(promotion.start).format('YYYY-MM-DD');}
+    if(promotion.first.start!=null){ startDay=moment(promotion.first.start).format('YYYY-MM-DD');}
     let finishDay="";
-    if(promotion.finish!=null){finishDay=moment(promotion.finish).format('YYYY-MM-DD');}
+    if(promotion.first.finish!=null){finishDay=moment(promotion.first.finish).format('YYYY-MM-DD');}
     const dateRange = startDay !== "" && finishDay !== "" ? startDay + " - " + finishDay : "미정";
     return (
         <Div>
-            <Image src={promotion.imageUrl}/>
+            <Image src={promotion.second}/>
             <Text>
-                <Title><h2>{promotion.title}</h2></Title>
+                <Title><h2>{promotion.first.title}</h2></Title>
                 <Content>
-                    <Li>위치: {promotion.hall+"동 "}{promotion.etc}</Li>
-                    <Li>과: {promotion.major+"과"}</Li>
+                    <Li>위치: {promotion.first.hall+"동 "}{promotion.first.etc}</Li>
+                    <Li>과: {promotion.first.major+"과"}</Li>
                     <Li>일시: {dateRange}</Li>
                 </Content>
             </Text>
