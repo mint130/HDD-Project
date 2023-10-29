@@ -37,6 +37,7 @@ function Promotion() {
     const getAllPromotionList = async () => {
         try{
             const resp = await axios.get('http://localhost:8080/promotion', { headers: headers });
+            console.log(resp.data);
             setPromotionList(resp.data);
             setLoading(false);
             //console.log(resp.data);
