@@ -46,13 +46,13 @@ public class PJBoardController {
     }
 
 
-    @GetMapping()
+    @GetMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> boardList() throws Exception {
         List<Pair<ProjectBoard, String>> boardList = boardService.getBoardList();
         return ResponseEntity.ok(boardList);
     }
 
-    @GetMapping("/{path}")
+    @GetMapping(value = "/{path}", consumes = "multipart/form-data")
     public ResponseEntity<?> readBoard(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String path, @RequestParam(required = false) String request) throws Exception {
         Pair<ProjectBoard, String> board = boardService.getBoard(path);
         List<Comment> commentList = commentService.getComments(path);
@@ -74,7 +74,7 @@ public class PJBoardController {
         return ResponseEntity.ok(new Result(board, commentList, isBookmarked));
     }
 
-    @GetMapping("/{path}/update")
+    @GetMapping(value = "/{path}/update", consumes = "multipart/form-data")
     public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
         Pair<ProjectBoard, String> board = boardService.getBoard(path);
         return ResponseEntity.ok(board);
