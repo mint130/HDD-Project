@@ -20,7 +20,7 @@ const Roommate_recruit_detail=()=>{
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/roommate/${boardId}`,{headers:headers});
-            setBoard(resp.data.board);
+            setBoard(resp.data.board.first);
             setCommentList(resp.data.comment);
             setIsBookmarked(resp.data.bookmark);
             //console.log(board);

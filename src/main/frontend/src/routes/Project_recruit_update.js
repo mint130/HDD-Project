@@ -43,7 +43,7 @@ const Project_recruit_update=()=>{
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/project/${boardId}`,{headers:headers});
-            const boardData = resp.data.board;
+            const boardData = resp.data.board.first;
             setBoard(boardData);
             setValue('title', boardData.title);
             setValue('major', boardData.major);

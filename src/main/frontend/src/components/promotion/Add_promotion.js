@@ -126,7 +126,9 @@ function Add_Promotion() {
                         <Style.List>
                             <label>파일 첨부</label>
                         </Style.List>
-                        <File_upload onFileUpload={handleFileUpload}/>
+                        <Style.Wrap>
+                            <File_upload onFileUpload={handleFileUpload}/>
+                        </Style.Wrap>
                     </Style.Row>
 
                     <Style.ButtonArea>

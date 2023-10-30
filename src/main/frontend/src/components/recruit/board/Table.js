@@ -24,14 +24,14 @@ const Table=({boardList, offset, limit})=>{
             </thead>
             <tbody>
             {boardList.slice(offset, offset+limit).map((board) => (
-                <tr key={board.boardId} onClick={() => handleRowClick(board.boardId)}>
-                    <td>{board.sex=="M"?"남":"여"}</td>
-                    <td>{board.grade==0?"기타":board.grade+"학년"}</td>
-                    <td>{board.dormType==0?"자취":board.dormType+"기숙사"}</td>
-                    <td>{board.korean==true?"내국인":"외국인"}</td>
-                    <td>{board.smoke==true?"흡연":"비흡연"}</td>
-                    <td>{board.pattern}</td>
-                    <td>{board.recruited==false?"구인 중":"구인 완료"}</td>
+                <tr key={board.first.boardId} onClick={() => handleRowClick(board.first.boardId)}>
+                    <td>{board.first.sex=="M"?"남":"여"}</td>
+                    <td>{board.first.grade==0?"기타":board.grade+"학년"}</td>
+                    <td>{board.first.dormType==0?"자취":board.dormType+"기숙사"}</td>
+                    <td>{board.first.korean==true?"내국인":"외국인"}</td>
+                    <td>{board.first.smoke==true?"흡연":"비흡연"}</td>
+                    <td>{board.first.pattern}</td>
+                    <td>{board.first.recruited==false?"구인 중":"구인 완료"}</td>
                 </tr>
             ))}
             </tbody>
