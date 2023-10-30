@@ -20,8 +20,8 @@ const Project_recruit_detail = () => {
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/project/${boardId}`,{headers:headers});
-            //console.log(resp.data);
-            setBoard(resp.data.board);
+            console.log(resp.data);
+            setBoard(resp.data.board.first);
             setCommentList(resp.data.comment);
             setIsBookmarked(resp.data.bookmark);
             setLoading(false);

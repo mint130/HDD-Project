@@ -39,7 +39,7 @@ const Roommate_recruit_update=()=>{
     const getBoard = async () => {
         try {
             const resp = await axios.get(`http://localhost:8080/recruitment/roommate/${boardId}`,{headers:headers});
-            const boardData = resp.data.board;
+            const boardData = resp.data.board.first;
             setBoard(boardData);
             setValue('pattern', boardData.pattern);
             setValue('dormType', boardData.dormType);

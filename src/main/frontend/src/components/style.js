@@ -60,3 +60,12 @@ export const ButtonArea=styled.div`
     border-top: 1px solid rgb(247, 247, 247);
     padding: 40px 0px;
     `
+
+export const Wrap=styled.div`
+     display: block;
+    width: 280px;
+    `
+
+export const Input=styled.input`
+    accent-color: #013B70;
+    `

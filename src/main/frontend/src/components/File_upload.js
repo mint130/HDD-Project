@@ -1,11 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
+import styled from 'styled-components';
 
+const Img = styled.img`
+   width: 280px;
+       height: fit-content;
+`
 const File_upload=({onFileUpload})=>{
 
     const [image, setImage]=useState(null);
-
+    //const imageInput = useRef();
+    //const handleClickFileInput=e=>{
+    //    imageInput.current.click();
+   // }
     const onImageUpload = (e: any) =>{
         const file= e.target.files[0];
+        //useRef 태그로 input 태그에 접근
+
         //console.log(file);
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -21,13 +31,16 @@ const File_upload=({onFileUpload})=>{
 
     }
     return (
-        <div>
+        <>
             <input accept="image/*"
                    multiple type="file"
+                   //style={{ display: "none" }}
                    onChange={e=>onImageUpload(e)}
+
             />
-            {image && <img src={image}/>}
-        </div>
+
+            {image && <Img src={image}/>}
+        </>
     );
 
 }
