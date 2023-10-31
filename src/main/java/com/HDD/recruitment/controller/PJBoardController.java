@@ -39,12 +39,19 @@ public class PJBoardController {
     }
 
     @PostMapping(value = "/write", consumes = "multipart/form-data")
-    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PJBoardRequest request, @RequestPart(required = false)MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception {
+    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestPart PJBoardRequest request, @RequestPart(required = false)MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception {
         ProjectBoard projectBoard = new ProjectBoard(userDetails.getUsername(), request);
         boardService.insertBoard(projectBoard, file, nameFile);
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
-
+//
+//    @PostMapping(value = "/test", consumes = "multipart/form-data")
+//    public ResponseEntity<?> testBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestPart(required = false) MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception{
+//        PJBoardRequest request = new PJBoardRequest("테스트중");
+//        ProjectBoard projectBoard = new ProjectBoard(userDetails.getUsername(), request);
+//        boardService.insertBoard(projectBoard, file, nameFile);
+//        return ResponseEntity.ok(new MessageResponse("테스트 성공?"));
+//    }
 
     @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
