@@ -69,3 +69,7 @@ export const Wrap=styled.div`
 export const Input=styled.input`
     accent-color: #013B70;
     `
+export const Img=styled.img`
+    width: 400px;
+   
+    `

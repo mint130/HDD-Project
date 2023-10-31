@@ -8,10 +8,11 @@ import jwt_decode from "jwt-decode";
 import Comment_list from "../comment/Comment_list";
 import Bottom_button from "./Bottom_button";
 import List from "./List";
+import * as Style from "../../style";
 
 //게시글 상세 페이지
 const Project_recruit_detail_page=
-    ({boardId, memberId, title, major, num, startDay, finishDay, grade, info, openChat, created, recruited, commentList, onSubmit, isBookmarked})=>{
+    ({boardId, memberId, title, major, num, startDay, finishDay, grade, info, openChat, created, recruited, commentList, onSubmit, isBookmarked, image})=>{
         const navigate = useNavigate();
         const jwtToken = localStorage.getItem('jwtToken');
         const [isWriter, setIsWriter]=useState(false);
@@ -53,7 +54,9 @@ const Project_recruit_detail_page=
             );
         }
         useEffect(() => {
+            console.log(image);
             console.log(isBookmarked);
+
             const currentUserId = jwt_decode(jwtToken).sub;
             //jwt decode 결과 :console.log(jwt_decode(jwtToken));
             if (memberId === currentUserId) setIsWriter(true);
@@ -85,6 +88,13 @@ const Project_recruit_detail_page=
                     <div className={styles.wrap}>
                         {info}</div>
                 </div>
+                {image!=null?
+                    <div className={styles.row}>
+                        <div className={styles.list}></div>
+                        <div className={styles.wrap}>
+                            <Style.Img src={image}/>
+                    </div>
+                </div>:null}
                 <div className={styles.row}>
                     <div className={styles.list}>
                         <label htmlFor="openChat">오픈 채팅</label>

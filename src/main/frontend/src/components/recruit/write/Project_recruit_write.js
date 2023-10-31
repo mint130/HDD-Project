@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
 import Select from "react-select";
 import "../datepicker.css";
+import File_upload from "../../File_upload";
+import * as Style from "../../style";
 
 const gradeOptions = [
     { value: 1, label: '1학년' },
@@ -21,25 +23,21 @@ function Project_recruit_write() {
     const [dateRange, setDateRange] = useState([null, null]);
     const navigate = useNavigate();
     const [startDate, endDate] = dateRange;
-
+    const [uploadImage, setUploadImage]=useState(null);
     registerLocale("ko", ko);
+    const handleFileUpload = (fileInfo)=>{
+        setUploadImage(fileInfo);
+
+    }
+    const jwtToken = localStorage.getItem('jwtToken');
+    const headers = {
+        'Authorization': `Bearer ${jwtToken}`,
+        'Content-Type': 'multipart/form-data',
+    };
 
     const onSubmit=data=>{
-        console.log(data);
-        //console.log(isSmoke);
-        //헤더에 jwt token
-        const jwtToken = localStorage.getItem('jwtToken');
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`,
-        };
-        console.log(startDate);
-        console.log(endDate);
-
-        //post 요청 보낼 url
-        // console.log(jwtToken);
-        axios.post('http://localhost:8080/recruitment/project/write', {
-
+        const formData=new FormData();
+        const projectData = {
             title: data.title,
             major: data.major,
             num: parseInt(data.num),
@@ -48,7 +46,32 @@ function Project_recruit_write() {
             grade: data.grade,
             info: data.info,
             openChat: data.openChat
-        }, {
+        }
+        //console.log(projectData);
+
+        if(uploadImage!=null && uploadImage.file)
+        {
+            //이미지 객체 추가
+            formData.append('file', uploadImage.file);
+            formData.append('nameFile', uploadImage.imageName);
+        }
+
+
+        //이미지 객체 추가
+       // formData.append('file', uploadImage.file);
+        //프로모션 객체 추가
+        formData.append('request',
+            new Blob([JSON.stringify(projectData)], {type: "application/json"})
+        );
+        //파일 이름 추가
+       // formData.append('nameFile', uploadImage.imageName);
+
+        for (let key of formData.keys()) {
+            console.log(key, ":", formData.get(key));
+        }
+
+        //post 요청 보낼 url
+        axios.post('http://localhost:8080/recruitment/project/write', formData,{
             headers: headers,
         })
             .then(() => {
@@ -158,7 +181,10 @@ function Project_recruit_write() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
-                        <input type="file" {...register("fileUpload")}/>
+                        <div className={styles.wrap}>
+                            <File_upload onFileUpload={handleFileUpload}/>
+                        </div>
+
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="openChat">오픈 채팅</label></div>
