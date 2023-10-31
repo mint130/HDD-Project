@@ -25,12 +25,13 @@ public class RMBoardService {
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document();
         board.setBoardId(documentReference.getId());
-        ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture
-                = documentReference.set(board);
+
         if (file != null) {
             fileService.uploadFiles(file, nameFile);
             board.setImageName(nameFile);
         }
+        ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture
+                = documentReference.set(board);
         return apiFuture.get().getUpdateTime().toString();
     }
 

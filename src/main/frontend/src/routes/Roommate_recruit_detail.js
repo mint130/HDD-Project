@@ -10,7 +10,7 @@ const Roommate_recruit_detail=()=>{
     const [board, setBoard] = useState({});
     const [commentList, setCommentList]=useState([]);
     const [isBookmarked, setIsBookmarked] = useState(false);
-
+    const [image, setImage]=useState('');
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
@@ -23,6 +23,8 @@ const Roommate_recruit_detail=()=>{
             setBoard(resp.data.board.first);
             setCommentList(resp.data.comment);
             setIsBookmarked(resp.data.bookmark);
+            setImage(resp.data.board.second);
+
             //console.log(board);
             //console.log(commentList);
 
@@ -61,6 +63,7 @@ const Roommate_recruit_detail=()=>{
                         openChat={board.openChat}
                         commentList={commentList}
                         isBookmarked={isBookmarked}
+                        image={image}
                         onSubmit={handleSubmit}
                     />
 

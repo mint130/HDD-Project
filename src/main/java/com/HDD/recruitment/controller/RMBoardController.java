@@ -38,7 +38,7 @@ public class RMBoardController {
     }
 
     @PostMapping(value = "/write", consumes = "multipart/form-data")
-    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody RMBoardRequest request, @RequestPart(required = false) MultipartFile file, @RequestBody(required = false) String nameFile) throws Exception {
+    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestPart RMBoardRequest request, @RequestPart(required = false) MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception {
         RoommateBoard roommateBoard = new RoommateBoard(userDetails.getUsername(), request);
         boardService.insertBoard(roommateBoard, file, nameFile);
 
