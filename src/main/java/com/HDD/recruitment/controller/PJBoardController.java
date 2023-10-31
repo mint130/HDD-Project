@@ -39,20 +39,20 @@ public class PJBoardController {
     }
 
     @PostMapping(value = "/write", consumes = "multipart/form-data")
-    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PJBoardRequest request, @RequestPart(required = false)MultipartFile file, @RequestBody(required = false) String fileName) throws Exception {
+    public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PJBoardRequest request, @RequestPart(required = false)MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception {
         ProjectBoard projectBoard = new ProjectBoard(userDetails.getUsername(), request);
-        boardService.insertBoard(projectBoard, file, fileName);
+        boardService.insertBoard(projectBoard, file, nameFile);
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
 
 
-    @GetMapping(consumes = "multipart/form-data")
+    @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
         List<Pair<ProjectBoard, String>> boardList = boardService.getBoardList();
         return ResponseEntity.ok(boardList);
     }
 
-    @GetMapping(value = "/{path}", consumes = "multipart/form-data")
+    @GetMapping("/{path}")
     public ResponseEntity<?> readBoard(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String path, @RequestParam(required = false) String request) throws Exception {
         Pair<ProjectBoard, String> board = boardService.getBoard(path);
         List<Comment> commentList = commentService.getComments(path);
@@ -74,7 +74,7 @@ public class PJBoardController {
         return ResponseEntity.ok(new Result(board, commentList, isBookmarked));
     }
 
-    @GetMapping(value = "/{path}/update", consumes = "multipart/form-data")
+    @GetMapping("/{path}/update")
     public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
         Pair<ProjectBoard, String> board = boardService.getBoard(path);
         return ResponseEntity.ok(board);

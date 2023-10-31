@@ -45,19 +45,19 @@ public class RMBoardController {
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
 
-    @GetMapping(consumes = "multipart/form-data")
+    @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
         List<Pair<RoommateBoard, String>> boardList = boardService.getBoardList();
         return ResponseEntity.ok(boardList);
     }
 
-    @GetMapping(value = "/search", consumes = "multipart/form-data")
+    @GetMapping("/search")
     public ResponseEntity<?> searchBoard(@RequestParam(value = "sex", required = false) List<String> sex, @RequestParam(value = "dormType", required = false) List<Integer> dormType, @RequestParam(value = "smoke", required = false) List<Boolean> smoke) throws Exception {
         List<Pair<RoommateBoard, String>> boardList = boardService.searchBoard(sex, dormType, smoke);
         return ResponseEntity.ok(boardList);
     }
 
-    @GetMapping(value = "/{path}", consumes = "multipart/form-data")
+    @GetMapping("/{path}")
     public ResponseEntity<?> readBoard(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String path, @RequestParam(required = false) String request) throws Exception {
         Pair<RoommateBoard, String> board = boardService.getBoard(path);
         List<Comment> commentList = commentService.getComments(path);
@@ -80,7 +80,7 @@ public class RMBoardController {
         return ResponseEntity.ok(new Result(board, commentList, isBookmarked));
     }
 
-    @GetMapping( value = "/{path}/update", consumes = "multipart/form-data")
+    @GetMapping("/{path}/update")
     public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
         Pair<RoommateBoard, String> board = boardService.getBoard(path);
         return ResponseEntity.ok(board);

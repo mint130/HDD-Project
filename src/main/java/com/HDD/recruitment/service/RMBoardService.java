@@ -20,16 +20,16 @@ public class RMBoardService {
         this.fileService = fileService;
     }
 
-    public String insertBoard(RoommateBoard board, MultipartFile file, String fileName) throws Exception {
+    public String insertBoard(RoommateBoard board, MultipartFile file, String nameFile) throws Exception {
 
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document();
         board.setBoardId(documentReference.getId());
-        board.setImageName(fileName);
         ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture
                 = documentReference.set(board);
-        if (!file.isEmpty()) {
-            fileService.uploadFiles(file, fileName);
+        if (file != null) {
+            fileService.uploadFiles(file, nameFile);
+            board.setImageName(nameFile);
         }
         return apiFuture.get().getUpdateTime().toString();
     }
