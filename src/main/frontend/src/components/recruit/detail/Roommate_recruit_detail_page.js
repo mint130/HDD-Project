@@ -6,10 +6,11 @@ import jwt_decode from "jwt-decode";
 import Comment_list from "../comment/Comment_list";
 import Bottom_button from "./Bottom_button";
 import List from "./List";
+import * as Style from "../../style";
 
 //게시글 상세 페이지
 const Roommate_recruit_detail_page=(
-    {boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onSubmit, isBookmarked})=>{
+    {boardId, created, memberId, dormType, sex, grade, info, recruited, pattern, openChat, smoke, korean, commentList, onSubmit, isBookmarked, image})=>{
     const navigate = useNavigate();
     const jwtToken = localStorage.getItem('jwtToken');
     const [isWriter, setIsWriter]=useState(false);
@@ -81,6 +82,13 @@ const Roommate_recruit_detail_page=(
                         <div className={styles.wrap}>
                             {info}</div>
                     </div>
+                    {image!=null?
+                        <div className={styles.row}>
+                            <div className={styles.list}></div>
+                            <div className={styles.wrap}>
+                                <Style.Img src={image}/>
+                            </div>
+                        </div>:null}
                     <div className={styles.row}>
                         <div className={styles.list}>
                             <label htmlFor="openChat">오픈 채팅</label>

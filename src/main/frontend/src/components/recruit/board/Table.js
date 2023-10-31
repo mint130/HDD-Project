@@ -26,8 +26,8 @@ const Table=({boardList, offset, limit})=>{
             {boardList.slice(offset, offset+limit).map((board) => (
                 <tr key={board.first.boardId} onClick={() => handleRowClick(board.first.boardId)}>
                     <td>{board.first.sex=="M"?"남":"여"}</td>
-                    <td>{board.first.grade==0?"기타":board.grade+"학년"}</td>
-                    <td>{board.first.dormType==0?"자취":board.dormType+"기숙사"}</td>
+                    <td>{board.first.grade==0?"기타":board.first.grade+"학년"}</td>
+                    <td>{board.first.dormType==0?"자취":board.first.dormType+"기숙사"}</td>
                     <td>{board.first.korean==true?"내국인":"외국인"}</td>
                     <td>{board.first.smoke==true?"흡연":"비흡연"}</td>
                     <td>{board.first.pattern}</td>

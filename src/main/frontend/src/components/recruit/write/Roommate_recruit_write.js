@@ -4,6 +4,8 @@ import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import styles from "./Roommate_recruit_write.module.css";
+import File_upload from "../../File_upload";
+import * as Style from "../../style";
 
 const gradeOptions = [
     { value: 1, label: '1학년' },
@@ -22,7 +24,11 @@ function Roommate_recruit_write() {
     const{register, control, setValue, handleSubmit, watch, formState: {errors}}=useForm();
     const navigate = useNavigate();
     const [isSmoke, setIsSmoke]=useState();
+    const [uploadImage, setUploadImage]=useState(null);
+    const handleFileUpload = (fileInfo)=>{
+        setUploadImage(fileInfo);
 
+    }
     const handleGradeChange = (selectedOption) => {
         setValue('grade', selectedOption.value); // 선택된 학년 값을 필드에 설정
     };
@@ -30,21 +36,17 @@ function Roommate_recruit_write() {
     const handleDormitoryChange = (selectedOption) => {
         setValue('dormType', selectedOption.value); // 선택된 기숙사 값을 필드에 설정
     };
-    const onSubmit=data=>{
-        console.log(data);
-        //console.log(isSmoke);
-        const isKorean = Boolean(data.korean);
-        //헤더에 jwt token
-        const jwtToken = localStorage.getItem('jwtToken');
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`,
-        };
-        //console.log(isKorean);
-        //post 요청 보낼 url
-       // console.log(jwtToken);
-        axios.post('http://localhost:8080/recruitment/roommate/write', {
 
+    const jwtToken = localStorage.getItem('jwtToken');
+    const headers = {
+        'Authorization': `Bearer ${jwtToken}`,
+        'Content-Type': 'multipart/form-data',
+    };
+
+    const onSubmit=data=>{
+        const formData=new FormData();
+        const isKorean = Boolean(data.korean);
+        const roommateData = {
             sex: data.sex,
             grade: data.grade,
             dormType: data.dormType,
@@ -54,7 +56,28 @@ function Roommate_recruit_write() {
             info: data.info,
             created: new Date(),
             openChat: data.openChat
-        }, {
+        }
+
+        if(uploadImage!=null && uploadImage.file)
+        {
+            //이미지 객체 추가
+            formData.append('file', uploadImage.file);
+            formData.append('nameFile', uploadImage.imageName);
+        }
+
+        formData.append('request',
+            new Blob([JSON.stringify(roommateData)], {type: "application/json"})
+        );
+        //파일 이름 추가
+        // formData.append('nameFile', uploadImage.imageName);
+
+        for (let key of formData.keys()) {
+            console.log(key, ":", formData.get(key));
+        }
+
+        //post 요청 보낼 url
+       // console.log(jwtToken);
+        axios.post('http://localhost:8080/recruitment/roommate/write', formData, {
             headers: headers,
         })
             .then(() => {
@@ -167,7 +190,10 @@ function Roommate_recruit_write() {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}><label htmlFor="fileUpload">파일 첨부</label></div>
-                        <input type="file" {...register("fileUpload")}/>
+                        <div className={styles.wrap}>
+                            <File_upload onFileUpload={handleFileUpload}/>
+                        </div>
+
                     </div>
                     <div className={styles.row}>
                         <div className={styles.list}>
