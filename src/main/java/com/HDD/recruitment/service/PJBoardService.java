@@ -25,12 +25,13 @@ public class PJBoardService {
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document();
         board.setBoardId(documentReference.getId());
-        ApiFuture<WriteResult> apiFuture
-                = documentReference.set(board);
+
         if(file != null) {
             fileService.uploadFiles(file, nameFile);
             board.setImageName(nameFile);
         }
+        ApiFuture<WriteResult> apiFuture
+                = documentReference.set(board);
         return apiFuture.get().getUpdateTime().toString();
     }
 
