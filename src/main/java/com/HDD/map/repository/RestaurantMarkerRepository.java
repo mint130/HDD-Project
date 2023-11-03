@@ -13,6 +13,7 @@ public interface RestaurantMarkerRepository extends JpaRepository<RestaurantMark
     RestaurantMarker save(RestaurantMarker restaurantMarker);
     List<RestaurantMarker> findAll();
     Optional<RestaurantMarker> findById(Long id);
+    List<RestaurantMarker> findByCategory(int category);
     Optional<RestaurantMarker> findByStoreName(String storeName);
 
 
