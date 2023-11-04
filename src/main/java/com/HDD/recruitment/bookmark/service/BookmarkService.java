@@ -69,52 +69,7 @@ public class BookmarkService {
         }
     }
 
-    // 프로젝트 북마크 가져오기
-    public List<ProjectBoard> getProjectBookmarks(String memberId) throws Exception{
-        List<ProjectBoard> list = new ArrayList<>();
-        CollectionReference collectionReference = firestore.collection(COLLECTION_NAME);
-        ApiFuture<DocumentSnapshot> apiFuture
-                = collectionReference.document(memberId).get();
-        DocumentSnapshot snapshot = apiFuture.get();
-        Bookmark bookmark = null;
 
-        if (snapshot.exists()) {
-            bookmark = snapshot.toObject(Bookmark.class);
-            List<String> boardId = bookmark.getProjectBoardId();
-
-            for(String id : boardId) {
-                ApiFuture<DocumentSnapshot> boardApi
-                        = collectionReference.document(id).get();
-                DocumentSnapshot documentSnapshot = boardApi.get();
-                list.add(documentSnapshot.toObject(ProjectBoard.class));
-            }
-            list.sort(Comparator.comparing(ProjectBoard::getCreated).reversed());
-            return list;
-        } else return null;
-    }
-
-    public List<RoommateBoard> getRoommateBookmarks(String memberId) throws Exception{
-        List<RoommateBoard> list = new ArrayList<>();
-        CollectionReference collectionReference = firestore.collection(COLLECTION_NAME);
-        ApiFuture<DocumentSnapshot> apiFuture
-                = collectionReference.document(memberId).get();
-        DocumentSnapshot snapshot = apiFuture.get();
-        Bookmark bookmark = null;
-
-        if (snapshot.exists()) {
-            bookmark = snapshot.toObject(Bookmark.class);
-            List<String> boardId = bookmark.getRoommateBoardId();
-
-            for(String id : boardId) {
-                ApiFuture<DocumentSnapshot> boardApi
-                        = collectionReference.document(id).get();
-                DocumentSnapshot documentSnapshot = boardApi.get();
-                list.add(documentSnapshot.toObject(RoommateBoard.class));
-            }
-            list.sort(Comparator.comparing(RoommateBoard::getCreated).reversed());
-            return list;
-        } else return null;
-    }
 
     // 내가 북마크 한 글인지 확인 - 프로젝트
     public boolean isBookmarkedP(String memberId, String boardId) throws Exception {
