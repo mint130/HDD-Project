@@ -54,6 +54,25 @@ public class PJBoardService {
         }
     }
 
+    public Pair<ProjectBoard, MultipartFile> getUpdateBoard(String id) throws Exception {
+        DocumentReference documentReference
+                = firestore.collection(COLLECTION_NAME).document(id);
+        ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
+        DocumentSnapshot snapshot = apiFuture.get();
+        ProjectBoard board = null;
+
+        if (snapshot.exists()) {
+            board = snapshot.toObject(ProjectBoard.class);
+            MultipartFile multipartFile = null;
+            if(board.getImageName() != null) {
+                multipartFile = fileService.getFile(board.getImageName());
+            }
+            return new Pair<>(board, multipartFile);
+        } else {
+            return null;
+        }
+    }
+
     public List<Pair<ProjectBoard, String>> getBoardList() throws Exception {
         List<Pair<ProjectBoard, String>> list = new ArrayList<>();
         ApiFuture<QuerySnapshot> apiFuture = firestore.collection(COLLECTION_NAME).get();
@@ -70,8 +89,8 @@ public class PJBoardService {
         // 최근에 등록한 순으로 정렬
         list.sort((Pair<ProjectBoard, String> p1, Pair<ProjectBoard, String> p2) -> {
             if(p1.getFirst().getCreated().after(p2.getFirst().getCreated()))
-                return 1;
-            else return -1;
+                return -1;
+            else return 1;
         });
 
         return list;

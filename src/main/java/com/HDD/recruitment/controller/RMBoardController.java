@@ -41,7 +41,6 @@ public class RMBoardController {
     public ResponseEntity<?> writeBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestPart RMBoardRequest request, @RequestPart(required = false) MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception {
         RoommateBoard roommateBoard = new RoommateBoard(userDetails.getUsername(), request);
         boardService.insertBoard(roommateBoard, file, nameFile);
-
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
 
