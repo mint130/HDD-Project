@@ -31,7 +31,6 @@ public class PJBoardController {
     private final PJBoardService boardService;
     private final CommentService commentService;
     private final BookmarkService bookmarkService;
-//    private final FileService fileService;
 
     @PostConstruct
     public void init(){
@@ -44,14 +43,6 @@ public class PJBoardController {
         boardService.insertBoard(projectBoard, file, nameFile);
         return ResponseEntity.ok(new MessageResponse("룸메이트 구인글이 등록되었습니다"));
     }
-//
-//    @PostMapping(value = "/test", consumes = "multipart/form-data")
-//    public ResponseEntity<?> testBoard(@AuthenticationPrincipal UserDetails userDetails, @RequestPart(required = false) MultipartFile file, @RequestPart(required = false) String nameFile) throws Exception{
-//        PJBoardRequest request = new PJBoardRequest("테스트중");
-//        ProjectBoard projectBoard = new ProjectBoard(userDetails.getUsername(), request);
-//        boardService.insertBoard(projectBoard, file, nameFile);
-//        return ResponseEntity.ok(new MessageResponse("테스트 성공?"));
-//    }
 
     @GetMapping()
     public ResponseEntity<?> boardList() throws Exception {
@@ -83,7 +74,7 @@ public class PJBoardController {
 
     @GetMapping("/{path}/update")
     public ResponseEntity<?> updateBoard(@PathVariable String path) throws Exception {
-        Pair<ProjectBoard, String> board = boardService.getBoard(path);
+        Pair<ProjectBoard, MultipartFile> board = boardService.getUpdateBoard(path);
         return ResponseEntity.ok(board);
     }
 

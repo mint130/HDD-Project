@@ -25,7 +25,6 @@ public class RMBoardService {
         DocumentReference documentReference
                 = firestore.collection(COLLECTION_NAME).document();
         board.setBoardId(documentReference.getId());
-
         if (file != null) {
             fileService.uploadFiles(file, nameFile);
             board.setImageName(nameFile);
@@ -72,8 +71,8 @@ public class RMBoardService {
         // 최근에 등록한 순으로 정렬
         list.sort((Pair<RoommateBoard, String> p1, Pair<RoommateBoard, String> p2) -> {
             if(p1.getFirst().getCreated().after(p2.getFirst().getCreated()))
-                return 1;
-            else return -1;
+                return -1;
+            else return 1;
         });
         return list;
     }
@@ -131,6 +130,11 @@ public class RMBoardService {
             }
             list.add(new Pair<>(board, imageUrl));
         }
+        list.sort((Pair<RoommateBoard, String> p1, Pair<RoommateBoard, String> p2) -> {
+            if(p1.getFirst().getCreated().after(p2.getFirst().getCreated()))
+                return -1;
+            else return 1;
+        });
         return list;
     }
 }
