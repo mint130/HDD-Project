@@ -3,6 +3,7 @@ import styles from "./Mapcafe.module.css";
 import "./Map.css";
 import {useState} from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 /*global kakao*/
 
 const {kakao} =window;

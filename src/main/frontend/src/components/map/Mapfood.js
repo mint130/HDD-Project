@@ -2,9 +2,7 @@ import React, {useEffect} from "react";
 import styles from "./Mapfood.module.css";
 import {useState} from 'react';
 import axios from "axios";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-
+import {useNavigate} from "react-router-dom";
 
 
 /*global kakao*/
@@ -257,7 +255,6 @@ function MapPage(){
 
     }
 
-
     const handleSubmit=()=>{
 
         let lat = document.getElementById('lat').value;
@@ -274,6 +271,7 @@ function MapPage(){
             address: address,
             phoneNum: phoneNum,
             category : x
+
         }, {
             headers: { 'Content-type': 'application/json' }
         })
