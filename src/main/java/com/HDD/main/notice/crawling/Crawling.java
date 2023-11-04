@@ -11,21 +11,52 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// main : https://www.hongik.ac.kr/front/boardlist.do?bbsConfigFK=3&siteGubun=1&amp;menuGubun=1
-// ce : https://www.hongik.ac.kr/front/boardlist.do?bbsConfigFK=54&siteGubun=1&menuGubun=1
-
 public class Crawling {
 
-    public List<Notice> getData(String major) throws IOException {
+    // 기본 학과 + 전체 공지 크롤링
+    public List<Notice> getNotice(String major) throws IOException {
         List<Notice> notices = new ArrayList<>();
-        Document doc = Jsoup.connect("https://www.hongik.ac.kr/front/boardlist.do?bbsConfigFK=" + MajorCode.getECode(major) + "&siteGubun=1&menuGubun=1").get();
 
-        Elements subject = doc.select("div.subject");
+        if(MajorCode.isBasic(major)) {
+            Document doc = Jsoup.connect("https://"+ MajorCode.getCode(major) + ".hongik.ac.kr/dept/index.html").get();
+            Elements subject = doc.select("div.in ul li");
 
-        for(Element element : subject){
-            Notice notice = new Notice(element.getElementsByClass("text").text(), element.getElementsByAttribute("href").attr("href"));
-            notices.add(notice);
-            System.out.println("notice = " + notice.getTitle());
+            for(Element element : subject){
+                String title = element.getElementsByAttribute("href").text();
+                String url = "https://" + MajorCode.getCode(major) + ".hongik.ac.kr" + element.getElementsByAttribute("href").attr("href");
+                Notice notice = new Notice(title, url);
+                notices.add(notice);
+                System.out.println("notice = " + notice.getTitle());
+
+            }
+        }
+        else {
+            // 전체 공지사항
+            if (major == "main") {
+                Document doc = Jsoup.connect("https://www.hongik.ac.kr/index.do").get();
+                Elements subject = doc.select("div.subject");
+
+                for (Element element : subject) {
+                    String title = element.getElementsByClass("category").text() + " " + element.getElementsByClass("text").text();
+                    String url = "https://www.hongik.ac.kr/" + element.getElementsByAttribute("href").attr("href");
+                    Notice notice = new Notice(title, url);
+                    notices.add(notice);
+                }
+            }
+            else if(major == "civil"){
+
+            } else if (major == "me") {
+                Document doc = Jsoup.connect("https://me.hongik.ac.kr/bbs/board.php?tbl=bbs61").get();
+                Elements subject = doc.select("div.product_wrap");
+
+                System.out.println(subject.toString());
+                for (Element element : subject) {
+                    String title = element.getElementsByAttribute("h5").text();
+                    String url = element.getElementsByAttribute("href").attr("href");
+                    Notice notice = new Notice(title, url);
+                    notices.add(notice);
+                }
+            }
 
         }
         return notices;
