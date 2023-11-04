@@ -17,7 +17,7 @@ function Header() {
                 <div className={styles.menu}>
                     <ul>
                         <li><Link to="/">Home</Link></li>
-                        <li><Link to="/map">지도</Link></li>
+                        <li><Link to="/api/map">지도</Link></li>
                         <li><Link to="/promotion">홍보</Link></li>
                         <li>
                             <a href="#">구인</a>

@@ -43,8 +43,8 @@ function App() {
                 <Route path="/recruitment/project/write" element={<Project_recruit_write/>}></Route>
                 <Route path="/promotion" element={<Promotion/>}></Route>
                 <Route path="/promotion/add" element={<Add_Promotion/>}></Route>
-                <Route path="/map" element={<Map/>}></Route>
-                <Route path="/mapcafe" element={<Mapcafe/>}></Route>
+                <Route path="/api/map" element={<Map/>}></Route>
+                <Route path="/api/mapcafe" element={<Mapcafe/>}></Route>
                 <Route path="/recruitment/project/:boardId" element={<Project_recruit_detail/>}/>
                 <Route path="/recruitment/project/:boardId/update" element={<Project_recruit_update/>}/>
                 <Route path="/recruitment/roommate/:boardId" element={<Roommate_recruit_detail/>}/>

@@ -108,11 +108,11 @@ function MapPageCafe(){
                 const div = document.getElementById('storeinfo');
 
                 kakao.maps.event.addListener(marker, 'click', function() {
-                    document.getElementById('title').value = title;
-                    document.getElementById('plat').value = plat;
-                    document.getElementById('plng').value = plng;
+                    document.getElementById('storeName').value = title;
+                    document.getElementById('lat').value = plat;
+                    document.getElementById('lng').value = plng;
                     document.getElementById('address').value = address;
-                    document.getElementById('phone').value = phone;
+                    document.getElementById('phoneNum').value = phone;
                     displayInfowindow(marker, title);
                     if(div.style.display === 'none')  {
                         div.style.display = 'block';
@@ -120,11 +120,11 @@ function MapPageCafe(){
                 });
 
                 itemEl.onclick =  function () {
-                    document.getElementById('title').value = title;
-                    document.getElementById('plat').value = plat;
-                    document.getElementById('plng').value = plng;
+                    document.getElementById('storeName').value = title;
+                    document.getElementById('lat').value = plat;
+                    document.getElementById('lng').value = plng;
                     document.getElementById('address').value = address;
-                    document.getElementById('phone').value = phone;
+                    document.getElementById('phoneNum').value = phone;
                     displayInfowindow(marker, title);
                     if(div.style.display === 'none')  {
                         div.style.display = 'block';
@@ -242,24 +242,28 @@ function MapPageCafe(){
         infowindow.open(map, marker);
     }
 
-    const handleSubmit=data=>{
-        console.log(data);
+    const handleSubmit=()=>{
+        let lat = document.getElementById('lat').value;
+        let lng = document.getElementById('lng').value;
+        let storeName = document.getElementById('storeName').value;
+        let address = document.getElementById('address').value;
+        let phoneNum = document.getElementById('phoneNum').value;
         //post 요청 보낼 url
-        axios.post('http://localhost:8080/mapcafe', {
-            storeName: data.title,
-            phoneNum: data.phone,
-            lat: data.plat,
-            lng:data.plng,
-            address: data.address,
-            category : data.category
+        axios.post('http://localhost:8080/api/mapcafe', {
+            lat: lat,
+            lng: lng,
+            storeName: storeName,
+            address: address,
+            phoneNum: phoneNum,
+            category : x
         }, {
             headers: { 'Content-type': 'application/json' }
         })
-            .then(() => {
+            .then((response) => {
                 alert('저장되었습니다.');
 
             })
-            .catch(error => console.error(error));
+            .catch(error => console.error(error.response));
     };
 
     // 검색결과 목록의 자식 Element를 제거하는 함수입니다
@@ -306,24 +310,24 @@ function MapPageCafe(){
                     <div className={styles.info} >
                         <div className={styles.storeinfo} id ='storeinfo'>
                             <div className={styles.noneDiv}>
-                                <input type="text" id="plat" name="plat" ></input>
-                                <input type="text" id="plng" name="plng" ></input>
-                                <input type="text" id="phone" name="phone" ></input>
+                                <input type="text" id="lat" name="lat" ></input>
+                                <input type="text" id="lng" name="lng" ></input>
+                                <input type="text" id="phoneNum" name="phoneNum" ></input>
                             </div>
                             <div className={styles.storename}>
-                                <input type="text" id="title" name="title" ></input>
+                                <input type="text" id="storeName" name="storeName" ></input>
                                 <input type="text" id="address" name="address" ></input>
                             </div>
 
                             <div className={styles.selectcategory}>
                                 <p>카테고리를 선택하세요.</p>
-                                <input type="radio" id ="category" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                                <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
                                 <lable>카공</lable>
-                                <input type="radio" id ="category" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                                <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
                                 <lable>프랜차이즈</lable>
-                                <input type="radio" id ="category" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                                <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
                                 <lable>커피</lable>
-                                <input type="radio" id ="category" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                                <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
                                 <lable>아이스크림</lable>
                             </div>
                             <button type="submit">식당 추가하기</button>
