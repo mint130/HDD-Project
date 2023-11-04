@@ -1,15 +1,20 @@
 package com.HDD.map.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Entity
-@Table
+@Table(name = "restaurant_marker")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "restaurant_id")
     private Long id;
 
     private double lat; //위도
@@ -19,6 +24,7 @@ public class RestaurantMarker {
     private String phoneNum;
     private int likes;
     private int dislikes;
+    private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
     public Long getId() {
         return id;
@@ -84,18 +90,20 @@ public class RestaurantMarker {
         this.dislikes = dislikes;
     }
 
-    public RestaurantMarker(){
-
+    public int getCategory() {
+        return category;
     }
 
-    public RestaurantMarker(Long id, double lat, double lng, String storeName, String address, String phoneNum, int likes, int dislikes) {
-        this.id = id;
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category) {
         this.lat = lat;
         this.lng = lng;
         this.storeName = storeName;
         this.address = address;
         this.phoneNum = phoneNum;
-        this.likes = likes;
-        this.dislikes = dislikes;
+        this.category = category;
     }
 }

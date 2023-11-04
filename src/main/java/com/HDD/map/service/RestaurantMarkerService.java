@@ -16,6 +16,11 @@ public class RestaurantMarkerService {
 
     public Long add(RestaurantMarker restaurantMarker){
         validateDuplicateMarker(restaurantMarker); //중복 회원 검증
+
+        if(restaurantMarker.getCategory() > 4 && restaurantMarker.getCategory() < 1)
+        {
+            throw new IllegalStateException("카테고리 오류");
+        }
         restaurantMarkerRepository.save(restaurantMarker);
 
         return restaurantMarker.getId();
@@ -49,6 +54,10 @@ public class RestaurantMarkerService {
         foundMarker.setLikes(currentDislikes++);
 
         return foundMarker.getId();
+    }
+
+    public List<RestaurantMarker> categoryFind(int category){
+        return restaurantMarkerRepository.findByCategory(category);
     }
 
 }
