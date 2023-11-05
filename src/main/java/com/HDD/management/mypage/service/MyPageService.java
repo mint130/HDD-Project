@@ -89,12 +89,13 @@ public class MyPageService {
         Bookmark bookmark = null;
 
         if (snapshot.exists()) {
+            CollectionReference projectCollection = firestore.collection(PROJECT_COLLECTION);
             bookmark = snapshot.toObject(Bookmark.class);
             List<String> boardId = bookmark.getProjectBoardId();
 
             for(String id : boardId) {
                 ApiFuture<DocumentSnapshot> boardApi
-                        = collectionReference.document(id).get();
+                        = projectCollection.document(id).get();
                 DocumentSnapshot documentSnapshot = boardApi.get();
                 list.add(documentSnapshot.toObject(ProjectBoard.class));
             }
@@ -112,12 +113,13 @@ public class MyPageService {
         Bookmark bookmark = null;
 
         if (snapshot.exists()) {
+            CollectionReference roommateCollection = firestore.collection(ROOMMATE_COLLECTION);
             bookmark = snapshot.toObject(Bookmark.class);
             List<String> boardId = bookmark.getRoommateBoardId();
 
             for(String id : boardId) {
                 ApiFuture<DocumentSnapshot> boardApi
-                        = collectionReference.document(id).get();
+                        = roommateCollection.document(id).get();
                 DocumentSnapshot documentSnapshot = boardApi.get();
                 list.add(documentSnapshot.toObject(RoommateBoard.class));
             }
