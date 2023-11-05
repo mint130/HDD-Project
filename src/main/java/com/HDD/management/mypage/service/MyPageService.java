@@ -80,8 +80,8 @@ public class MyPageService {
     }
 
     // 내가 북마크한 프로젝트 구인 글
-    public List<ProjectBoard> getProjectBookmarks(String memberId) throws Exception{
-        List<ProjectBoard> list = new ArrayList<>();
+    public List<Pair<ProjectBoard, String>> getProjectBookmarks(String memberId) throws Exception{
+        List<Pair<ProjectBoard, String>> list = new ArrayList<>();
         CollectionReference collectionReference = firestore.collection(BOOKMARK_COLLECTION);
         ApiFuture<DocumentSnapshot> apiFuture
                 = collectionReference.document(memberId).get();
@@ -97,15 +97,19 @@ public class MyPageService {
                 ApiFuture<DocumentSnapshot> boardApi
                         = projectCollection.document(id).get();
                 DocumentSnapshot documentSnapshot = boardApi.get();
-                list.add(documentSnapshot.toObject(ProjectBoard.class));
+                list.add(new Pair<>(documentSnapshot.toObject(ProjectBoard.class), null));
             }
-            list.sort(Comparator.comparing(ProjectBoard::getCreated).reversed());
+            list.sort((Pair<ProjectBoard, String> p1, Pair<ProjectBoard, String> p2) -> {
+                if(p1.getFirst().getCreated().after(p2.getFirst().getCreated()))
+                    return -1;
+                else return 1;
+            });
             return list;
         } else return null;
     }
 
-    public List<RoommateBoard> getRoommateBookmarks(String memberId) throws Exception{
-        List<RoommateBoard> list = new ArrayList<>();
+    public List<Pair<RoommateBoard,String>> getRoommateBookmarks(String memberId) throws Exception{
+        List<Pair<RoommateBoard, String>> list = new ArrayList<>();
         CollectionReference collectionReference = firestore.collection(BOOKMARK_COLLECTION);
         ApiFuture<DocumentSnapshot> apiFuture
                 = collectionReference.document(memberId).get();
@@ -121,9 +125,13 @@ public class MyPageService {
                 ApiFuture<DocumentSnapshot> boardApi
                         = roommateCollection.document(id).get();
                 DocumentSnapshot documentSnapshot = boardApi.get();
-                list.add(documentSnapshot.toObject(RoommateBoard.class));
+                list.add(new Pair<>(documentSnapshot.toObject(RoommateBoard.class), null));
             }
-            list.sort(Comparator.comparing(RoommateBoard::getCreated).reversed());
+            list.sort((Pair<RoommateBoard, String> p1, Pair<RoommateBoard, String> p2) -> {
+                if(p1.getFirst().getCreated().after(p2.getFirst().getCreated()))
+                    return -1;
+                else return 1;
+            });
             return list;
         } else return null;
     }
