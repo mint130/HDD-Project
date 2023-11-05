@@ -270,7 +270,8 @@ function MapPage(){
             storeName: storeName,
             address: address,
             phoneNum: phoneNum,
-            category : x
+            category : x,
+            likes : 0
 
         }, {
             headers: { 'Content-type': 'application/json' }
@@ -323,17 +324,21 @@ function MapPage(){
                 <button type="button">한식</button>
                 <button type="button">중식</button>
             </div>
-            <form onSubmit={handleSubmit}>
+
                 <div className={styles.info} >
                     <div className={styles.storeinfo} id ='storeinfo'>
                         <div className={styles.noneDiv}>
-                            <input type="text" id="lat" name="lat" ></input>
-                            <input type="text" id="lng" name="lng" ></input>
-                            <input type="text" id="phoneNum" name="phoneNum" ></input>
+                            <label>
+                                <input type="text" id="lat" name="lat" ></input>
+                                <input type="text" id="lng" name="lng" ></input>
+                                <input type="text" id="phoneNum" name="phoneNum" ></input>
+                            </label>
                         </div>
                         <div className={styles.storename}>
-                            <input type="text" id="storeName" name="storeName" ></input>
-                            <input type="text" id="address" name="address" ></input>
+                            <label>
+                                <input type="text" id="storeName" name="storeName" ></input>
+                                <input type="text" id="address" name="address" ></input>
+                            </label>
                         </div>
 
                         <div className={styles.selectcategory}>
@@ -356,10 +361,10 @@ function MapPage(){
                             </label>
 
                         </div>
-                        <button type="submit">식당 추가하기</button>
+                        <button type="submit" onClick={handleSubmit}>식당 추가하기</button>
                     </div>
                 </div>
-            </form>
+
 
 
         </div>
