@@ -74,14 +74,14 @@ function Written_list() {
                             boardList={boardList}
                             offset={offset}
                             limit={limit}/>:
-                        <h2>작성글이 없습니다.</h2>)
+                        <H2>작성글이 없습니다.</H2>)
                     :
                     (boardList.length!=0?
                         <Table
                             boardList={boardList}
                             offset={offset}
                             limit={limit}/>:
-                        <h2>작성글이 없습니다.</h2>)
+                        <H2>작성글이 없습니다.</H2>)
                 }
             </Div>
         </div>
@@ -89,6 +89,9 @@ function Written_list() {
 
 }
 export default Written_list;
+const H2=styled.h2`
+    margin: 10px;
+`
 const Button_area=styled.div`
  
 `
