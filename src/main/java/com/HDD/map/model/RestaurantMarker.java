@@ -1,6 +1,7 @@
 package com.HDD.map.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -14,16 +15,20 @@ public class RestaurantMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "restaurant_id")
     private Long id;
 
+    @NotNull
     private double lat; //위도
+    @NotNull
     private double lng; //경도
+    @NotNull
     private String storeName;
+    @NotNull
     private String address;
     private String phoneNum;
-    private int likes;
+    private int likesNumber;
     private int dislikes;
+    @NotNull
     private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
     public Long getId() {
@@ -74,12 +79,12 @@ public class RestaurantMarker {
         this.phoneNum = phoneNum;
     }
 
-    public int getLikes() {
-        return likes;
+    public int getLikesNumber() {
+        return likesNumber;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setLikesNumber(int likesNumber) {
+        this.likesNumber = likesNumber;
     }
 
     public int getDislikes() {
