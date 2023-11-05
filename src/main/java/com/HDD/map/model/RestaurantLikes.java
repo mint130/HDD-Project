@@ -26,7 +26,7 @@ public class RestaurantLikes {
     private RestaurantMarker restaurantMarker;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "sid")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     public RestaurantLikes(RestaurantMarker restaurantMarker, Member member) {

@@ -42,8 +42,8 @@ public class RestaurantMarkerService {
 
     public Long addLike(String storeName){
         RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
-        int currentLikes = foundMarker.getLikes();
-        foundMarker.setLikes(currentLikes++);
+        int currentLikes = foundMarker.getLikesNumber();
+        foundMarker.setLikesNumber(currentLikes++);
 
         return foundMarker.getId();
     }
@@ -51,7 +51,7 @@ public class RestaurantMarkerService {
     public Long addDislike(String storeName){
         RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
         int currentDislikes = foundMarker.getDislikes();
-        foundMarker.setLikes(currentDislikes++);
+        foundMarker.setDislikes(currentDislikes++);
 
         return foundMarker.getId();
     }

@@ -88,7 +88,6 @@ function Promotion() {
                     ): <H2>등록된 게시물이 없습니다.</H2>
                 )
             }
-            <button onClick={navigateToAddPage}>추가하기</button>
         </Div>
     );
 }

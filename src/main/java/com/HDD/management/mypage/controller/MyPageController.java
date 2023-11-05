@@ -54,7 +54,7 @@ public class MyPageController {
     @GetMapping("/bookmark/project")
     public ResponseEntity<?> getBookmarkedProject(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String id = userDetails.getUsername();
-        List<ProjectBoard> projectBookmarks = myPageService.getProjectBookmarks(id);
+        List<Pair<ProjectBoard, String>> projectBookmarks = myPageService.getProjectBookmarks(id);
         return ResponseEntity.ok(projectBookmarks);
     }
 
@@ -62,7 +62,7 @@ public class MyPageController {
     @GetMapping("/bookmark/roommate")
     public ResponseEntity<?> getBookmarkedRoommate(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String id = userDetails.getUsername();
-        List<RoommateBoard> roommateBookmarks = myPageService.getRoommateBookmarks(id);
+        List<Pair<RoommateBoard, String>> roommateBookmarks = myPageService.getRoommateBookmarks(id);
         return ResponseEntity.ok(roommateBookmarks);
     }
 
