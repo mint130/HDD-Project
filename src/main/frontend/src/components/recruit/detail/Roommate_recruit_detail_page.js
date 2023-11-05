@@ -89,12 +89,7 @@ const Roommate_recruit_detail_page=(
                                 <Style.Img src={image}/>
                             </div>
                         </div>:null}
-                    <div className={styles.row}>
-                        <div className={styles.list}>
-                            <label htmlFor="openChat">오픈 채팅</label>
-                        </div>
-                        <div className={styles.wrap}><a href={openChat}>{openChat}</a> </div>
-                    </div>
+
                     {recruited==false&&isWriter==true?
                         <Writer_button /> :
                         null}
