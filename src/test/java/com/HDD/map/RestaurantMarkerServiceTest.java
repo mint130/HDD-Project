@@ -28,7 +28,7 @@ public class RestaurantMarkerServiceTest {
         marker.setStoreName("안녕");
         marker.setAddress("서초중앙로");
         marker.setPhoneNum("010-22");
-        marker.setLikes(3);
+        //marker.setLikesNumber(3);
 
         Long saveId = restaurantMarkerService.add(marker);
         RestaurantMarker findMarker = restaurantMarkerService.findOne(saveId).get();

@@ -17,18 +17,19 @@ public class RestaurantMarker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
     private double lat; //위도
-    @NotNull
+
     private double lng; //경도
-    @NotNull
+
     private String storeName;
-    @NotNull
+
     private String address;
     private String phoneNum;
+    @NotNull
     private int likesNumber;
     private int dislikes;
-    @NotNull
+
     private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
     public Long getId() {
@@ -103,12 +104,14 @@ public class RestaurantMarker {
         this.category = category;
     }
 
-    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category) {
+    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category, int likesNumber) {
         this.lat = lat;
         this.lng = lng;
         this.storeName = storeName;
         this.address = address;
         this.phoneNum = phoneNum;
         this.category = category;
+        this.likesNumber = likesNumber;
+        dislikes = 0;
     }
 }
