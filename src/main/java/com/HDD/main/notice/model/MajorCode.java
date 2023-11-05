@@ -8,12 +8,11 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum MajorCode {
-    // 건환공, 화공, 기시디, 건축&실내건축, 도공, 섬패디, 시디
     MAIN("main", "", false),                // 홈페이지
     SCIENCE("science", "science", true),    // 기초과학
     CIVIL("civil", "civil", false),         // 건설환경
     EE("ee", "ee", true),                   // 전자전기
-    CE("ce", "wwwce", true),                // 컴퓨터
+    CE("컴퓨터공학과", "wwwce", true),         // 컴퓨터
     IE("ie", "ie", true),                   // 산업데이터
     MSE("mse", "mse",true),                 // 신소재
     CHEMENG("chemeng", "chemeng",false),    // 화학
