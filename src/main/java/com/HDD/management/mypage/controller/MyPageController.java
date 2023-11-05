@@ -26,15 +26,44 @@ public class MyPageController {
     private final MemberRepository memberRepository;
     private final MyPageService myPageService;
 
-    @GetMapping
+    // 회원 정보
+    @GetMapping("/info")
     public ResponseEntity<?> getMyPage(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
         String id = userDetails.getUsername();
         Member member = memberRepository.findBySid(id).orElseThrow(Exception::new);
+        return ResponseEntity.ok(member);
+    }
+
+    // 내가 쓴 프로젝트
+    @GetMapping("/project")
+    public ResponseEntity<?> getMyProject(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String id = userDetails.getUsername();
         List<Pair<ProjectBoard, String>> projectBoards = myPageService.getProjectBoards(id);
+        return ResponseEntity.ok(projectBoards);
+    }
+
+    // 내가 쓴 룸메이트
+    @GetMapping("/roommate")
+    public ResponseEntity<?> getMyRoommate(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String id = userDetails.getUsername();
         List<Pair<RoommateBoard, String>> roommateBoards = myPageService.getRoommateBoards(id);
+        return ResponseEntity.ok(roommateBoards);
+    }
+
+    // 내가 북마크한 프로젝트
+    @GetMapping("/bookmark/project")
+    public ResponseEntity<?> getBookmarkedProject(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String id = userDetails.getUsername();
         List<ProjectBoard> projectBookmarks = myPageService.getProjectBookmarks(id);
+        return ResponseEntity.ok(projectBookmarks);
+    }
+
+    // 내가 북마크한 룸메이드
+    @GetMapping("/bookmark/roommate")
+    public ResponseEntity<?> getBookmarkedRoommate(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        String id = userDetails.getUsername();
         List<RoommateBoard> roommateBookmarks = myPageService.getRoommateBookmarks(id);
-        return ResponseEntity.ok(new Result(member, projectBoards, roommateBoards, projectBookmarks, roommateBookmarks));
+        return ResponseEntity.ok(roommateBookmarks);
     }
 
     @GetMapping("/update")
@@ -44,20 +73,20 @@ public class MyPageController {
         return ResponseEntity.ok(member);
     }
 
-    @Getter
-    static class Result {
-        private Member member;
-        private List<Pair<ProjectBoard, String>> projectBoards;
-        private List<Pair<RoommateBoard, String>> roommateBoards;
-        private List<ProjectBoard> projectBookmarks;
-        private List<RoommateBoard> roommateBookmarks;
-
-        public Result(Member member, List<Pair<ProjectBoard, String>> projectBoards, List<Pair<RoommateBoard, String>> roommateBoards, List<ProjectBoard> projectBookmarks, List<RoommateBoard> roommateBookmarks) {
-            this.member = member;
-            this.projectBoards = projectBoards;
-            this.roommateBoards = roommateBoards;
-            this.projectBookmarks = projectBookmarks;
-            this.roommateBookmarks = roommateBookmarks;
-        }
-    }
+//    @Getter
+//    static class Result {
+//        private Member member;
+//        private List<Pair<ProjectBoard, String>> projectBoards;
+//        private List<Pair<RoommateBoard, String>> roommateBoards;
+//        private List<ProjectBoard> projectBookmarks;
+//        private List<RoommateBoard> roommateBookmarks;
+//
+//        public Result(Member member, List<Pair<ProjectBoard, String>> projectBoards, List<Pair<RoommateBoard, String>> roommateBoards, List<ProjectBoard> projectBookmarks, List<RoommateBoard> roommateBookmarks) {
+//            this.member = member;
+//            this.projectBoards = projectBoards;
+//            this.roommateBoards = roommateBoards;
+//            this.projectBookmarks = projectBookmarks;
+//            this.roommateBookmarks = roommateBookmarks;
+//        }
+//    }
 }
