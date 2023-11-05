@@ -58,8 +58,8 @@ public class PromotionService {
 
         list.sort((Pair<Promotion, String> p1, Pair<Promotion, String> p2) -> {
             if(p1.getFirst().getStart().before(p2.getFirst().getStart()))
-                return 1;
-            else return -1;
+                return -1;
+            else return 1;
         });
 
         return list;
@@ -80,8 +80,8 @@ public class PromotionService {
 
         list.sort((Pair<Promotion, String> p1, Pair<Promotion, String> p2) -> {
             if(p1.getFirst().getStart().before(p2.getFirst().getStart()))
-                return 1;
-            else return -1;
+                return -1;
+            else return 1;
         });
         return list;
     }
