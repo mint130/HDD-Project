@@ -264,7 +264,7 @@ function MapPage(){
         let phoneNum = document.getElementById('phoneNum').value;
 
         //post 요청 보낼 url
-        axios.post('http://localhost:8080/api/map', {
+        axios.post('http://localhost:8080/api/map/addMarker', {
             lat: lat,
             lng: lng,
             storeName: storeName,
@@ -338,14 +338,23 @@ function MapPage(){
 
                         <div className={styles.selectcategory}>
                             <p>카테고리를 선택하세요.</p>
-                            <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
-                            <lable>한식</lable>
-                            <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
-                            <lable>일식</lable>
-                            <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
-                            <lable>양식</lable>
-                            <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
-                            <lable>중식</lable>
+                            <label>
+                                <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                                한식
+                            </label>
+                            <label>
+                                <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                                일식
+                            </label>
+                            <label>
+                                <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                                양식
+                            </label>
+                            <label>
+                                <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                                중식
+                            </label>
+
                         </div>
                         <button type="submit">식당 추가하기</button>
                     </div>

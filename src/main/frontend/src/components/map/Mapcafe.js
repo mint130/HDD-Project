@@ -304,7 +304,7 @@ function MapPageCafe(){
                 <div className={styles.filter}>
                     <button type="button">카공</button>
                     <button type="button">프랜차이즈</button>
-                    <button type="button">커피</button>
+                    <button type="button">커피/디저트</button>
                     <button type="button">아이스크림</button>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -322,14 +322,22 @@ function MapPageCafe(){
 
                             <div className={styles.selectcategory}>
                                 <p>카테고리를 선택하세요.</p>
-                                <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
-                                <lable>카공</lable>
-                                <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
-                                <lable>프랜차이즈</lable>
-                                <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
-                                <lable>커피</lable>
-                                <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
-                                <lable>아이스크림</lable>
+                                <label>
+                                    <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                                    카공
+                                </label>
+                                <label>
+                                    <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                                    프랜차이즈
+                                </label>
+                                <label>
+                                    <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                                    커피/디저트
+                                </label>
+                                <label>
+                                    <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                                    아이스크림
+                                </label>
                             </div>
                             <button type="submit">식당 추가하기</button>
                         </div>
