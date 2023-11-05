@@ -264,7 +264,7 @@ function MapPage(){
         let phoneNum = document.getElementById('phoneNum').value;
 
         //post 요청 보낼 url
-        axios.post('http://localhost:8080/api/map', {
+        axios.post('http://localhost:8080/map/addMarker', {
             lat: lat,
             lng: lng,
             storeName: storeName,
