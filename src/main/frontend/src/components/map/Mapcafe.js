@@ -250,7 +250,7 @@ function MapPageCafe(){
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
         //post 요청 보낼 url
-        axios.post('http://localhost:8080/api/mapcafe', {
+        axios.post('http://localhost:8080/api/mapcafe/addMarker', {
             lat: lat,
             lng: lng,
             storeName: storeName,
@@ -284,8 +284,8 @@ function MapPageCafe(){
             <div className={styles.container}>
                 <div className={styles.keyword_wrap}>
                     <div className={styles.select}>
-                        <a className={styles.food} href="/map">맛집</a>
-                        <a className={styles.cafe} href="/mapcafe">카페</a>
+                        <a className={styles.food} href="/api/map">맛집</a>
+                        <a className={styles.cafe} href="/api/mapcafe">카페</a>
                     </div>
                     <div id="map" className={styles.map}>
                     </div>
@@ -307,17 +307,21 @@ function MapPageCafe(){
                     <button type="button">커피/디저트</button>
                     <button type="button">아이스크림</button>
                 </div>
-                <form onSubmit={handleSubmit}>
+
                     <div className={styles.info} >
                         <div className={styles.storeinfo} id ='storeinfo'>
                             <div className={styles.noneDiv}>
-                                <input type="text" id="lat" name="lat" ></input>
-                                <input type="text" id="lng" name="lng" ></input>
-                                <input type="text" id="phoneNum" name="phoneNum" ></input>
+                                <label>
+                                    <input type="text" id="lat" name="lat" ></input>
+                                    <input type="text" id="lng" name="lng" ></input>
+                                    <input type="text" id="phoneNum" name="phoneNum" ></input>
+                                </label>
                             </div>
                             <div className={styles.storename}>
-                                <input type="text" id="storeName" name="storeName" ></input>
-                                <input type="text" id="address" name="address" ></input>
+                                <label>
+                                    <input type="text" id="storeName" name="storeName" ></input>
+                                    <input type="text" id="address" name="address" ></input>
+                                </label>
                             </div>
 
                             <div className={styles.selectcategory}>
@@ -339,10 +343,10 @@ function MapPageCafe(){
                                     아이스크림
                                 </label>
                             </div>
-                            <button type="submit">식당 추가하기</button>
+                            <button type="submit" onClick={handleSubmit}>카페 추가하기</button>
                         </div>
                     </div>
-                </form>
+
 
 
             </div>
