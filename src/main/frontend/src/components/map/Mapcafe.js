@@ -244,11 +244,12 @@ function MapPageCafe(){
     }
 
     const handleSubmit=()=>{
-        let lat = document.getElementById('lat').value;
-        let lng = document.getElementById('lng').value;
+        let lat = parseFloat(document.getElementById('lat').value);
+        let lng = parseFloat(document.getElementById('lng').value);
         let storeName = document.getElementById('storeName').value;
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
+        let category = parseInt(x);
         //post 요청 보낼 url
         axios.post('http://localhost:8080/api/mapcafe/addMarker', {
             lat: lat,
@@ -256,7 +257,8 @@ function MapPageCafe(){
             storeName: storeName,
             address: address,
             phoneNum: phoneNum,
-            category : x
+            category : category,
+            likes : 0
         }, {
             headers: { 'Content-type': 'application/json' }
         })
