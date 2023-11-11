@@ -3,7 +3,9 @@ package com.HDD.management.mypage.controller;
 import com.HDD.common.Pair;
 import com.HDD.management.model.Member;
 import com.HDD.management.mypage.service.MyPageService;
+import com.HDD.management.mypage.webDto.PasswordRequest;
 import com.HDD.management.repository.MemberRepository;
+import com.HDD.management.service.EmailService;
 import com.HDD.recruitment.model.ProjectBoard;
 import com.HDD.recruitment.model.RoommateBoard;
 import lombok.Getter;
@@ -11,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -25,6 +25,8 @@ import java.util.*;
 public class MyPageController {
     private final MemberRepository memberRepository;
     private final MyPageService myPageService;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원 정보
     @GetMapping("/info")
@@ -71,6 +73,24 @@ public class MyPageController {
         String id = userDetails.getUsername();
         Member member = memberRepository.findBySid(id).orElseThrow(Exception::new);
         return ResponseEntity.ok(member);
+    }
+
+    // 이메일 발송
+    @GetMapping("/email")
+    public ResponseEntity<?> sendEmail(@RequestParam String email) throws Exception {
+        String certification = emailService.sendSimpleMessage(email);
+        return ResponseEntity.ok(certification);
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/update/password")
+    public ResponseEntity<?> updatePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PasswordRequest request) throws Exception {
+        Member member = memberRepository.findBySid(userDetails.getUsername())
+                .orElseThrow(Exception::new);
+        member.setPassword(passwordEncoder.encode(request.getPassword()));
+        memberRepository.save(member);
+//        System.out.println(passwordEncoder.matches(passwordEncoder.encode(password), member.getPassword()));
+        return ResponseEntity.ok("비밀번호 변경");
     }
 
 //    @Getter
