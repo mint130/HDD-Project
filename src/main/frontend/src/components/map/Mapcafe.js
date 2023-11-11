@@ -248,8 +248,8 @@ function MapPageCafe(){
         'Content-type': 'application/json',
     };
     const handleSubmit=()=>{
-        let lat = (document.getElementById('lat').value);
-        let lng = (document.getElementById('lng').value);
+        let lat = document.getElementById('lat').value;
+        let lng = document.getElementById('lng').value;
         let storeName = document.getElementById('storeName').value;
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
@@ -261,7 +261,7 @@ function MapPageCafe(){
             storeName: storeName,
             address: address,
             phoneNum: phoneNum,
-            category : category,
+            category : category
 
         }, {
             headers: headers,
