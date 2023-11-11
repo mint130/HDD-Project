@@ -254,11 +254,20 @@ function MapPage(){
         infowindow.open(map, marker);
 
     }
-
+    const jwtToken = localStorage.getItem('jwtToken');
+    const headers = {
+        'Authorization': `Bearer ${jwtToken}`,
+        'Content-type': 'application/json',
+    };
     const handleSubmit=()=>{
 
+<<<<<<< HEAD
         let lat = document.getElementById('lat').value;
         let lng = document.getElementById('lng').value;
+=======
+        let lat = (document.getElementById('lat').value);
+        let lng = (document.getElementById('lng').value);
+>>>>>>> eda5227487d10172464dbd44ca3fefda050cedf4
         let storeName = document.getElementById('storeName').value;
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
@@ -270,10 +279,15 @@ function MapPage(){
             storeName: storeName,
             address: address,
             phoneNum: phoneNum,
+<<<<<<< HEAD
             category : category
+=======
+            category : category,
+
+>>>>>>> eda5227487d10172464dbd44ca3fefda050cedf4
 
         }, {
-            headers: { 'Content-type': 'application/json' }
+            headers: headers,
         })
             .then((response) => {
                 alert('저장되었습니다.');
