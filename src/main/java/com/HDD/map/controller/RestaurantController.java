@@ -30,9 +30,16 @@ public class RestaurantController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/addMarker")
-    public ResponseEntity<?> addMarker(@RequestBody MarkerRequest markerRequest)
+    public ResponseEntity<?> addMarker(@RequestBody String slat,
+                                       @RequestBody String slng,
+                                       @RequestBody String storeName,
+                                       @RequestBody String address,
+                                       @RequestBody String phoneNum,
+                                       @RequestBody int category)
     {
-        RestaurantMarker temp = new RestaurantMarker(markerRequest.getLat(), markerRequest.getLng(), markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum(), markerRequest.getCategory(), markerRequest.getLikes());
+        double lat = Double.parseDouble(slat);
+        double lng = Double.parseDouble(slng);
+        RestaurantMarker temp = new RestaurantMarker(lat, lng, storeName, address, phoneNum, category, 0);
         restaurantMarkerService.add(temp);
         System.out.println("저장됨");
 

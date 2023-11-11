@@ -257,8 +257,8 @@ function MapPage(){
 
     const handleSubmit=()=>{
 
-        let lat = parseFloat(document.getElementById('lat').value);
-        let lng = parseFloat(document.getElementById('lng').value);
+        let lat = document.getElementById('lat').value;
+        let lng = document.getElementById('lng').value;
         let storeName = document.getElementById('storeName').value;
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
@@ -270,8 +270,7 @@ function MapPage(){
             storeName: storeName,
             address: address,
             phoneNum: phoneNum,
-            category : category,
-            likes : 0
+            category : category
 
         }, {
             headers: { 'Content-type': 'application/json' }

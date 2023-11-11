@@ -23,8 +23,8 @@ public class RestaurantMarkerServiceTest {
     void 추가(){
         RestaurantMarker marker = new RestaurantMarker();
 
-        marker.setLat(3.234);
-        marker.setLng(2.345);
+        marker.setLat(3.234f);
+        marker.setLng(2.345f);
         marker.setStoreName("안녕");
         marker.setAddress("서초중앙로");
         marker.setPhoneNum("010-22");

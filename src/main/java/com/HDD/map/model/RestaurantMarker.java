@@ -10,7 +10,6 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class RestaurantMarker {
 
     @Id
@@ -26,7 +25,6 @@ public class RestaurantMarker {
 
     private String address;
     private String phoneNum;
-    @NotNull
     private int likesNumber;
     private int dislikes;
 
@@ -102,6 +100,10 @@ public class RestaurantMarker {
 
     public void setCategory(int category) {
         this.category = category;
+    }
+
+    public RestaurantMarker(){
+
     }
 
     public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category, int likesNumber) {
