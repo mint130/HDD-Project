@@ -242,10 +242,14 @@ function MapPageCafe(){
         infowindow.setContent(content);
         infowindow.open(map, marker);
     }
-
+    const jwtToken = localStorage.getItem('jwtToken');
+    const headers = {
+        'Authorization': `Bearer ${jwtToken}`,
+        'Content-type': 'application/json',
+    };
     const handleSubmit=()=>{
-        let lat = parseFloat(document.getElementById('lat').value);
-        let lng = parseFloat(document.getElementById('lng').value);
+        let lat = (document.getElementById('lat').value);
+        let lng = (document.getElementById('lng').value);
         let storeName = document.getElementById('storeName').value;
         let address = document.getElementById('address').value;
         let phoneNum = document.getElementById('phoneNum').value;
@@ -258,9 +262,9 @@ function MapPageCafe(){
             address: address,
             phoneNum: phoneNum,
             category : category,
-            likes : 0
+
         }, {
-            headers: { 'Content-type': 'application/json' }
+            headers: headers,
         })
             .then((response) => {
                 alert('저장되었습니다.');
