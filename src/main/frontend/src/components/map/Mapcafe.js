@@ -325,8 +325,8 @@ function MapPageCafe(){
                             </div>
                             <div className={styles.storename}>
                                 <label>
-                                    <input type="text" id="storeName" name="storeName" ></input>
-                                    <input type="text" id="address" name="address" ></input>
+                                    <input type="text" id="storeName" name="storeName" readOnly></input>
+                                    <input type="text" id="address" name="address" readOnly></input>
                                 </label>
                             </div>
 
