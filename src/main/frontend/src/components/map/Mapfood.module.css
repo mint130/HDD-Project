@@ -1,4 +1,18 @@
-
+.container{
+    display: flex;
+    flex-direction: row;
+}
+.keyword_wrap{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    margin-top: 60px;
+}
 .foodselect {
     padding:3px 80px 3px 80px;
     border-radius:5px;
@@ -43,12 +57,11 @@
 
 }
 .storeinfo {
-    position: absolute;
+    display : flex;
     display: none;
-    height : 120px;
-    left : 670px;
+    margin-top : 10px;
+    height : 110px;
     width: 400px;
-    top: 250px;
     border: solid 2px rgba(0,0,0,.08);
 }
 .storeinfo input {
@@ -76,4 +89,31 @@
 
 .noneDiv {
     display:none;
+}
+
+.column{
+    display: flex;
+    width: 400px;
+    height : 60px;
+    font-size :13px;
+    align-items: flex-start;
+    padding: 7px;
+
+}
+
+
+.column_left{
+    position: relative;
+    width: 600px;
+    padding: 10px 0px 10px 0px;
+}
+.post_content{
+    display: inline;
+    font-size: 14px;
+
+}
+.post_variable{
+
+    overflow:hidden;
+    display: inline-block;
 }

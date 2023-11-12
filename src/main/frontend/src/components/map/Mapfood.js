@@ -2,7 +2,9 @@ import React, {useEffect} from "react";
 import styles from "./Mapfood.module.css";
 import {useState} from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
+import MapPagination from "./MapPagination";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 
 
 /*global kakao*/
@@ -15,6 +17,7 @@ function MapPage(){
     let infowindow;
     let map;
     const [x, setX] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -284,7 +287,12 @@ function MapPage(){
                 alert('저장되었습니다.');
 
             })
-            .catch(error => console.error(error.response));
+            .catch(err => {
+                if(err.response.status === 500){
+                    alert('이미 등록된 가게입니다.');
+                }
+
+            });
     };
 
     // 검색결과 목록의 자식 Element를 제거하는 함수입니다
@@ -293,10 +301,78 @@ function MapPage(){
             el.removeChild (el.lastChild);
         }
     }
-
+    const [boardList, setBoardList] = useState([]);
+    const [filterList, setFilterList] =useState([]);
+    const [limit, setLimit] = useState(5); //페이지 당 게시물 수
+    const [page, setPage] = useState(1);    //현재 페이지 번호
+    const offset = (page - 1) * limit;  //첫 게시물의 위치
+    const [loading, setLoading] = useState(true);
     const handleRadiobtn = (e) => {
         console.log(e.target.value)
         setX(e.target.value)
+    }
+    useEffect(() => {
+        getBoardList(); // 페이지 진입 시 getBoardList 호출
+
+    }, []);
+
+    const getBoardList = async () => {
+        try {
+            const resp = await axios.get('http://localhost:8080/api/map', { headers: headers });
+            setBoardList(resp.data);
+            setFilterList(resp.data);
+            console.log(resp.data); // 콘솔에 데이터 출력
+            setLoading(false);
+
+
+        } catch (error) {
+            alert("로그인이 필요합니다.");
+            navigate("/api/auth/signin");
+        }
+    }
+
+    const addMarkerList=()=>{
+        let marker = new kakao.maps.Marker({
+            // 지도 중심좌표에 마커를 생성합니다
+
+        });
+
+// 지도에 마커를 표시합니다
+        marker.setMap(map);
+        marker.setPosition(new kakao.maps.LatLng());
+
+
+    }
+
+    const categoryBoardList1 = () => {
+
+
+        const filterList1 = filterList.filter(p => p.category == 1);
+
+        setBoardList(filterList1);
+
+    }
+
+    const categoryBoardList2 = () => {
+
+
+        const filterList2 = filterList.filter(p => p.category == 2);
+
+        setBoardList(filterList2);
+    }
+
+    const categoryBoardList3 = () => {
+
+        const filterList3 = filterList.filter(p => p.category == 3);
+
+        setBoardList(filterList3);
+    }
+
+    const categoryBoardList4 = () => {
+
+        const filterList4 = filterList.filter(p => p.category == 4);
+
+        setBoardList(filterList4);
     }
 
     return(
@@ -321,14 +397,14 @@ function MapPage(){
                     <ul id="placesList"></ul>
                     <div id="pagination"></div>
                 </div>
-            </div>
-            <div className={styles.filter}>
-                <button type="button">일식</button>
-                <button type="button">양식</button>
-                <button type="button">한식</button>
-                <button type="button">중식</button>
-            </div>
 
+            <div className={styles.filter}>
+                <button type="button" onClick={categoryBoardList1}>일식</button>
+                <button type="button" onClick={categoryBoardList2}>양식</button>
+                <button type="button" onClick={categoryBoardList3}>한식</button>
+                <button type="button" onClick={categoryBoardList4}>중식</button>
+            </div>
+            </div>
                 <div className={styles.info} >
                     <div className={styles.storeinfo} id ='storeinfo'>
                         <div className={styles.noneDiv}>
@@ -340,8 +416,8 @@ function MapPage(){
                         </div>
                         <div className={styles.storename}>
                             <label>
-                                <input type="text" id="storeName" name="storeName" ></input>
-                                <input type="text" id="address" name="address" ></input>
+                                <input type="text" id="storeName" name="storeName" readOnly></input>
+                                <input type="text" id="address" name="address" readOnly></input>
                             </label>
                         </div>
 
@@ -366,6 +442,39 @@ function MapPage(){
 
                         </div>
                         <button type="submit" onClick={handleSubmit}>식당 추가하기</button>
+
+                    </div>
+                    <div className={styles.content}>
+                            <ul className={styles.row}>
+                                {boardList.slice(offset, offset+limit).map((board)=>{
+
+                                        return (
+                                            <div>
+                                                <div className={styles.column}>
+                                                    <li className={styles.column_left} key={board.id}>
+
+                                                        <h2 className={styles.post_title}>{board.storeName}</h2>
+                                                        <div className={styles.post_content}>
+
+                                                            <div className={styles.post_variable}> {board.address}</div>
+                                                            <div className={styles.post_variable}> {board.phoneNum}</div>
+                                                        </div>
+                                                        <hr></hr>
+                                                    </li>
+
+                                                </div>
+
+                                            </div>
+                                        );
+                                    }
+                                )}
+                            </ul>
+                        <MapPagination
+                            total={boardList.length}
+                            limit={limit}
+                            page={page}
+                            setPage={setPage}
+                        />
                     </div>
                 </div>
 
