@@ -30,16 +30,12 @@ public class RestaurantController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/addMarker")
-    public ResponseEntity<?> addMarker(@RequestBody String slat,
-                                       @RequestBody String slng,
-                                       @RequestBody String storeName,
-                                       @RequestBody String address,
-                                       @RequestBody String phoneNum,
-                                       @RequestBody int category)
+    public ResponseEntity<?> addMarker(@RequestBody MarkerRequest markerRequest)
     {
-        double lat = Double.parseDouble(slat);
-        double lng = Double.parseDouble(slng);
-        RestaurantMarker temp = new RestaurantMarker(lat, lng, storeName, address, phoneNum, category, 0);
+        double lat = Double.parseDouble(markerRequest.getLat());
+        double lng = Double.parseDouble(markerRequest.getLng());
+        int category = Integer.parseInt(markerRequest.getCategory());
+        RestaurantMarker temp = new RestaurantMarker(lat, lng, markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum(), category, 0);
         restaurantMarkerService.add(temp);
         System.out.println("저장됨");
 
@@ -60,9 +56,9 @@ public class RestaurantController {
         restaurantLikesService.addLike(foundMarker.getId(), foundMember);
     }
 
-    @GetMapping("/addDislike")
-    public void addDislike(@RequestParam String storeName){
-        restaurantMarkerService.addDislike(storeName);
-    }
+//    @GetMapping("/addDislike")
+//    public void addDislike(@RequestParam String storeName){
+//        restaurantMarkerService.addDislike(storeName);
+//    }
 
 }

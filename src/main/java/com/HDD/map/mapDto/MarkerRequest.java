@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 @Getter
 @Service
 public class MarkerRequest {
-    private double lat;
-    private double lng;
+    private String lat;
+    private String lng;
     private String storeName;
     private String address;
     private String phoneNum;
-    private int category;
-    private int likes;
+    private String category;
+    private String likesNumber;
 }

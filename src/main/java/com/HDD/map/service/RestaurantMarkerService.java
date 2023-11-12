@@ -42,19 +42,19 @@ public class RestaurantMarkerService {
 
     public Long addLike(String storeName){
         RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
-        int currentLikes = foundMarker.getLikesNumber();
-        foundMarker.setLikesNumber(currentLikes++);
+        int currentLikes = foundMarker.getLikesCount();
+        foundMarker.setLikesCount(currentLikes++);
 
         return foundMarker.getId();
     }
 
-    public Long addDislike(String storeName){
-        RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
-        int currentDislikes = foundMarker.getDislikes();
-        foundMarker.setDislikes(currentDislikes++);
-
-        return foundMarker.getId();
-    }
+//    public Long addDislike(String storeName){
+//        RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
+//        int currentDislikes = foundMarker.getDislikes();
+//        foundMarker.setDislikes(currentDislikes++);
+//
+//        return foundMarker.getId();
+//    }
 
     public List<RestaurantMarker> categoryFind(int category){
         return restaurantMarkerRepository.findByCategory(category);

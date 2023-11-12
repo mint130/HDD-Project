@@ -22,7 +22,7 @@ public class RestaurantLikes {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurantMarker_id")
     private RestaurantMarker restaurantMarker;
 
     @ManyToOne(fetch = LAZY)

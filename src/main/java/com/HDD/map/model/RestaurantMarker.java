@@ -1,5 +1,6 @@
 package com.HDD.map.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,6 +15,7 @@ public class RestaurantMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
 
@@ -25,8 +27,12 @@ public class RestaurantMarker {
 
     private String address;
     private String phoneNum;
-    private int likesNumber;
-    private int dislikes;
+
+    private int likesCount = 0;
+
+
+
+//    private int dislikes;
 
     private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
@@ -78,21 +84,21 @@ public class RestaurantMarker {
         this.phoneNum = phoneNum;
     }
 
-    public int getLikesNumber() {
-        return likesNumber;
+    public int getLikesCount() {
+        return likesCount;
     }
 
-    public void setLikesNumber(int likesNumber) {
-        this.likesNumber = likesNumber;
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
     }
 
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
-    }
+//    public int getDislikes() {
+//        return dislikes;
+//    }
+//
+//    public void setDislikes(int dislikes) {
+//        this.dislikes = dislikes;
+//    }
 
     public int getCategory() {
         return category;
@@ -106,14 +112,14 @@ public class RestaurantMarker {
 
     }
 
-    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category, int likesNumber) {
+    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category, int likesCount) {
         this.lat = lat;
         this.lng = lng;
         this.storeName = storeName;
         this.address = address;
         this.phoneNum = phoneNum;
         this.category = category;
-        this.likesNumber = likesNumber;
-        dislikes = 0;
+        this.likesCount = likesCount;
+//        this.dislikes = dislikes
     }
 }
