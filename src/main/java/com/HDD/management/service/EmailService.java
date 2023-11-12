@@ -62,7 +62,6 @@ public class EmailService {
     }
 
     public String sendSimpleMessage(String to) throws Exception {
-        validateDuplicateEmail(to);
         MimeMessage message = createMessage(to);
         try {
             mailSender.send(message);
@@ -71,6 +70,11 @@ public class EmailService {
             throw new IllegalArgumentException();
         }
         return ePw;
+    }
+
+    public String sendSignSimpleMesesage(String to) throws Exception {
+        validateDuplicateEmail(to);
+        return sendSimpleMessage(to);
     }
 
     private void validateDuplicateEmail(String email) {
