@@ -68,7 +68,7 @@ public class AuthController {
                     .body(new MessageResponse("이미 가입된 이메일입니다"));
         }
         if (request.equals("send_email")) {
-            String certification = emailService.sendSimpleMessage(email);
+            String certification = emailService.sendSignSimpleMesesage(email);
             model.addAttribute("certification", certification);
             return ResponseEntity.ok().body(certification);
         }
