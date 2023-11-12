@@ -38,7 +38,7 @@ function Project_recruit_board(){
     const getSearchBoardList = (search) => {
 
         const filterList = boardList.filter((p) => {
-            return p.major.includes(search)+p.title.includes(search)+p.info.includes(search)
+            return p.first.major.includes(search)+p.first.title.includes(search)+p.first.info.includes(search)
         })
         setBoardList(filterList)
     }

@@ -45,7 +45,7 @@ function SignIn(){
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id='sid' type='text' placeholder='학번을 입력하세요. 예)C123456'
+                                <input className={styles.input} id='sid' type='text' placeholder='학번을 입력하세요. 예)C123456'
                                        {...register("sid",
                                            {
                                                required:"아이디(학번)은 필수 입력입니다",
@@ -64,7 +64,7 @@ function SignIn(){
                         <div className={styles.list}><label htmlFor='password'>비밀번호</label></div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id='password' type='password' placeholder='비밀번호를 입력하세요'
+                                <input  className={styles.input} id='password' type='password' placeholder='비밀번호를 입력하세요'
                                        {...register("password", {
                                            required:"비밀번호는 필수 입력입니다",
                                        })}
