@@ -15,7 +15,6 @@ public class RestaurantMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
 

@@ -51,10 +51,12 @@ public class RestaurantController {
     }
 
     @GetMapping("/addLike")
-    public void addLike(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String storeName){
+    public ResponseEntity<?> addLike(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String storeName){
         Member foundMember = memberRepository.findBySid(userDetails.getUsername()).get();
         RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
         restaurantLikesService.addLike(foundMarker.getId(), foundMember);
+
+        return ResponseEntity.ok(new MessageResponse("좋아요"));
     }
 
 //    @GetMapping("/addDislike")
