@@ -3,7 +3,26 @@ import styled from "styled-components";
 import jwt_decode from "jwt-decode";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import * as Style from "../style";
 
+
+const Button=styled.button`
+     display: block;
+    width:100px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #fff;
+    border: solid 1px rgba(0,0,0,.08);
+    background-color: #013B70;
+        margin-left: auto;
+
+`
 const Title = styled.h2`
     padding-top: 10px;
     padding-bottom: 10px;
@@ -12,8 +31,12 @@ const Title = styled.h2`
     font-size: 30px;
     color: #000000;
 `
+const Row=styled.div`
+    display: flex;
+    padding: 5px;
+`
 const Div = styled.div`
- display: inline-flex;
+
     width: 100%;
     padding-top: 16px;
     font-size: 16px;
@@ -34,6 +57,9 @@ function Profile() {
         'Authorization': `Bearer ${jwtToken}`,
     };
 
+    const handleClick=()=>{
+        navigate("/mypage/update/password");
+    }
 
     const getProfile=async ()=>{
         try{
@@ -52,9 +78,25 @@ function Profile() {
     return (
         <div>
             <Title>회원 정보</Title>
-            <Div><Label>아이디 </Label>{" "+profile.sid}</Div>
-            <Div><Label>닉네임 </Label>{profile.nickname}</Div>
-            <Div><Label>이메일 </Label>{profile.email}</Div>
+            <Div>
+                <Row>
+                    <Label>아이디 </Label>{" "+profile.sid}
+                </Row>
+                <Row>
+                    <Label>닉네임 </Label>{profile.nickname}
+                </Row>
+                <Row>
+                    <Label>이메일 </Label>{profile.email}
+                </Row>
+
+
+
+                    <Button onClick={handleClick}>비밀번호 변경</Button>
+
+
+
+
+            </Div>
         </div>
     );
 
