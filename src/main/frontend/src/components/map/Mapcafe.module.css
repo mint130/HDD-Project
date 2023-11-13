@@ -1,3 +1,20 @@
+.container{
+    display: flex;
+    flex-direction: row;
+
+}
+.keyword_wrap{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    margin-top: 60px;
+}
+
 .select {position:relative ;left:180px;top:30px;width:500px;}
 
 .food {
@@ -24,15 +41,23 @@
     top:55px;
     left:100px;
     width:500px;
+    display : flex;
 }
 
-.filter button {
+.filter button{
     border-radius:10px;
     border: solid 1px #002148;
-    padding:3px;
-    margin-right:15px;
-    font-size:14px;
-    background-color:white;
+    font-size: 15px;
+    padding: 2px;
+    margin-right: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+.btn_all button{
+
+    background-color: #013B70;
+    color: white;
+
 }
 
 #storeinfo {
@@ -41,12 +66,11 @@
 
 }
 .storeinfo {
-    position: absolute;
+    display : flex;
     display: none;
-    height : 120px;
-    left : 670px;
-    width: 450px;
-    top: 250px;
+    margin-top : 10px;
+    height : 130px;
+    width: 400px;
     border: solid 2px rgba(0,0,0,.08);
 }
 .storeinfo input {
@@ -62,16 +86,70 @@
     display: inline;
 }
 .selectcategory p{
-    padding: 10px;
+    padding:10px;
 }
 .selectcategory input{
-    margin: 5px;
+    margin:5px;
 }
 .storeinfo button {
     position : relative;
-    left : 20px;
+    left : 250px;
+    margin: 5px;
 }
 
 .noneDiv {
     display:none;
+}
+
+.column{
+    display: flex;
+    width: 400px;
+    height : 80px;
+    font-size :13px;
+    align-items: flex-start;
+    padding: 7px;
+
+}
+
+.column_left{
+
+    width: 600px;
+    padding: 10px 0px 10px 0px;
+}
+.column_top{
+    display:inline;
+}
+.post_title{
+
+    display:inline;
+}
+.post_content{
+
+    font-size: 14px;
+
+}
+.post_like{
+    position: relative;
+    left : 270px;
+}
+.likebutton button{
+    position: relative;
+    left : 255px;
+    bottom: 45px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.arraymenu{
+    position: relative;
+    margin-left: 50px;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.arraymenu select{
+    height: 25px;
 }
