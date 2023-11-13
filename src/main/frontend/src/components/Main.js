@@ -3,8 +3,7 @@ import jwt_decode from 'jwt-decode';
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
-
+import Notice from './Notice'
 function Main(){
     const navigate = useNavigate();
     const jwtToken = localStorage.getItem('jwtToken');
@@ -42,7 +41,7 @@ function Main(){
     const navigateToMyPage = () => {
         navigate('/mypage')
     }
-    const [val1, setVal1] = useState("");
+   /* const [val1, setVal1] = useState("");
     const {coll,dept} = {coll:[ {coll:'학생공지'},
             {coll:'공과대학'},{coll:'건축도시대학'},{coll:'경영대학'},{coll:'문과대학'},{coll:'법과대학'},{coll:'사범대학'},
             {coll:'미술대학'},{coll:'경제학부'},{coll:'공연예술학부'},{coll:'디자인경영융합'},{coll:'자율전공'}],
@@ -51,14 +50,14 @@ function Main(){
             {coll:'공과대학', dept:'건설환경공학과'},
             {coll:'공과대학', dept:'전자전기공학부'},{coll:'공과대학', dept:'컴퓨터공학과'},{coll:'공과대학', dept:'산업데이터공학과'},
             {coll:'공과대학', dept:'신소재공학전공'},{coll:'공과대학', dept:'화학공학전공'}, {coll:'공과대학', dept:'기계시스템디자인공학과'},
-            {coll:'건축도시대학', dept:'건축학부'},{coll:'경영대학', dept:'경영학부'},{coll:'문과대학', dept:'선택'},
+            {coll:'건축도시대학', dept:'건축학부'},{coll:'경영대학', dept:'경영학전공'},{coll:'문과대학', dept:'선택'},
             {coll:'문과대학', dept:'영어영문학과'},{coll:'문과대학', dept:'독어독문학과'},{coll:'문과대학', dept:'불어불문학과'},
             {coll:'문과대학', dept:'국어국문학과'},{coll:'법과대학', dept:'법학부'},{coll:'사범대학', dept:'선택'},
             {coll:'사범대학', dept:'수학교육과'}, {coll:'사범대학', dept:'국어교육과'},{coll:'사범대학', dept:'영어교육과'},
             {coll:'사범대학', dept:'역사교육과'}, {coll:'사범대학', dept:'교육학과'},{coll:'미술대학', dept:'선택'},
             {coll:'미술대학', dept:'동양화과'}, {coll:'미술대학', dept:'회화과'}, {coll:'미술대학', dept:'판화과'},
             {coll:'미술대학', dept:'조소과'},{coll:'미술대학', dept:'목조형가구학과'},{coll:'미술대학', dept:'예술학과'},
-            {coll:'미술대학', dept:'금속조형디자인과'}, {coll:'미술대학', dept:'도예유리과'}, {coll:'미술대학', dept:'섬유미술패션디자인과'},
+            {coll:'미술대학', dept:'금속조형디자인과'}, {coll:'미술대학', dept:'도예유리과'}, {coll:'미술대학', dept:'섬유미술패션디자인과'}, {coll:'미술대학', dept:'시각디자인전공'},  {coll:'미술대학', dept:'산업디자인전공'},
             {coll:'경제학부', dept:'경제학전공'},{coll:'공연예술학부', dept:'선택'},{coll:'공연예술학부', dept:'뮤지컬전공'}, {coll:'공연예술학부', dept:'실용음악전공'},{coll:'디자인경영융합', dept:'디자인경영융합'},{coll:'자율전공', dept:'캠퍼스자율전공'}
         ]};
 
@@ -68,7 +67,8 @@ function Main(){
     }
     function noticeC(e){
         document.querySelector('h4').innerHTML = e;
-    }
+    }*/
+
     const profileUrl="/img.png";
     return (
 
@@ -128,56 +128,7 @@ function Main(){
 
                     )}
                 </div>
-                <div className="notice">
-                    <div className="form-group">
-                        <h2>공지사항</h2>
-                        <select onChange={(e)=>setVal1(e.target.value)} onClick={(e)=>noticeC(e.target.value)}>
-                            {coll.map((el)=>(
-                                <option key={el.coll} value={el.coll}>
-                                    {el.coll}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group2">
-                        <select onChange={(e)=>setVal2(e.target.value)}>
-                            {dept.filter((el)=>el.coll===val1)
-                                .map((el)=>(
-                                    <option key={el.dept} value={el.dept} >{el.dept}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-                    <hr/>
-                    <div className="article_n">
-                        <h4>학생공지</h4>
-                        <li>
-                            <a href="https://www.hongik.ac.kr/contents/www/cor/studentsno.html">
-                                2023학년도 하계계절학기 학점교류 신청 안내(건국대학교)
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.hongik.ac.kr/contents/www/cor/studentsno.html">
-                                2023학년도 하계계절학기 학점교류 신청 안내(서울시립대학교)
-                            </a>
-                        </li>
-                        <li>
-                            <a  href="https://www.hongik.ac.kr/contents/www/cor/studentsno.html">
-                                2023학년도 하계계절학기 학점교류 신청 안내(숙명여자대학교)
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.hongik.ac.kr/contents/www/cor/studentsno.html">
-                                [서울장학재단] 2023년 독립유공자 후손 장학금 장학생 선발 공고 안내
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.hongik.ac.kr/contents/www/cor/studentsno.html">
-                                [훈련생 모집] K-Digital Training 무료 취업 연계 교육 훈련생 모집
-                            </a>
-                        </li>
-                    </div>
-                </div>
+               <Notice/>
                 <div className="card">
                     <h2>최근 게시물</h2>
                     <hr/>
