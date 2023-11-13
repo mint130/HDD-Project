@@ -264,7 +264,10 @@ function MapPage(){
     };
     const handleSubmit=()=>{
 
-
+        const div = document.getElementById('storeinfo');
+        if(div.style.display === 'block')  {
+            div.style.display = 'none';
+        }
         let lat = document.getElementById('lat').value;
         let lng = document.getElementById('lng').value;
         let storeName = document.getElementById('storeName').value;
@@ -285,7 +288,7 @@ function MapPage(){
         })
             .then((response) => {
                 alert('저장되었습니다.');
-
+                window.location.reload();
             })
             .catch(err => {
                 if(err.response.status === 500){
@@ -307,6 +310,7 @@ function MapPage(){
     const [page, setPage] = useState(1);    //현재 페이지 번호
     const offset = (page - 1) * limit;  //첫 게시물의 위치
     const [loading, setLoading] = useState(true);
+    const [latList, setlatList] = useState([]);
     const handleRadiobtn = (e) => {
         console.log(e.target.value)
         setX(e.target.value)
@@ -324,7 +328,6 @@ function MapPage(){
             console.log(resp.data); // 콘솔에 데이터 출력
             setLoading(false);
 
-
         } catch (error) {
             alert("로그인이 필요합니다.");
             navigate("/api/auth/signin");
@@ -332,15 +335,6 @@ function MapPage(){
     }
 
     const addMarkerList=()=>{
-        let marker = new kakao.maps.Marker({
-            // 지도 중심좌표에 마커를 생성합니다
-
-        });
-
-// 지도에 마커를 표시합니다
-        marker.setMap(map);
-        marker.setPosition(new kakao.maps.LatLng());
-
 
     }
 
@@ -348,8 +342,21 @@ function MapPage(){
 
 
         const filterList1 = filterList.filter(p => p.category == 1);
-
+        let size = filterList1.length;
         setBoardList(filterList1);
+
+        for(let i=0; i < size ; i++){
+            let lat= parseFloat(filterList1[i].lat);
+            let lng = parseFloat(filterList1[i].lng);
+            let marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(lat,lng)
+
+            });
+
+        }
+
+
 
     }
 
@@ -374,7 +381,9 @@ function MapPage(){
 
         setBoardList(filterList4);
     }
-
+    const categoryBoardList5=()=>{
+        setBoardList(filterList);
+    }
     return(
 
         <div className={styles.container}>
@@ -399,10 +408,11 @@ function MapPage(){
                 </div>
 
             <div className={styles.filter}>
-                <button type="button" onClick={categoryBoardList1}>일식</button>
-                <button type="button" onClick={categoryBoardList2}>양식</button>
-                <button type="button" onClick={categoryBoardList3}>한식</button>
+                <button type="button" onClick={categoryBoardList1}>한식</button>
+                <button type="button" onClick={categoryBoardList2}>일식</button>
+                <button type="button" onClick={categoryBoardList3}>양식</button>
                 <button type="button" onClick={categoryBoardList4}>중식</button>
+                <button type="button" onClick={categoryBoardList5}>전체보기</button>
             </div>
             </div>
                 <div className={styles.info} >
@@ -455,9 +465,9 @@ function MapPage(){
 
                                                         <h2 className={styles.post_title}>{board.storeName}</h2>
                                                         <div className={styles.post_content}>
-
                                                             <div className={styles.post_variable}> {board.address}</div>
                                                             <div className={styles.post_variable}> {board.phoneNum}</div>
+
                                                         </div>
                                                         <hr></hr>
                                                     </li>
