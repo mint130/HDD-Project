@@ -4,8 +4,8 @@ import {useState} from 'react';
 import axios from "axios";
 import { useNavigate, Link } from 'react-router-dom';
 import MapPagination from "./MapPagination";
-import { HiChevronDown, HiChevronUp } from "react-icons/hi";
-
+import likeimage from "./pngegg.png";
+import {useRef} from 'react';
 
 /*global kakao*/
 
@@ -18,7 +18,14 @@ function MapPage(){
     let map;
     const [x, setX] = useState([]);
     const navigate = useNavigate();
+    const Btn = useRef(null);
+    const Btn1 = useRef(null);
+    const Btn2 = useRef(null);
+    const Btn3 = useRef(null);
+    const Btn4 = useRef(null);
+    const [val1, setVal1] = useState("");
 
+    const {coll} = {coll:[ {coll:'등록순'}, {coll:'이름순'},{coll:'좋아요순'}]};
 
     useEffect(() => {
 
@@ -293,6 +300,7 @@ function MapPage(){
             .catch(err => {
                 if(err.response.status === 500){
                     alert('이미 등록된 가게입니다.');
+                    window.location.reload();
                 }
 
             });
@@ -310,7 +318,7 @@ function MapPage(){
     const [page, setPage] = useState(1);    //현재 페이지 번호
     const offset = (page - 1) * limit;  //첫 게시물의 위치
     const [loading, setLoading] = useState(true);
-    const [latList, setlatList] = useState([]);
+
     const handleRadiobtn = (e) => {
         console.log(e.target.value)
         setX(e.target.value)
@@ -339,8 +347,16 @@ function MapPage(){
     }
 
     const categoryBoardList1 = () => {
-
-
+        Btn.current.style.backgroundColor= '#ffffff';
+        Btn.current.style.color='#000000';
+        Btn1.current.style.backgroundColor= '#013B70';
+        Btn1.current.style.color='#ffffff';
+        Btn2.current.style.backgroundColor= '#ffffff';
+        Btn2.current.style.color='#000000';
+        Btn3.current.style.backgroundColor= '#ffffff';
+        Btn3.current.style.color='#000000';
+        Btn4.current.style.backgroundColor= '#ffffff';
+        Btn4.current.style.color='#000000';
         const filterList1 = filterList.filter(p => p.category == 1);
         let size = filterList1.length;
         setBoardList(filterList1);
@@ -362,28 +378,123 @@ function MapPage(){
 
     const categoryBoardList2 = () => {
 
-
+        Btn.current.style.backgroundColor= '#ffffff';
+        Btn.current.style.color='#000000';
+        Btn1.current.style.backgroundColor= '#ffffff';
+        Btn1.current.style.color='#000000';
+        Btn2.current.style.backgroundColor= '#013B70';
+        Btn2.current.style.color='#ffffff';
+        Btn3.current.style.backgroundColor= '#ffffff';
+        Btn3.current.style.color='#000000';
+        Btn4.current.style.backgroundColor= '#ffffff';
+        Btn4.current.style.color='#000000';
         const filterList2 = filterList.filter(p => p.category == 2);
 
         setBoardList(filterList2);
     }
 
     const categoryBoardList3 = () => {
-
+        Btn.current.style.backgroundColor= '#ffffff';
+        Btn.current.style.color='#000000';
+        Btn1.current.style.backgroundColor= '#ffffff';
+        Btn1.current.style.color='#000000';
+        Btn2.current.style.backgroundColor= '#ffffff';
+        Btn2.current.style.color='#000000';
+        Btn3.current.style.backgroundColor= '#013B70';
+        Btn3.current.style.color='#ffffff';
+        Btn4.current.style.backgroundColor= '#ffffff';
+        Btn4.current.style.color='#000000';
         const filterList3 = filterList.filter(p => p.category == 3);
 
         setBoardList(filterList3);
     }
 
     const categoryBoardList4 = () => {
-
+        Btn.current.style.backgroundColor= '#ffffff';
+        Btn.current.style.color='#000000';
+        Btn1.current.style.backgroundColor= '#ffffff';
+        Btn1.current.style.color='#000000';
+        Btn2.current.style.backgroundColor= '#ffffff';
+        Btn2.current.style.color='#000000';
+        Btn3.current.style.backgroundColor= '#ffffff';
+        Btn3.current.style.color='#000000';
+        Btn4.current.style.backgroundColor= '#013B70';
+        Btn4.current.style.color='#ffffff';
         const filterList4 = filterList.filter(p => p.category == 4);
 
         setBoardList(filterList4);
     }
     const categoryBoardList5=()=>{
+        Btn.current.style.backgroundColor= '#013B70';
+        Btn.current.style.color='#ffffff';
+        Btn1.current.style.backgroundColor= '#ffffff';
+        Btn1.current.style.color='#000000';
+        Btn2.current.style.backgroundColor= '#ffffff';
+        Btn2.current.style.color='#000000';
+        Btn3.current.style.backgroundColor= '#ffffff';
+        Btn3.current.style.color='#000000';
+        Btn4.current.style.backgroundColor= '#ffffff';
+        Btn4.current.style.color='#000000';
+        setBoardList(filterList);
+
+    }
+
+    const handleClose=()=>{
+        const div = document.getElementById('storeinfo');
+        if(div.style.display === 'block')  {
+            div.style.display = 'none';
+        }
+    }
+    const handlelike= async (storeName)=>{
+
+        console.log(storeName);
+        axios.get(`http://localhost:8080/api/map/addLike`, {
+            params:{
+                storeName : storeName,
+
+            },
+            headers: headers}).then(()=>{
+                alert('좋아요 버튼 클릭.');
+                window.location.reload();
+        }).catch(err => {
+            if(err.response.status === 500){
+                alert('이미 좋아요를 눌렀습니다.');
+                window.location.reload();
+            }
+
+        });
+    };
+
+    const handlesortlike=()=>{
+        let sortcopy = [...filterList];
+        sortcopy.sort((a,b)=> a.likesCount < b.likesCount? -1 :1);
+        setBoardList(sortcopy);
+    }
+    const handlesort=()=>{
+        let sortcopy = [...filterList];
+        sortcopy.sort((a,b)=> a.storeName.toUpperCase() < b.storeName.toUpperCase()? -1 :1);
+        setBoardList(sortcopy);
+    }
+
+    const handledate=()=> {
         setBoardList(filterList);
     }
+
+    const handleChange=(e)=>{
+        console.log(e.target.value);
+
+        if(e.target.value == "등록순"){
+            handledate();
+        }
+        else if(e.target.value == "이름순") {
+            handlesort();
+        }
+        else{
+            handlesortlike();
+        }
+
+    }
+
     return(
 
         <div className={styles.container}>
@@ -408,11 +519,23 @@ function MapPage(){
                 </div>
 
             <div className={styles.filter}>
-                <button type="button" onClick={categoryBoardList1}>한식</button>
-                <button type="button" onClick={categoryBoardList2}>일식</button>
-                <button type="button" onClick={categoryBoardList3}>양식</button>
-                <button type="button" onClick={categoryBoardList4}>중식</button>
-                <button type="button" onClick={categoryBoardList5}>전체보기</button>
+                <div className={styles.btn_all}>
+                    <button type="button" onClick={categoryBoardList5} ref={Btn}>전체보기</button>
+                </div>
+                <div className={styles.btn_1}>
+                    <button type="button"  onClick={categoryBoardList1} ref={Btn1}>한식</button>
+                </div>
+                <div className={styles.btn_2}>
+                    <button type="button"  onClick={categoryBoardList2} ref={Btn2}>일식</button>
+                </div>
+                <div className={styles.btn_3}>
+                    <button type="button"  onClick={categoryBoardList3} ref={Btn3}>양식</button>
+                </div>
+                <div className={styles.btn_4}>
+                    <button type="button"  onClick={categoryBoardList4} ref={Btn4}>중식</button>
+                </div>
+
+
             </div>
             </div>
                 <div className={styles.info} >
@@ -452,9 +575,21 @@ function MapPage(){
 
                         </div>
                         <button type="submit" onClick={handleSubmit}>식당 추가하기</button>
+                        <button type="submit" onClick={handleClose}>닫기</button>
 
                     </div>
                     <div className={styles.content}>
+                        <div className={styles.arraymenu}>
+                            <select onChange={handleChange} >
+                                {coll.map((el)=>(
+                                    <option key={el.coll} value={el.coll}
+                                    defaultValue="등록순">
+
+                                        {el.coll}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                             <ul className={styles.row}>
                                 {boardList.slice(offset, offset+limit).map((board)=>{
 
@@ -462,14 +597,23 @@ function MapPage(){
                                             <div>
                                                 <div className={styles.column}>
                                                     <li className={styles.column_left} key={board.id}>
-
-                                                        <h2 className={styles.post_title}>{board.storeName}</h2>
+                                                        <div className={styles.column_top}>
+                                                            <h2 className={styles.post_title} id='post_title'>{board.storeName}</h2>
+                                                            <div className={styles.post_like}> {board.likesCount}</div>
+                                                        </div>
                                                         <div className={styles.post_content}>
                                                             <div className={styles.post_variable}> {board.address}</div>
                                                             <div className={styles.post_variable}> {board.phoneNum}</div>
+                                                            <hr></hr>
+                                                            <div className={styles.likebutton}>
+
+                                                                <button type="submit" onClick={()=>handlelike(board.storeName)}>
+                                                                    <img src={likeimage} width='35px'/>
+                                                                    </button>
+                                                            </div>
 
                                                         </div>
-                                                        <hr></hr>
+
                                                     </li>
 
                                                 </div>

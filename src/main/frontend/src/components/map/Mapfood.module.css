@@ -1,6 +1,7 @@
 .container{
     display: flex;
     flex-direction: row;
+
 }
 .keyword_wrap{
     display: flex;
@@ -36,20 +37,28 @@
     font-size:14px;
 }
 .filter {
+    display : flex;
     position:relative;
     top:55px;
     left:100px;
     width:500px;
 }
-.filter button {
+
+.filter button{
     border-radius:10px;
     border: solid 1px #002148;
-    padding:3px;
-    margin-right:15px;
-    font-size:14px;
-    background-color:white;
+    font-size: 15px;
+    padding: 2px;
+    margin-right: 10px;
+    background-color: white;
+    cursor: pointer;
 }
+.btn_all button{
 
+   background-color: #013B70;
+    color: white;
+
+}
 
 #storeinfo {
 
@@ -85,6 +94,7 @@
 .storeinfo button {
     position : relative;
     left : 50px;
+    margin: 5px;
 }
 
 .noneDiv {
@@ -94,24 +104,52 @@
 .column{
     display: flex;
     width: 400px;
-    height : 60px;
+    height : 80px;
     font-size :13px;
     align-items: flex-start;
     padding: 7px;
 
 }
 
-
 .column_left{
-    position: relative;
+
     width: 600px;
     padding: 10px 0px 10px 0px;
 }
+.column_top{
+    display:inline;
+}
+.post_title{
+
+    display:inline;
+}
 .post_content{
-    display: inline;
+
     font-size: 14px;
 
 }
-.post_variable{
+.post_like{
+    position: relative;
+    left : 270px;
+}
+.likebutton button{
+    position: relative;
+    left : 255px;
+    bottom: 45px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
 
+.arraymenu{
+    position: relative;
+    margin-left: 50px;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.arraymenu select{
+    height: 25px;
 }
