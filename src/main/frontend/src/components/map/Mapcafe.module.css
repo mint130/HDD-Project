@@ -1,3 +1,34 @@
+.map{
+    display : flex;
+}
+.mapview{
+    position:relative;
+    left : 100px;
+    top: 60px;
+    width:550px;
+    height:410px;
+}
+.menu_wrap {
+    position:absolute;
+    left: 90px;
+    top: 250px;
+    width:200px;
+    height: 350px;
+    margin:10px 0 30px 10px;
+    padding:5px;
+    overflow-y:auto;
+    background:rgba(255, 255, 255, 0.7);
+    z-index: 1;
+    font-size:12px;
+    border-radius: 10px;
+}
+.menu_wrap hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #5F5F5F;
+    margin:3px 0;
+}
 .container{
     display: flex;
     flex-direction: row;
@@ -37,11 +68,12 @@
 }
 
 .filter {
+    display : flex;
     position:relative;
-    top:55px;
+    margin : 5px;
+    top: 70px;
     left:100px;
     width:500px;
-    display : flex;
 }
 
 .filter button{
@@ -50,16 +82,62 @@
     font-size: 15px;
     padding: 2px;
     margin-right: 10px;
-    background-color: white;
     cursor: pointer;
 }
-.btn_all button{
+.btn_all{
 
     background-color: #013B70;
     color: white;
 
 }
+.btn_1{
+    background-color: white;
+}
+.btn_2{
+    background-color: white;
+}
+.btn_3{
+    background-color: white;
+}
+.btn_4{
+    background-color: white;
+}
+.btn_all  label{
+    position: relative;
+    left: -6px;
+}
+.btn_1  label{
+    position: relative;
+    left: -6px;
+}
+.btn_2  label{
+    position: relative;
+    left: -6px;
+}
+.btn_3  label {
+    position: relative;
+    left: -6px;
+}
+.btn_4  label{
+    position: relative;
+    left: -6px;
+}
+.btnall {
+    opacity: 0;
+}
+.btn1{
+    opacity: 0;
+}
+.btn2{
+    opacity: 0;
+}
+.btn3 {
+    opacity: 0;
 
+}
+.btn4{
+    opacity: 0;
+}
 #storeinfo {
 
     display : none;
@@ -68,8 +146,9 @@
 .storeinfo {
     display : flex;
     display: none;
-    margin-top : 10px;
-    height : 130px;
+    margin-top : 20px;
+    margin-bottom: 10px;
+    height : 110px;
     width: 400px;
     border: solid 2px rgba(0,0,0,.08);
 }
@@ -90,10 +169,14 @@
 }
 .selectcategory input{
     margin:5px;
+
+}
+.selectcategory label{
+    cursor: pointer;
 }
 .storeinfo button {
     position : relative;
-    left : 250px;
+    left : 50px;
     margin: 5px;
 }
 
@@ -128,17 +211,37 @@
     font-size: 14px;
 
 }
-.post_like{
+
+
+.likebutton {
     position: relative;
+    display : inline;
     left : 270px;
+    bottom : 40px;
+
+
+}
+.post_like{
+    position:relative;
+    left : 43px;
+    bottom: 5px;
+    font-size: 15px;
+    display : inline;
+}
+
+.post_dislike{
+    display : inline;
+    position:relative;
+    left : 45px;
+    bottom: 5px;
+    font-size: 15px;
 }
 .likebutton button{
-    position: relative;
-    left : 255px;
-    bottom: 45px;
+    display : inline;
     border: 0;
     background-color: transparent;
     cursor: pointer;
+    margin-right : 20px;
 }
 
 .arraymenu{
@@ -153,3 +256,4 @@
 .arraymenu select{
     height: 25px;
 }
+
