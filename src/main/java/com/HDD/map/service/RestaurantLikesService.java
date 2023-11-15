@@ -31,5 +31,20 @@ public class RestaurantLikesService {
 
     }
 
+    public void addDislike(Long markerId, Member member){
+
+        RestaurantMarker restaurantMarker = restaurantMarkerService.findOne(markerId).get();
+
+        if (!restaurantLikesRepository.existsByMemberAndRestaurantMarker(member, restaurantMarker))
+        {
+            restaurantMarker.setDislikes(restaurantMarker.getDislikesCount()+1);
+            restaurantLikesRepository.save(new RestaurantLikes(restaurantMarker, member));
+        }
+        else {
+            throw new IllegalStateException("이미 싫어요를 눌렀습니다.");
+        }
+
+    }
+
 
 }

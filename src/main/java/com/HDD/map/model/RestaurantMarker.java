@@ -29,9 +29,7 @@ public class RestaurantMarker {
 
     private int likesCount = 0;
 
-
-
-//    private int dislikes;
+    private int dislikesCount = 0;
 
     private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
@@ -91,13 +89,13 @@ public class RestaurantMarker {
         this.likesCount = likesCount;
     }
 
-//    public int getDislikes() {
-//        return dislikes;
-//    }
-//
-//    public void setDislikes(int dislikes) {
-//        this.dislikes = dislikes;
-//    }
+    public int getDislikesCount() {
+        return dislikesCount;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikesCount = dislikesCount;
+    }
 
     public int getCategory() {
         return category;
@@ -119,6 +117,6 @@ public class RestaurantMarker {
         this.phoneNum = phoneNum;
         this.category = category;
         likesCount = 0;
-//        this.dislikes = dislikes
+        dislikesCount = 0;
     }
 }

@@ -56,9 +56,13 @@ public class RestaurantController {
         return ResponseEntity.ok(new MessageResponse("좋아요"));
     }
 
-//    @GetMapping("/addDislike")
-//    public void addDislike(@RequestParam String storeName){
-//        restaurantMarkerService.addDislike(storeName);
-//    }
+    @GetMapping("/addDislike")
+    public ResponseEntity<?> addDislike(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String storeName){
+        Member foundMember = memberRepository.findBySid(userDetails.getUsername()).get();
+        RestaurantMarker foundMarker = restaurantMarkerRepository.findByStoreName(storeName).get();
+        restaurantLikesService.addDislike(foundMarker.getId(), foundMember);
+
+        return ResponseEntity.ok(new MessageResponse("싫어요"));
+    }
 
 }
