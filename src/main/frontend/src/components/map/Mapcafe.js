@@ -1,12 +1,13 @@
 import React, {useEffect} from "react";
 import styles from "./Mapcafe.module.css";
-import "./Map.css";
 import {useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import MapPagination from "./MapPagination";
-import likeimage from "./pngegg.png";
+import likeimage from "./like.png";
+import dislikeimage from "./dislike.png"
 import {useRef} from 'react';
+import "./Map.css";
 /*global kakao*/
 
 const {kakao} =window;
@@ -92,6 +93,35 @@ function MapPageCafe(){
         }
     }
 
+    const displayPlacesfilter=(places) => {
+
+
+        // 지도에 표시되고 있는 마커를 제거합니다
+        removeMarker();
+
+        for ( let i=0; i<places.length; i++ ) {
+            // 마커를 생성하고 지도에 표시합니다
+            let placePosition = new kakao.maps.LatLng(places[i].lat, places[i].lng);
+            let marker = addMarker(placePosition, i);
+
+
+            // 마커와 검색결과 항목을 클릭했을때
+            // 해당 장소에 인포윈도우에 장소명을 표시합니다
+
+            (function(marker, title) {
+
+
+                kakao.maps.event.addListener(marker, 'click', function() {
+
+                    displayInfowindow(marker, title);
+
+                });
+
+
+            })(marker, places[i].storeName);
+        }
+
+    }
     const displayPlaces = (places)=>{
         const div = document.getElementById('storeinfo');
         div.style.display = 'none'
@@ -306,9 +336,30 @@ function MapPageCafe(){
         }
     }
 
-    const handleRadiobtn = (e) => {
+    const handlecategorybtn=(e) => {
         console.log(e.target.value)
         setX(e.target.value)
+    }
+
+    const handleRadiobtn = (e) => {
+        console.log(e.target.value)
+
+
+        if(e.target.value==1){
+            categoryBoardList1();
+        }
+        else if (e.target.value==2){
+            categoryBoardList2();
+        }
+        else if(e.target.value==3){
+            categoryBoardList3();
+        }
+        else if (e.target.value==4){
+            categoryBoardList4();
+        }
+        else{
+            categoryBoardList5();
+        }
     }
 
     useEffect(() => {
@@ -330,10 +381,7 @@ function MapPageCafe(){
         }
     }
 
-    const addMarkerList=()=>{
-
-    }
-
+    const filterList1 = filterList.filter(p => p.category == 1);
     const categoryBoardList1 = () => {
         Btn.current.style.backgroundColor= '#ffffff';
         Btn.current.style.color='#000000';
@@ -345,25 +393,13 @@ function MapPageCafe(){
         Btn3.current.style.color='#000000';
         Btn4.current.style.backgroundColor= '#ffffff';
         Btn4.current.style.color='#000000';
-        const filterList1 = filterList.filter(p => p.category == 1);
-        let size = filterList1.length;
+
+
         setBoardList(filterList1);
-
-        for(let i=0; i < size ; i++){
-            let lat= parseFloat(filterList1[i].lat);
-            let lng = parseFloat(filterList1[i].lng);
-            let marker = new kakao.maps.Marker({
-                map: map,
-                position: new kakao.maps.LatLng(lat,lng)
-
-            });
-
-        }
-
 
 
     }
-
+    const filterList2 = filterList.filter(p => p.category == 2);
     const categoryBoardList2 = () => {
 
         Btn.current.style.backgroundColor= '#ffffff';
@@ -376,11 +412,10 @@ function MapPageCafe(){
         Btn3.current.style.color='#000000';
         Btn4.current.style.backgroundColor= '#ffffff';
         Btn4.current.style.color='#000000';
-        const filterList2 = filterList.filter(p => p.category == 2);
 
         setBoardList(filterList2);
     }
-
+    const filterList3 = filterList.filter(p => p.category == 3);
     const categoryBoardList3 = () => {
         Btn.current.style.backgroundColor= '#ffffff';
         Btn.current.style.color='#000000';
@@ -392,11 +427,10 @@ function MapPageCafe(){
         Btn3.current.style.color='#ffffff';
         Btn4.current.style.backgroundColor= '#ffffff';
         Btn4.current.style.color='#000000';
-        const filterList3 = filterList.filter(p => p.category == 3);
 
         setBoardList(filterList3);
     }
-
+    const filterList4 = filterList.filter(p => p.category == 4);
     const categoryBoardList4 = () => {
         Btn.current.style.backgroundColor= '#ffffff';
         Btn.current.style.color='#000000';
@@ -408,7 +442,7 @@ function MapPageCafe(){
         Btn3.current.style.color='#000000';
         Btn4.current.style.backgroundColor= '#013B70';
         Btn4.current.style.color='#ffffff';
-        const filterList4 = filterList.filter(p => p.category == 4);
+
 
         setBoardList(filterList4);
     }
@@ -453,6 +487,26 @@ function MapPageCafe(){
         });
     };
 
+    const handledislike= async (storeName)=>{
+
+        console.log(storeName);
+        axios.get(`http://localhost:8080/api/map/addDislike`, {
+            params:{
+                storeName : storeName,
+
+            },
+            headers: headers}).then(()=>{
+            alert('싫어요 버튼 클릭.');
+            window.location.reload();
+        }).catch(err => {
+            if(err.response.status === 500){
+                alert('이미 싫어요를 눌렀습니다.');
+                window.location.reload();
+            }
+
+        });
+    };
+
     const handlesortlike=()=>{
         let sortcopy = [...filterList];
         sortcopy.sort((a,b)=> a.likesCount < b.likesCount? -1 :1);
@@ -491,35 +545,37 @@ function MapPageCafe(){
                         <a className={styles.food} href="/api/map">맛집</a>
                         <a className={styles.cafe} href="/api/mapcafe">카페</a>
                     </div>
-                    <div id="map" className={styles.map}>
+                    <div className={styles.map}>
+                    <div id="map" className={styles.mapview}>
                     </div>
-                    <div id="menu_wrap" className={styles.bg_white}>
-                        <div className={styles.option}>
+                    <div id="menu_wrap" className={styles.menu_wrap}>
+                        <div id="option">
                             <div>
                                 <input type="text" id="keyword" size="15" />
                                 <button onClick={searchPlaces}>검색</button>
                             </div>
                         </div>
                         <hr></hr>
-                        <ul id="placesList"></ul>
+                        <ul id="placesList" ></ul>
                         <div id="pagination"></div>
                     </div>
+                    </div>
                     <div className={styles.filter}>
-                        <div className={styles.btn_all}>
-                            <button type="button" onClick={categoryBoardList5} ref={Btn}>전체보기</button>
-                        </div>
-                        <div className={styles.btn_1}>
-                            <button type="button"  onClick={categoryBoardList1} ref={Btn1}>카공</button>
-                        </div>
-                        <div className={styles.btn_2}>
-                            <button type="button"  onClick={categoryBoardList2} ref={Btn2}>프랜차이즈</button>
-                        </div>
-                        <div className={styles.btn_3}>
-                            <button type="button"  onClick={categoryBoardList3} ref={Btn3}>커피/디저트</button>
-                        </div>
-                        <div className={styles.btn_4}>
-                            <button type="button"  onClick={categoryBoardList4} ref={Btn4}>아이스크림</button>
-                        </div>
+                        <button className={styles.btn_all} type="button" onClick={()=>displayPlacesfilter(filterList)} ref={Btn}>
+                            <label><input type="radio" className={styles.btnall}  value="5" name="cate" onChange={handleRadiobtn}/>
+                                전체보기</label></button>
+                        <button className={styles.btn_1} type="button"  onClick={()=>displayPlacesfilter(filterList1)} ref={Btn1}>
+                            <label><input type="radio" className={styles.btn1}  value="1" name="cate"  onChange={handleRadiobtn}/>
+                                카공</label></button>
+                        <button className={styles.btn_2} type="button"  onClick={()=>displayPlacesfilter(filterList2)} ref={Btn2}>
+                            <label><input type="radio" className={styles.btn2}  value="2" name="cate"  onChange={handleRadiobtn}/>
+                                프랜차이즈</label></button>
+                        <button className={styles.btn_3} type="button" onClick={()=>displayPlacesfilter(filterList3)} ref={Btn3}>
+                            <label><input type="radio" className={styles.btn3}  value="3" name="cate"  onChange={handleRadiobtn}/>
+                                커피/디저트</label></button>
+                        <button className={styles.btn_4} type="button"  onClick={()=>displayPlacesfilter(filterList4)} ref={Btn4}>
+                            <label><input type="radio" className={styles.btn4}  value="4" name="cate"  onChange={handleRadiobtn}/>
+                                아이스크림</label></button>
                     </div>
                 </div>
 
@@ -543,19 +599,19 @@ function MapPageCafe(){
                             <div className={styles.selectcategory}>
                                 <p>카테고리를 선택하세요.</p>
                                 <label>
-                                    <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handleRadiobtn}/>
+                                    <input type="radio" id ="category1" name ="category" value="1" checked={x === "1"} onChange={handlecategorybtn}/>
                                     카공
                                 </label>
                                 <label>
-                                    <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handleRadiobtn}/>
+                                    <input type="radio" id ="category2" name ="category" value="2" checked={x === "2"} onChange={handlecategorybtn}/>
                                     프랜차이즈
                                 </label>
                                 <label>
-                                    <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handleRadiobtn}/>
+                                    <input type="radio" id ="category3" name ="category" value="3" checked={x === "3"} onChange={handlecategorybtn}/>
                                     커피/디저트
                                 </label>
                                 <label>
-                                    <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handleRadiobtn}/>
+                                    <input type="radio" id ="category4" name ="category" value="4" checked={x === "4"} onChange={handlecategorybtn}/>
                                     아이스크림
                                 </label>
                             </div>
