@@ -22,7 +22,7 @@ public class RestaurantLikesService {
 
         if (!restaurantLikesRepository.existsByMemberAndRestaurantMarker(member, restaurantMarker))
         {
-            restaurantMarkerService.addLike(restaurantMarker.getStoreName());
+            restaurantMarker.setLikesCount(restaurantMarker.getLikesCount()+1);
             restaurantLikesRepository.save(new RestaurantLikes(restaurantMarker, member));
         }
         else {

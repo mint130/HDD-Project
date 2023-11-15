@@ -1,6 +1,5 @@
 package com.HDD.map.controller;
 
-import com.HDD.common.Pair;
 import com.HDD.management.model.Member;
 import com.HDD.management.repository.MemberRepository;
 import com.HDD.management.webDto.MessageResponse;
@@ -9,10 +8,8 @@ import com.HDD.map.model.RestaurantMarker;
 import com.HDD.map.repository.RestaurantMarkerRepository;
 import com.HDD.map.service.RestaurantLikesService;
 import com.HDD.map.service.RestaurantMarkerService;
-import com.HDD.recruitment.model.ProjectBoard;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +33,7 @@ public class RestaurantController {
         double lat = Double.parseDouble(markerRequest.getLat());
         double lng = Double.parseDouble(markerRequest.getLng());
         int category = Integer.parseInt(markerRequest.getCategory());
-        RestaurantMarker temp = new RestaurantMarker(lat, lng, markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum(), category, 0);
+        RestaurantMarker temp = new RestaurantMarker(lat, lng, markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum(), category);
         restaurantMarkerService.add(temp);
         System.out.println("저장됨");
 

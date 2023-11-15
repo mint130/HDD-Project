@@ -1,6 +1,7 @@
 package com.HDD.map.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Table(name = "cafe_marker")
 @Getter
 @Setter
+@AllArgsConstructor
 public class CafeMarker {
 
     @Id
@@ -27,4 +29,18 @@ public class CafeMarker {
     private String phoneNum;
 
     private int likesCount = 0;
+
+    public CafeMarker(){
+
+    }
+
+    public CafeMarker(double lat, double lng, String storeName, String address, String phoneNum)
+    {
+        this.lat = lat;
+        this.lng = lng;
+        this.storeName = storeName;
+        this.address = address;
+        this.phoneNum = phoneNum;
+        likesCount = 0;
+    }
 }

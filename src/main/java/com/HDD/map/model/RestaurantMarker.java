@@ -111,14 +111,14 @@ public class RestaurantMarker {
 
     }
 
-    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category, int likesCount) {
+    public RestaurantMarker(double lat, double lng, String storeName, String address, String phoneNum, int category) {
         this.lat = lat;
         this.lng = lng;
         this.storeName = storeName;
         this.address = address;
         this.phoneNum = phoneNum;
         this.category = category;
-        this.likesCount = likesCount;
+        likesCount = 0;
 //        this.dislikes = dislikes
     }
 }
