@@ -18,6 +18,7 @@ function MapPageCafe(){
     let infowindow;
     let map;
     const [x, setX] = useState([]);
+    const [y, setY] = useState(5);
     const navigate = useNavigate();
     const Btn = useRef(null);
     const Btn1 = useRef(null);
@@ -95,7 +96,18 @@ function MapPageCafe(){
 
     const displayPlacesfilter=(places) => {
 
-
+        if (y==1){
+            places = filterList1;
+        }
+        else if (y==2){
+            places = filterList2;
+        }
+        else if (y==3){
+            places = filterList3;
+        }
+        else if (y==4){
+            places = filterList4;
+        }
         // 지도에 표시되고 있는 마커를 제거합니다
         removeMarker();
 
@@ -343,23 +355,30 @@ function MapPageCafe(){
 
     const handleRadiobtn = (e) => {
         console.log(e.target.value)
-
+        setY(e.target.value);
 
         if(e.target.value==1){
             categoryBoardList1();
+            document.querySelector('select').value="등록순";
         }
         else if (e.target.value==2){
             categoryBoardList2();
+            document.querySelector('select').value="등록순";
         }
         else if(e.target.value==3){
             categoryBoardList3();
+            document.querySelector('select').value="등록순";
         }
         else if (e.target.value==4){
             categoryBoardList4();
+            document.querySelector('select').value="등록순";
         }
         else{
             categoryBoardList5();
+            document.querySelector('select').value="등록순";
         }
+
+
     }
 
     useEffect(() => {
@@ -507,36 +526,64 @@ function MapPageCafe(){
         });
     };
 
-    const handlesortlike=()=>{
-        let sortcopy = [...filterList];
-        sortcopy.sort((a,b)=> a.likesCount < b.likesCount? -1 :1);
+    const handlesortlike=(places)=>{
+        let sortcopy = [...places];
+        sortcopy.sort((a,b)=> a.likesCount > b.likesCount? -1 :1);
         setBoardList(sortcopy);
     }
-    const handlesort=()=>{
-        let sortcopy = [...filterList];
+    const handlesort=(places)=>{
+        let sortcopy = [...places];
         sortcopy.sort((a,b)=> a.storeName.toUpperCase() < b.storeName.toUpperCase()? -1 :1);
         setBoardList(sortcopy);
     }
 
-    const handledate=()=> {
-        setBoardList(filterList);
+    const handledate=(places)=> {
+        setBoardList(places);
     }
-
+    const countRef = useRef(1);
     const handleChange=(e)=>{
         console.log(e.target.value);
-
         if(e.target.value == "등록순"){
-            handledate();
+            countRef.current = 1;
         }
-        else if(e.target.value == "이름순") {
-            handlesort();
+
+        else if(e.target.value == "이름순"){
+            countRef.current = 2;
         }
-        else{
-            handlesortlike();
+
+        else if (e.target.value == "좋아요순"){
+            countRef.current = 3;
         }
+
+        handlesortbtn();
+
 
     }
 
+    const handlesortbtn=()=>{
+
+        if(countRef.current == 1){
+            if(y == 1) handledate(filterList1);
+            else if (y == 2) handledate(filterList2);
+            else if ( y == 3) handledate(filterList3);
+            else if (y == 4) handledate(filterList4);
+            else if (y== 5) handledate(filterList);
+        }
+        else if (countRef.current == 2){
+            if(y == 1){handlesort(filterList1);document.getElementById("arrayvalue").value="등록순";}
+            else if (y == 2) handlesort(filterList2);
+            else if ( y == 3) handlesort(filterList3);
+            else if (y == 4) handlesort(filterList4);
+            else if (y== 5) handlesort(filterList);
+        }
+        else if (countRef.current == 3){
+            if(y == 1) handlesortlike(filterList1);
+            else if (y == 2) handlesortlike(filterList2);
+            else if ( y == 3) handlesortlike(filterList3);
+            else if (y == 4) handlesortlike(filterList4);
+            else if (y== 5) handlesortlike(filterList);
+        }
+    }
     return(
 
             <div className={styles.container}>
@@ -561,21 +608,22 @@ function MapPageCafe(){
                     </div>
                     </div>
                     <div className={styles.filter}>
-                        <button className={styles.btn_all} type="button" onClick={()=>displayPlacesfilter(filterList)} ref={Btn}>
+                        <button className={styles.btn_all} type="button"  ref={Btn}>
                             <label><input type="radio" className={styles.btnall}  value="5" name="cate" onChange={handleRadiobtn}/>
                                 전체보기</label></button>
-                        <button className={styles.btn_1} type="button"  onClick={()=>displayPlacesfilter(filterList1)} ref={Btn1}>
+                        <button className={styles.btn_1} type="button"   ref={Btn1}>
                             <label><input type="radio" className={styles.btn1}  value="1" name="cate"  onChange={handleRadiobtn}/>
-                                카공</label></button>
-                        <button className={styles.btn_2} type="button"  onClick={()=>displayPlacesfilter(filterList2)} ref={Btn2}>
+                                한식</label></button>
+                        <button className={styles.btn_2} type="button"   ref={Btn2}>
                             <label><input type="radio" className={styles.btn2}  value="2" name="cate"  onChange={handleRadiobtn}/>
-                                프랜차이즈</label></button>
-                        <button className={styles.btn_3} type="button" onClick={()=>displayPlacesfilter(filterList3)} ref={Btn3}>
+                                일식</label></button>
+                        <button className={styles.btn_3} type="button"  ref={Btn3}>
                             <label><input type="radio" className={styles.btn3}  value="3" name="cate"  onChange={handleRadiobtn}/>
-                                커피/디저트</label></button>
-                        <button className={styles.btn_4} type="button"  onClick={()=>displayPlacesfilter(filterList4)} ref={Btn4}>
+                                양식</label></button>
+                        <button className={styles.btn_4} type="button"   ref={Btn4}>
                             <label><input type="radio" className={styles.btn4}  value="4" name="cate"  onChange={handleRadiobtn}/>
-                                아이스크림</label></button>
+                                중식</label></button>
+                        <button className={styles.btn_marker} type="button" onClick={()=>displayPlacesfilter(filterList)}>마커보기</button>
                     </div>
                 </div>
 
@@ -620,9 +668,9 @@ function MapPageCafe(){
                         </div>
                         <div className={styles.content}>
                             <div className={styles.arraymenu}>
-                                <select onChange={handleChange} >
+                                <select  onChange={handleChange} >
                                     {coll.map((el)=>(
-                                        <option key={el.coll} value={el.coll}
+                                        <option id = "arrayvalue" key={el.coll} value={el.coll}
                                                 defaultValue="등록순">
 
                                             {el.coll}
@@ -646,10 +694,15 @@ function MapPageCafe(){
                                                             <div className={styles.post_variable}> {board.phoneNum}</div>
                                                             <hr></hr>
                                                             <div className={styles.likebutton}>
-
+                                                                <div className={styles.post_like}> {board.likesCount}</div>
                                                                 <button type="submit" onClick={()=>handlelike(board.storeName)}>
-                                                                    <img src={likeimage} width='35px'/>
+                                                                    <img src={likeimage} width='25px'/>
                                                                 </button>
+                                                                <div className={styles.post_dislike}> {board.dislikesCount}</div>
+                                                                <button type="submit" onClick={()=>handledislike(board.storeName)}>
+                                                                    <img src={dislikeimage} width='25px'/>
+                                                                </button>
+
                                                             </div>
 
                                                         </div>
