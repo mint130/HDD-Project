@@ -686,23 +686,24 @@ const displayPlacesfilter=(places) => {
                             </label>
 
                         </div>
-                        <button type="submit" onClick={handleSubmit}>식당 추가하기</button>
                         <button type="submit" onClick={handleClose}>닫기</button>
+                        <button type="submit" onClick={handleSubmit}>식당 추가하기</button>
+
 
                     </div>
                     <div className={styles.content}>
-                        <div className={styles.arraymenu}>
-                            <select  onChange={handleChange} >
-                                {coll.map((el)=>(
-                                    <option id = "arrayvalue" key={el.coll} value={el.coll}
-                                    defaultValue="등록순">
-
-                                        {el.coll}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
                             <ul className={styles.row}>
+                                <div className={styles.arraymenu}>
+                                    <select  onChange={handleChange} >
+                                        {coll.map((el)=>(
+                                            <option id = "arrayvalue" key={el.coll} value={el.coll}
+                                                    defaultValue="등록순">
+
+                                                {el.coll}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                                 {boardList.slice(offset, offset+limit).map((board)=>{
 
                                         return (
