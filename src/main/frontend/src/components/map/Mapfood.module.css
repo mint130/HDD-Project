@@ -161,8 +161,7 @@
     display: none;
     margin-top : 20px;
     margin-bottom: 10px;
-    height : 110px;
-    width: 400px;
+    width: 430px;
     border: solid 2px rgba(0,0,0,.08);
 }
 .storeinfo input {
@@ -188,8 +187,7 @@
     cursor: pointer;
 }
 .storeinfo button {
-    position : relative;
-    left : 50px;
+    float : right;
     margin: 5px;
 }
 
@@ -199,7 +197,7 @@
 
 .column{
     display: flex;
-    width: 400px;
+    width: 430px;
     height : 80px;
     font-size :13px;
     align-items: flex-start;
@@ -258,9 +256,8 @@
 }
 
 .arraymenu{
-    position: relative;
-    margin-left: 50px;
-    text-align: center;
+    width: 430px;
+    text-align: end;
     cursor: pointer;
     box-sizing: border-box;
     border-radius: 3px;
