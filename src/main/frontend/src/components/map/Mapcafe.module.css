@@ -39,11 +39,13 @@
     flex-direction: column;
     width:50%;
 }
+
 .info{
     display: flex;
     flex-direction: column;
     width:50%;
     margin-top: 60px;
+    margin-left: 100px;
 }
 
 .select {position:relative ;left:180px;top:30px;width:500px;}
@@ -82,7 +84,7 @@
     font-size: 15px;
     padding: 2px;
     margin-right: 10px;
-    cursor: pointer;
+
 }
 .btn_all{
 
@@ -105,25 +107,36 @@
 .btn_all  label{
     position: relative;
     left: -6px;
+    cursor: pointer;
 }
 .btn_1  label{
     position: relative;
     left: -6px;
+    cursor: pointer;
 }
 .btn_2  label{
     position: relative;
     left: -6px;
+    cursor: pointer;
 }
 .btn_3  label {
     position: relative;
     left: -6px;
+    cursor: pointer;
 }
 .btn_4  label{
     position: relative;
     left: -6px;
+    cursor: pointer;
+}
+.btn_marker{
+
+    cursor: pointer;
+    background-color : white;
 }
 .btnall {
     opacity: 0;
+
 }
 .btn1{
     opacity: 0;
@@ -138,6 +151,7 @@
 .btn4{
     opacity: 0;
 }
+
 #storeinfo {
 
     display : none;
@@ -148,7 +162,7 @@
     display: none;
     margin-top : 20px;
     margin-bottom: 10px;
-    height : 110px;
+    height : 130px;
     width: 400px;
     border: solid 2px rgba(0,0,0,.08);
 }
@@ -176,7 +190,7 @@
 }
 .storeinfo button {
     position : relative;
-    left : 50px;
+    left : 250px;
     margin: 5px;
 }
 
