@@ -612,16 +612,16 @@ function MapPageCafe(){
                                 전체보기</label></button>
                         <button className={styles.btn_1} type="button"   ref={Btn1}>
                             <label><input type="radio" className={styles.btn1}  value="1" name="cate"  onChange={handleRadiobtn}/>
-                                한식</label></button>
+                                카공</label></button>
                         <button className={styles.btn_2} type="button"   ref={Btn2}>
                             <label><input type="radio" className={styles.btn2}  value="2" name="cate"  onChange={handleRadiobtn}/>
-                                일식</label></button>
+                                프랜차이즈</label></button>
                         <button className={styles.btn_3} type="button"  ref={Btn3}>
                             <label><input type="radio" className={styles.btn3}  value="3" name="cate"  onChange={handleRadiobtn}/>
-                                양식</label></button>
+                                커피/디저트</label></button>
                         <button className={styles.btn_4} type="button"   ref={Btn4}>
                             <label><input type="radio" className={styles.btn4}  value="4" name="cate"  onChange={handleRadiobtn}/>
-                                중식</label></button>
+                                아이스크림</label></button>
                         <button className={styles.btn_marker} type="button" onClick={()=>displayPlacesfilter(filterList)}>마커보기</button>
                     </div>
                 </div>
@@ -687,7 +687,7 @@ function MapPageCafe(){
                                                     <li className={styles.column_left} key={board.id}>
                                                         <div className={styles.column_top}>
                                                             <h2 className={styles.post_title} id='post_title'>{board.storeName}</h2>
-                                                            <div className={styles.post_like}> {board.likesCount}</div>
+
                                                         </div>
                                                         <div className={styles.post_content}>
                                                             <div className={styles.post_variable}> {board.address}</div>
