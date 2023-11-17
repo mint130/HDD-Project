@@ -30,6 +30,8 @@ public class CafeMarker {
 
     private int likesCount = 0;
 
+    private int dislikesCount = 0;
+
     public CafeMarker(){
 
     }
@@ -42,5 +44,6 @@ public class CafeMarker {
         this.address = address;
         this.phoneNum = phoneNum;
         likesCount = 0;
+        dislikesCount = 0;
     }
 }
