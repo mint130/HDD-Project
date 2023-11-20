@@ -84,6 +84,7 @@
     font-size: 15px;
     padding: 2px;
     margin-right: 10px;
+    margin-bottom: 20px;
 
 }
 .btn_all{
@@ -198,7 +199,6 @@
 .column{
     display: flex;
     width: 430px;
-    height : 80px;
     font-size :13px;
     align-items: flex-start;
     padding: 7px;
@@ -207,6 +207,7 @@
 
 .column_left{
 
+    height : 45px;
     width: 600px;
     padding: 10px 0px 10px 0px;
 }
@@ -229,7 +230,6 @@
     display : inline;
     left : 270px;
     bottom : 40px;
-
 
 }
 .post_like{
