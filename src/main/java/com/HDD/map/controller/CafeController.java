@@ -34,7 +34,7 @@ public class CafeController {
         double lat = Double.parseDouble(markerRequest.getLat());
         double lng = Double.parseDouble(markerRequest.getLng());
         int category = Integer.parseInt(markerRequest.getCategory());
-        CafeMarker temp = new CafeMarker(lat, lng, markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum());
+        CafeMarker temp = new CafeMarker(lat, lng, markerRequest.getStoreName(), markerRequest.getAddress(), markerRequest.getPhoneNum(), category);
         cafeMarkerService.add(temp);
         System.out.println("저장됨");
 
