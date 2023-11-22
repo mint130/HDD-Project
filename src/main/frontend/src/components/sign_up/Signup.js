@@ -6,30 +6,84 @@ import {useForm} from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import styles from "./Signup.module.css";
-
+//{coll:'공과대학'},{coll:'건축도시대학'},{coll:'경영대학'},{coll:'문과대학'},{coll:'법과대학'},{coll:'사범대학'},
+//         {coll:'미술대학'},{coll:'경제학부'},{coll:'공연예술학부'},{coll:'디자인경영융합'},{coll:'자율전공'}],
 
 const parents = [
     { value: '', label: '' },
     { value: 'engineering', label: '공과대학' },
     { value: 'art', label: '미술대학' },
     { value: 'edu', label: '사범대학' },
+    {value: 'architecture', label: '건축도시대학'},
+    {value: 'liberal', label: '문과대학'},
+    {value:'economics', label: '경제학부'},
+    {value:'law', label: '법과대학'},
+    {value: 'performing', label: '공연예술학부'},
+    {value: 'designbusiness', label: '디자인경영융합'},
+    {value: 'freemajor', label: '자율전공'},
+    {value:'business', label: '경영대학' }
 ];
 const childMap = {
     'engineering': [
-        { value: 'ce', label: '컴퓨터공학과' },
+        { value: 'wwwce', label: '컴퓨터공학과' },
         { value: 'ie', label: '산업데이터공학과' },
-        { value: 'ee', label: '전자전기공학부  ' },
+        { value: 'ee', label: '전자전기공학부' },
+        {value: 'civil', label: '건설환경공학과'},
+        {value: 'mse', label: '신소재공학전공'},
+        {value: 'chemeng', label: '화학공학전공'},
+        {value: 'me', label: '기계시스템공학과'},
     ],
     'art': [
         { value: 'sidi', label: '시각디자인전공' },
         { value: 'id', label: '산업디자인전공' },
         { value: 'orip', label: '동양화과' },
+        {label: "회화과", value: "painting"},
+        {label: "판화과", value: "printmk"},
+        {label: "조소과", value: "scu"},
+        {label: "목조형가구학과", value: "waf"},
+        {label: "예술학과", value: "art"},
+        {label: "금속조형디자인과", value: "metalart"},
+        {label: "도예유리과", value: "cer"},
+        {label: "섬유미술패션디자인과", value: "tafd"},
     ],
     'edu': [
         { value: 'mathedu', label: '수학교육과' },
         { value: 'koredu', label: '국어교육과' },
         { value: 'engedu', label: '영어교육과' },
+        { value: 'edu', label: '교육학과'},
+        { value: "hisedu", label: "역사교육과",}
     ],
+    'architecture':[
+        {label: "건축학부", value: "arch"},
+        {label: "도시공학과", value: "urban"},
+    ],
+    'liberal':[
+        {label:"경영학전공", value: "bizadmin"},
+        {label: "영어영문학과", value: "english"},
+        {label: "독어독문학과", value: "german"},
+        {label: "불어불문학과", value: "france"},
+        {label: "국어국문학과", value: "hkorean"},
+    ],
+    'economics':[
+        {value: 'economics', label: '경제학전공'}
+    ],
+    'law':[
+        {value: 'law', label: '법학부'}
+    ],
+    'performing':[
+        {value: 'musical', label: '뮤지컬전공'},
+        {value: 'music', label: '실용음악전공'}
+    ],
+    'designbusiness':[
+        {value: 'iim', label: '디자인경영융합부'}
+    ],
+    'freemajor':[
+        {value: 'fm', label: "캠퍼스자율전공"}
+    ],
+    'business':[
+        {value:'bizadmin', label:'경영학전공'}
+        
+    ]
 };
 
 
@@ -200,7 +254,7 @@ function SignUp() {
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id='password' type='password' placeholder='비밀번호를 입력하세요'
+                                <input className={styles.input} id='password' type='password' placeholder='비밀번호를 입력하세요'
                                        {...register("password")}
                                 />
                             </div>
@@ -217,7 +271,7 @@ function SignUp() {
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id='passwordCheck' type='password' placeholder='비밀번호를 다시 입력하세요'
+                                <input className={styles.input} id='passwordCheck' type='password' placeholder='비밀번호를 다시 입력하세요'
                                        {...register('passwordCheck')}
                                 />
                             </div>
@@ -233,7 +287,7 @@ function SignUp() {
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id="email" type="text" placeholder="예) abc123@g.hongik.ac.kr"
+                                <input className={styles.input} id="email" type="text" placeholder="예) abc123@g.hongik.ac.kr"
                                        {...register("email", {required: "이메일은 필수 입력입니다",
                                            pattern: {
                                                value: /^\S+(@g.hongik.ac.kr)/,
@@ -268,6 +322,7 @@ function SignUp() {
                             <div className={styles.wrap}>
                                 <div className={styles.form}>
                                     <input
+                                        className={styles.input}
                                         id="signification"
                                         type="number"
                                         placeholder="인증번호를 입력하세요"
@@ -292,7 +347,7 @@ function SignUp() {
                         </div>
                         <div className={styles.wrap}>
                             <div className={styles.form}>
-                                <input id='nickname' type='text' placeholder="닉네임을 입력하세요"
+                                <input id='nickname' type='text' placeholder="닉네임을 입력하세요" className={styles.input}
                                        {...register("inputNickname", {required: "닉네임은 필수 입력입니다",})}
                                        value={inputNickname}
                                        onChange={handleNicknameChange}
