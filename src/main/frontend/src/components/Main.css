@@ -21,7 +21,7 @@ body, button ,input, select, textarea{
     width : 860px;
 }
 
-div.photo{
+.photo{
     background-color:#dadada;
     border-radius:5px;
     width : 600px;

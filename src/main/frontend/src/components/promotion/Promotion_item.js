@@ -16,7 +16,7 @@ const Text = styled.div`
 `
 const Image = styled.img`
     width: 130px;
-    height: 185px;
+    height: 130px;
     background-color: #d9d9d9; 
     margin: 0px 10px 0px 0px;
 `
