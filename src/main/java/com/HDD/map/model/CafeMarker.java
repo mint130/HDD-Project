@@ -30,17 +30,23 @@ public class CafeMarker {
 
     private int likesCount = 0;
 
+    private int dislikesCount = 0;
+
+    private int category; // 1: 카공 2: 프랜차이즈 3: 커피/디저트 4: 아이스크림
+
     public CafeMarker(){
 
     }
 
-    public CafeMarker(double lat, double lng, String storeName, String address, String phoneNum)
+    public CafeMarker(double lat, double lng, String storeName, String address, String phoneNum, int category)
     {
         this.lat = lat;
         this.lng = lng;
         this.storeName = storeName;
         this.address = address;
         this.phoneNum = phoneNum;
+        this.category = category;
         likesCount = 0;
+        dislikesCount = 0;
     }
 }

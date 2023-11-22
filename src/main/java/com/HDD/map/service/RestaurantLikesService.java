@@ -37,7 +37,7 @@ public class RestaurantLikesService {
 
         if (!restaurantLikesRepository.existsByMemberAndRestaurantMarker(member, restaurantMarker))
         {
-            restaurantMarker.setDislikes(restaurantMarker.getDislikesCount()+1);
+            restaurantMarker.setDislikesCount(restaurantMarker.getDislikesCount()+1);
             restaurantLikesRepository.save(new RestaurantLikes(restaurantMarker, member));
         }
         else {

@@ -33,6 +33,7 @@ public class RestaurantMarker {
 
     private int category; // 1: 한식, 2: 일식, 3: 양식, 4: 중식
 
+
     public Long getId() {
         return id;
     }
@@ -93,7 +94,7 @@ public class RestaurantMarker {
         return dislikesCount;
     }
 
-    public void setDislikes(int dislikes) {
+    public void setDislikesCount(int dislikesCount) {
         this.dislikesCount = dislikesCount;
     }
 

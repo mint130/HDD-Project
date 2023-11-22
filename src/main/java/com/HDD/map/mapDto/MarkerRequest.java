@@ -12,5 +12,4 @@ public class MarkerRequest {
     private String address;
     private String phoneNum;
     private String category;
-    private String likesNumber;
 }

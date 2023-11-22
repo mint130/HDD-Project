@@ -27,7 +27,7 @@ function MapPage(){
     const Btn4 = useRef(null);
     const [val1, setVal1] = useState("");
 
-    const {coll} = {coll:[ {coll:'등록순'}, {coll:'이름순'},{coll:'좋아요순'}]};
+    const {coll} = {coll:[ {coll:'최신순'}, {coll:'이름순'},{coll:'좋아요순'}]};
 
     useEffect(() => {
 
@@ -373,23 +373,23 @@ const displayPlacesfilter=(places) => {
 
         if(e.target.value==1){
             categoryBoardList1();
-            document.querySelector('select').value="등록순";
+            document.querySelector('select').value="최신순";
         }
         else if (e.target.value==2){
             categoryBoardList2();
-            document.querySelector('select').value="등록순";
+            document.querySelector('select').value="최신순";
         }
         else if(e.target.value==3){
            categoryBoardList3();
-            document.querySelector('select').value="등록순";
+            document.querySelector('select').value="최신순";
        }
         else if (e.target.value==4){
            categoryBoardList4();
-            document.querySelector('select').value="등록순";
+            document.querySelector('select').value="최신순";
         }
         else{
             categoryBoardList5();
-            document.querySelector('select').value="등록순";
+            document.querySelector('select').value="최신순";
         }
 
 
@@ -402,8 +402,8 @@ const displayPlacesfilter=(places) => {
     const getBoardList = async () => {
         try {
             const resp = await axios.get('http://localhost:8080/api/map', { headers: headers });
-            setBoardList(resp.data);
-            setFilterList(resp.data);
+            setBoardList([...resp.data].reverse());
+            setFilterList([...resp.data].reverse());
             console.log(resp.data); // 콘솔에 데이터 출력
             setLoading(false);
 
@@ -518,7 +518,7 @@ const displayPlacesfilter=(places) => {
                 window.location.reload();
         }).catch(err => {
             if(err.response.status === 500){
-                alert('이미 좋아요를 눌렀습니다.');
+                alert('식당 평가를 이미 완료했습니다.');
                 window.location.reload();
             }
 
@@ -538,7 +538,7 @@ const displayPlacesfilter=(places) => {
             window.location.reload();
         }).catch(err => {
             if(err.response.status === 500){
-                alert('이미 싫어요를 눌렀습니다.');
+                alert('식당 평가를 이미 완료했습니다.');
                 window.location.reload();
             }
 
@@ -562,7 +562,7 @@ const displayPlacesfilter=(places) => {
     const countRef = useRef(1);
     const handleChange=(e)=>{
         console.log(e.target.value);
-        if(e.target.value == "등록순"){
+        if(e.target.value == "최신순"){
             countRef.current = 1;
         }
 
@@ -589,7 +589,7 @@ const displayPlacesfilter=(places) => {
             else if (y== 5) handledate(filterList);
         }
         else if (countRef.current == 2){
-            if(y == 1){handlesort(filterList1);document.getElementById("arrayvalue").value="등록순";}
+            if(y == 1)handlesort(filterList1);
             else if (y == 2) handlesort(filterList2);
             else if ( y == 3) handlesort(filterList3);
             else if (y == 4) handlesort(filterList4);
@@ -697,7 +697,7 @@ const displayPlacesfilter=(places) => {
                                     <select  onChange={handleChange} >
                                         {coll.map((el)=>(
                                             <option id = "arrayvalue" key={el.coll} value={el.coll}
-                                                    defaultValue="등록순">
+                                                    defaultValue="최신순">
 
                                                 {el.coll}
                                             </option>
