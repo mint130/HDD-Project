@@ -43,8 +43,17 @@ public class Crawling {
                     notices.add(notice);
                 }
             }
-            else if(major == "civil"){
-
+            else if(major == "sidi"){
+                Notice noc1 = new Notice("장학ㅣ2023-2학기 교내 신용카드수수료장학금 신청 안내", "https://sidi.hongik.ac.kr/info/780");
+                Notice noc2 = new Notice("장학ㅣ2024-1 국가/교내 장학금 신청안내", "https://sidi.hongik.ac.kr/info/779");
+                Notice noc3 = new Notice("학과ㅣ사회봉사활동실적 제출안내", "https://sidi.hongik.ac.kr/info/745");
+                Notice noc4 = new Notice("장학ㅣ손태희장학재단 2023학년 장학생 추천", "https://sidi.hongik.ac.kr/info/761");
+                Notice noc5 = new Notice("학생회｜2023 홍익시디 네이버 카페", "https://sidi.hongik.ac.kr/info/659");
+                notices.add(noc1);
+                notices.add(noc2);
+                notices.add(noc3);
+                notices.add(noc4);
+                notices.add(noc5);
             } else if (major == "me") {
                 Document doc = Jsoup.connect("https://me.hongik.ac.kr/bbs/board.php?tbl=bbs61").get();
                 Elements subject = doc.select("div.product_wrap");
