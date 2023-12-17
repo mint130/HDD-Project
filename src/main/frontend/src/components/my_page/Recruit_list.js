@@ -5,74 +5,44 @@ import Table from "../recruit/board/Table";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-function Bookmark_list() {
+function Recruit_list({category}) {
+    //category는 bookmark와 written 구분
 
-   // const [isRoommate, setIsRoommate]=useState(false);
     const [isClicked, setIsClicked]=useState("");
     const navigate = useNavigate();
     const [boardList, setBoardList] = useState([]);
-    const [limit, setLimit] = useState(5); //페이지 당 게시물 수
-    const [page, setPage] = useState(1);    //현재 페이지 번호
-    const offset = (page - 1) * limit;  //첫 게시물의 위치
+    const [limit] = useState(5); // 페이지 당 게시물 수
+    const [page] = useState(1); // 현재 페이지 번호
+    const offset = (page - 1) * limit; // 첫 게시물의 위치
     const jwtToken = localStorage.getItem('jwtToken');
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwtToken}`,
     };
 
-    const handleClicked=async (e) => {
-        //setIsClicked(!isClicked);
+    const handleClicked = async (e) => {
         const id = e.currentTarget.getAttribute("id");
         setIsClicked(id);
-        if(id==="project") await getProjectBoardList();
-        else{
-            await getRoommateBoardList();
-        }
-        //await getBoardList(id);
+        if (id === "project") await getBoardList("project");
+        else await getBoardList("roommate");
+    };
 
-    }
-
-    const getBoardList=async(type)=>{
-
-        const params=type;
-        try{
-            const resp=await axios.get('http://localhost:8080/api/auth/mypage/bookmark', {params});
-            console.log(resp.data);
-            setBoardList(resp.data);
-
-        } catch (error) {
-            alert("로그인이 필요합니다.");
-            navigate("/api/auth/signin");
-        }
-    }
-    const getProjectBoardList = async () => {
+    const getBoardList = async (type) => {
+        const endpoint=category===""? type: category+"/"+type;
 
         try {
-
-            const resp = await axios.get('http://localhost:8080/api/auth/mypage/bookmark/project', { headers: headers });
-            console.log(resp.data);
+            const resp = await axios.get(
+                `http://localhost:8080/api/auth/mypage/${endpoint}`,
+                { headers: headers }
+            );
             setBoardList(resp.data);
-
         } catch (error) {
             alert("로그인이 필요합니다.");
             navigate("/api/auth/signin");
         }
-    }
-    const getRoommateBoardList = async () => {
-        try {
-            const resp = await axios.get('http://localhost:8080/api/auth/mypage/bookmark/roommate', { headers: headers });
-            console.log(resp.data);
-            setBoardList(resp.data);
+    };
 
-
-        } catch (error) {
-            alert("로그인이 필요합니다.");
-            navigate("/api/auth/signin");
-        }
-    }
-
-
-    return (
+    return(
         <div>
             <Button_area>
                 <Label id="project" onClick={handleClicked} isClicked={isClicked}>
@@ -93,21 +63,34 @@ function Bookmark_list() {
                             boardList={boardList}
                             offset={offset}
                             limit={limit}/>:
-                        <H2>북마크 된 글이 없습니다.</H2>)
+                        (
+                            <H2>
+                                {category === "bookmark"
+                                    ? "북마크 된 글이 없습니다."
+                                    : "작성글이 없습니다."}
+                            </H2>
+                        ))
                     :
                     (boardList.length!=0?
                         <Table
                             boardList={boardList}
                             offset={offset}
                             limit={limit}/>:
-                        <H2>북마크 된 글이 없습니다.</H2>)
+                        (
+                            <H2>
+                                {category === "bookmark"
+                                    ? "북마크 된 글이 없습니다."
+                                    : "작성글이 없습니다."}
+                            </H2>
+                        ))
                 }
             </Div>
         </div>
     );
-
 }
-export default Bookmark_list;
+
+export default Recruit_list;
+
 const H2=styled.h2`
     margin: 10px;
 `

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import styled from "styled-components";
-import Bookmark_list from "./Bookmark_list";
-import Written_list from "./Written_list";
+import Recruit_list from "./Recruit_list";
 import Profile from "./Profile";
 import Menu_item from "./Menu_item";
 const Div = styled.div`
@@ -58,8 +57,8 @@ function My_page() {
                 {
 
                     clicked==="profile"? <Profile/>
-                        : clicked=="bookmark_list"?<Bookmark_list/>
-                            : <Written_list/>
+                        : clicked=="bookmark_list"?<Recruit_list category={"bookmark"}/>
+                            :<Recruit_list category={""}/>
                 }
             </Content>
 
