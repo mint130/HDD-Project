@@ -1,6 +1,6 @@
-# HDD-Project
+# 홍대대 (HDD Project)
 ![image](https://github.com/ooing-0720/HDD-Project/assets/87466004/0ef2cbfc-441c-472b-8672-f3221ae9cbf0)
-홍익대학교 전용 커뮤니티 웹 사이트 (진행 중)
+홍익대학교 재학생 전용 커뮤니티 웹 사이트
 
 ## 📜 서비스 내용
 홍대생의 학교 생활을 보다 편리하게 해줄 기능을 포함한 **홍대생 전용 커뮤니티 웹 사이트** 입니다.
@@ -12,6 +12,7 @@
 2. **구인 게시판** : 정해진 틀을 제공하여 프로젝트, 스터디, 룸메이드 구인과 검색을 도움
 3. **홍보 게시판** : 교내 전시회 정보(일정, 위치 등) 확인
 4. **맛집 게시판** : 광고를 제외한 학교 인근의 음식점, 카페 정보 제공
+5. **공지사항 모아보기** : 학교 전체 공지사항과 학교별 공지사항을 크롤링하여 제공
 
 ### 목표
 - 대학 커뮤니티 앱에서 제공하지 않는 기능을 제공해 학생들이 보다 편리하게 학교생활을 할 수 있도록 돕습니다.
@@ -25,7 +26,7 @@
 |    **Database**   | <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">  |
 |    **Library**    | <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/jsonwebtokens-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white">  |
 | **Collaboration** | <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> |
-|  **Distribution** |  <img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">  |
+|  **Distribution** |  <img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/googlecloudstorage-AECBFA?style=for-the-badge&logo=googlecloudstorage&logoColor=white">  |
 
 ## 🏗️ API 명세(일부)
 ![image](https://github.com/ooing-0720/HDD-Project/assets/87466004/e4012717-fe50-4337-8fbb-4e5fdb2a5401)
