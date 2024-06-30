@@ -24,7 +24,7 @@ public class RoommateBoard {
     private String pattern;
     private String info;
     @NotEmpty private String openChat;
-    @NotEmpty private Date created;   // 파이어베이스에 제대로 저장되는지 확인 필요
+    @NotEmpty private Date created;
     private boolean isRecruited = false;
     private String imageName;
 
