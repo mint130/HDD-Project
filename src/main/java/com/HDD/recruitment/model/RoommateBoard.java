@@ -15,24 +15,16 @@ import java.util.Date;
 public class RoommateBoard {
 
     private String boardId;
-    @NotEmpty
-    private String memberId;
-    @NotEmpty
-    private String sex; // M, F
-    @NotEmpty
-    private int grade;  // 1, 2, 3, 4, 0
-    @NotEmpty
-    private int dormType;   // 1, 2, 3, 0
-    @NotEmpty
-    private boolean korean;
-    @NotEmpty
-    private boolean smoke;
+    @NotEmpty private String memberId;
+    @NotEmpty private String sex; // M, F
+    @NotEmpty private int grade;  // 1, 2, 3, 4, 0
+    @NotEmpty private int dormType;   // 1, 2, 3, 0
+    @NotEmpty private boolean korean;
+    @NotEmpty private boolean smoke;
     private String pattern;
     private String info;
-    @NotEmpty
-    private String openChat;
-    @NotEmpty
-    private Date created;   // 파이어베이스에 제대로 저장되는지 확인 필요
+    @NotEmpty private String openChat;
+    @NotEmpty private Date created;   // 파이어베이스에 제대로 저장되는지 확인 필요
     private boolean isRecruited = false;
     private String imageName;
 
